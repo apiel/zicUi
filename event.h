@@ -51,6 +51,7 @@ bool handleEvent()
             return true;
 
         case SDL_FINGERMOTION:
+            printf("Finger %d %d %d\n", event.tfinger.x, event.tfinger.dx, event.motion.x);
             handleMotion(event.tfinger.x, event.tfinger.y, event.tfinger.fingerId);
             return true;
 
