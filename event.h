@@ -51,16 +51,15 @@ bool handleEvent()
             return true;
 
         case SDL_FINGERMOTION:
-            printf("Finger %f %f\n", event.tfinger.x, event.tfinger.dx);
-            handleMotion(event.tfinger.x, event.tfinger.y, event.tfinger.fingerId);
+            handleMotion(event.tfinger.x * SCREEN_W, event.tfinger.y * SCREEN_H, event.tfinger.fingerId);
             return true;
 
         case SDL_FINGERDOWN:
-            handleMotionDown(event.tfinger.x, event.tfinger.y, event.tfinger.fingerId);
+            handleMotionDown(event.tfinger.x * SCREEN_W, event.tfinger.y * SCREEN_H, event.tfinger.fingerId);
             return true;
 
         case SDL_FINGERUP:
-            handleMotionUp(event.tfinger.x, event.tfinger.y, event.tfinger.fingerId);
+            handleMotionUp(event.tfinger.x * SCREEN_W, event.tfinger.y * SCREEN_H, event.tfinger.fingerId);
             return true;
         }
     }
