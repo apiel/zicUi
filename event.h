@@ -17,10 +17,6 @@ void handleMotion(int x, int y, int id)
 void handleMotionUp(int x, int y, int id)
 {
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "MotionUp %d, %d (id: %d)", x, y, id);
-
-    ViewMain& viewMain = ViewMain::get();
-    viewMain.render();
-    draw();
 }
 
 void handleMotionDown(int x, int y, int id)
@@ -35,7 +31,7 @@ bool handleEvent()
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_QUIT:
-            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Quit");
+            SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Quit");
             return false;
 
         case SDL_MOUSEMOTION:

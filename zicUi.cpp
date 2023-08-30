@@ -15,6 +15,10 @@ int main()
 
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "SDL video driver: %s", SDL_GetCurrentVideoDriver());
 
+#ifdef IS_RPI
+    SDL_ShowCursor(SDL_DISABLE);
+#endif
+
     window = SDL_CreateWindow(
         "Zic",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
