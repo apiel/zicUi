@@ -8,13 +8,14 @@
 struct EncoderProps
 {
     void (*callback)(int8_t) = [](int8_t) {};
+    void (*render)(Point) = [](Point) {};
 };
 
 class ComponentEncoder : public View
 {
 public:
     Point position;
-    const Size size = {SCREEN_W / ENCODER_COUNT, 50};
+    const Size size = dimensions.encoder;
     const int margin = 1;
 
     EncoderProps props;
@@ -30,6 +31,8 @@ public:
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.encoder.background);
+
+        props.render(position);
     }
 
     void onEncoder(int id, int8_t direction)

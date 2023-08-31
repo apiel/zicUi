@@ -5,10 +5,15 @@
 #include "view.h"
 #include "draw.h"
 #include "component/encoders.h"
+#include "component/pad.h"
+#include "draw/encoder.h"
 
 class ViewPad : public View
 {
 protected:
+    ComponentPad padA = {0};
+    ComponentPad padB = {1};
+
     ComponentEncoders &encoders = ComponentEncoders::get();
 
     static ViewPad *instance;
@@ -21,6 +26,11 @@ protected:
                   ViewPad &pad = ViewPad::get();
                   pad.cutoff = rangeMidi(pad.cutoff + direction);
                   printf("Cutoff %d\n", pad.cutoff);
+              },
+              [](Point position)
+              {
+                  ViewPad &pad = ViewPad::get();
+                  drawEncoder(position, "Cutoff", pad.cutoff);
               }},
              {[](int8_t direction)
               {
@@ -62,6 +72,8 @@ public:
     void render()
     {
         encoders.render();
+        padA.render();
+        padB.render();
     }
 };
 

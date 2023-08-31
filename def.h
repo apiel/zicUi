@@ -67,7 +67,19 @@ struct Colors
     struct Encoder {
         // SDL_Color background = coreColors.foreground2;
         SDL_Color background = { 0x47, 0x56, 0x6e, 255 }; // #47566e
+        SDL_Color title = { 0x7c, 0x98, 0xc4, 255 }; // #7c98c4
+        SDL_Color value = { 0xad, 0xcd, 0xff, 255 }; // #adcdff
     } encoder;
+    struct Pad {
+        SDL_Color background = coreColors.foreground;
+    } pad;
 } colors;
+
+struct Dimensions
+{
+    Size encoder = {SCREEN_W / ENCODER_COUNT, 50};
+    int pad_h = SCREEN_H - this->encoder.h;
+    int pad_y = this->encoder.h;
+} dimensions;
 
 #endif

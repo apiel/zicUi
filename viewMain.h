@@ -32,8 +32,6 @@ public:
     {
         drawClear();
         view.render();
-        drawText({10, 110}, "Hello World! 12345 # $ +");
-        drawRect({10, 140}, {100, 100}, {255, 0, 0, 255});
         draw();
     }
 
