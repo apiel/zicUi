@@ -4,6 +4,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "helpers/range.h"
+#include "helpers/rangeMidi.h"
+
 #ifndef APP_FONT
 // #define APP_FONT "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf"
 // #define APP_FONT "/usr/share/fonts/truetype/freefont/FreeSans.ttf"

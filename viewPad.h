@@ -17,17 +17,39 @@ protected:
     {
         encoders.set(EncodersProps{
             {{[](int8_t direction)
-              { printf("Filter %d\n", direction); }},
+              {
+                  ViewPad &pad = ViewPad::get();
+                  pad.cutoff = rangeMidi(pad.cutoff + direction);
+                  printf("Cutoff %d\n", pad.cutoff);
+              }},
              {[](int8_t direction)
-              { printf("Resonance %d\n", direction); }},
+              {
+                  ViewPad &pad = ViewPad::get();
+                  pad.resonance = rangeMidi(pad.resonance + direction);
+                  printf("Resonance %d\n", pad.resonance);
+              }},
              {[](int8_t direction)
-              { printf("Sample reducer %d\n", direction); }},
+              {
+                  ViewPad &pad = ViewPad::get();
+                  pad.sampleReducer = rangeMidi(pad.sampleReducer + direction);
+                  printf("SampleReducer %d\n", pad.sampleReducer);
+              }},
              {[](int8_t direction)
-              { printf("Distortion %d\n", direction); }}},
+              {
+                  ViewPad &pad = ViewPad::get();
+                  pad.distortion = rangeMidi(pad.distortion + direction);
+                  printf("Distortion %d\n", pad.distortion);
+              }}},
         });
     }
 
 public:
+    // temp values
+    uint8_t cutoff = 64;
+    uint8_t resonance = 0;
+    uint8_t sampleReducer = 0;
+    uint8_t distortion = 0;
+
     static ViewPad &get()
     {
         if (!instance)

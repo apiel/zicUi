@@ -12,6 +12,8 @@ protected:
     ComponentEncoders& encoders = ComponentEncoders::get();
     ViewPad& viewPad = ViewPad::get();
 
+    View& view = viewPad;
+
     static ViewMain *instance;
 
     ViewMain() {}
@@ -29,7 +31,7 @@ public:
     void render()
     {
         drawClear();
-        viewPad.render();
+        view.render();
         drawText({10, 110}, "Hello World! 12345 # $ +");
         drawRect({10, 140}, {100, 100}, {255, 0, 0, 255});
         draw();
@@ -37,12 +39,14 @@ public:
 
     void onMotion(Motion &motion)
     {
-        printf("Motion [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
+        // printf("Motion [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
+        view.onMotion(motion);
     }
 
     void onMotionRelease(Motion &motion)
     {
-        printf("Motion released [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
+        // printf("Motion released [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
+        view.onMotionRelease(motion);
     }
 
     void onEncoder(int id, int8_t direction)
