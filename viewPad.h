@@ -29,13 +29,19 @@ protected:
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  drawEncoder(position, "Cutoff", pad.cutoff);
+                  drawCenteredEncoder(position, "Cutoff", pad.cutoff);
               }},
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
                   pad.resonance = rangeMidi(pad.resonance + direction);
-                  printf("Resonance %d\n", pad.resonance);
+                  pad.encoders.render(1);
+                  draw();
+              },
+              [](Point position)
+              {
+                  ViewPad &pad = ViewPad::get();
+                  drawEncoder(position, "Resonance", pad.resonance);
               }},
              {[](int8_t direction)
               {
