@@ -4,11 +4,13 @@
 #include "view.h"
 #include "draw.h"
 #include "component/encoders.h"
+#include "viewPad.h"
 
 class ViewMain : public View
 {
 protected:
-    ComponentEncoders encoders;
+    ComponentEncoders& encoders = ComponentEncoders::get();
+    ViewPad& viewPad = ViewPad::get();
 
     static ViewMain *instance;
 
@@ -27,7 +29,7 @@ public:
     void render()
     {
         drawClear();
-        encoders.render();
+        viewPad.render();
         drawText({10, 110}, "Hello World! 12345 # $ +");
         drawRect({10, 140}, {100, 100}, {255, 0, 0, 255});
         draw();

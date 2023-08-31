@@ -5,6 +5,11 @@
 #include "../view.h"
 #include "../draw.h"
 
+struct EncoderProps
+{
+    void (*callback)(int8_t) = [](int8_t) {};
+};
+
 class ComponentEncoder : public View
 {
 public:
@@ -12,7 +17,7 @@ public:
     const Size size = {SCREEN_W / ENCODER_COUNT, 50};
     const int margin = 1;
 
-    void (*callback)(int8_t) = [](int8_t) {};
+    EncoderProps props;
 
     ComponentEncoder(Point _position)
         : position(_position)
@@ -29,7 +34,7 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        callback(direction);
+        props.callback(direction);
     }
 };
 
