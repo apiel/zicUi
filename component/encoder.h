@@ -12,6 +12,8 @@ public:
     const Size size = {SCREEN_W / ENCODER_COUNT, 50};
     const int margin = 1;
 
+    void (*callback)(int8_t) = [](int8_t) {};
+
     ComponentEncoder(Point _position)
         : position(_position)
     {
@@ -23,6 +25,11 @@ public:
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.encoder.background);
+    }
+
+    void onEncoder(int id, int8_t direction)
+    {
+        callback(direction);
     }
 };
 

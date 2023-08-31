@@ -19,7 +19,6 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        printf("Encoder component [%d] %d\n", id, direction);
     }
 };
 

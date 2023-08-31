@@ -15,6 +15,18 @@ public:
         {{SCREEN_W / ENCODER_COUNT * 3, 0}},
     };
 
+    ComponentEncoders()
+    {
+        encoders[0].callback = [](int8_t direction)
+        { printf("Encoder 0 %d\n", direction); };
+        encoders[1].callback = [](int8_t direction)
+        { printf("Encoder oui 1 %d\n", direction); };
+        encoders[2].callback = [](int8_t direction)
+        { printf("Encoder YO 2 %d\n", direction); };
+        encoders[3].callback = [](int8_t direction)
+        { printf("Encoder yeah 3 %d\n", direction); };
+    }
+
     void render()
     {
         for (int i = 0; i < ENCODER_COUNT; ++i)
