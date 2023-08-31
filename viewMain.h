@@ -32,7 +32,7 @@ public:
     {
         drawClear();
         view.render();
-        draw();
+        drawNext();
     }
 
     void onMotion(Motion &motion)

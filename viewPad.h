@@ -24,7 +24,7 @@ protected:
                   ViewPad &pad = ViewPad::get();
                   pad.cutoff = rangeMidi(pad.cutoff + direction);
                   pad.encoders.render(0);
-                  draw();
+                  drawNext();
               },
               [](Point position)
               {
@@ -36,7 +36,7 @@ protected:
                   ViewPad &pad = ViewPad::get();
                   pad.resonance = rangeMidi(pad.resonance + direction);
                   pad.encoders.render(1);
-                  draw();
+                  drawNext();
               },
               [](Point position)
               {

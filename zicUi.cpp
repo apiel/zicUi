@@ -43,13 +43,18 @@ int main()
     viewMain.render();
     draw();
 
-    EventHandler& event = EventHandler::get();
+    EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
     while (event.handle())
     {
         unsigned long now = SDL_GetTicks();
 
-        SDL_Delay(10);
+        if (needToDraw && now - lastUpdate > 40)
+        {
+            draw();
+            needToDraw = false;
+        }
+        SDL_Delay(1);
     }
 
     SDL_DestroyRenderer(renderer);

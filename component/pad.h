@@ -49,7 +49,7 @@ public:
         yValue = (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
         // printf("val %f %f\n", xValue, yValue);
         render();
-        draw();
+        drawNext();
     }
 };
 
