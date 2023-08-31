@@ -13,12 +13,9 @@ void drawEncoderBase(Point position, const char *name, const char *valueStr, int
     drawText({position.x + dimensions.encoder.w - marginRight, position.y + 5}, valueStr,
              colors.encoder.value, 20, APP_FONT_BOLD);
 
-    SDL_SetRenderDrawColor(renderer, colors.encoder.title.r, colors.encoder.title.g, colors.encoder.title.b, 255);
-    SDL_RenderDrawLine(renderer,
-                       position.x + 10, position.y + dimensions.encoder.h - 10,
-                       position.x + dimensions.encoder.w - 10, position.y + dimensions.encoder.h - 10);
-
-    SDL_SetRenderDrawColor(renderer, colors.encoder.value.r, colors.encoder.value.g, colors.encoder.value.b, 255);
+    drawLine({position.x + 10, position.y + dimensions.encoder.h - 10},
+             {position.x + dimensions.encoder.w - 10, position.y + dimensions.encoder.h - 10},
+             colors.encoder.title);
 }
 
 void drawEncoder(Point position, const char *name, uint8_t value, const char *valueStr, uint8_t max = 127, int marginRight = 40)
@@ -28,12 +25,8 @@ void drawEncoder(Point position, const char *name, uint8_t value, const char *va
     int x = position.x + 10;
     int y = position.y + dimensions.encoder.h - 10;
     int x2 = x + ((dimensions.encoder.w - 20) * (value / (float)max));
-    SDL_RenderDrawLine(renderer,
-                       x, y,
-                       x2, y);
-    SDL_RenderDrawLine(renderer,
-                       x, y - 1,
-                       x2, y - 1);
+    drawLine({x, y}, {x2, y}, colors.encoder.value);
+    drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
 }
 
 void drawEncoder(Point position, const char *name, uint8_t value)
@@ -56,12 +49,8 @@ void drawCenteredEncoder(Point position, const char *name, uint8_t value)
     int x = position.x + 10 + ((dimensions.encoder.w - 20) * 0.5);
     int y = position.y + dimensions.encoder.h - 10;
     int x2 = position.x + 10 + ((dimensions.encoder.w - 20) * (value / 127.0));
-    SDL_RenderDrawLine(renderer,
-                       x, y,
-                       x2, y);
-    SDL_RenderDrawLine(renderer,
-                       x, y - 1,
-                       x2, y - 1);
+    drawLine({x, y}, {x2, y}, colors.encoder.value);
+    drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
 }
 
 #endif

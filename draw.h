@@ -69,4 +69,10 @@ void drawRect(Point position, Size size, SDL_Color color = colors.core.foregroun
     SDL_RenderDrawRect(renderer, &rect);
 }
 
+void drawLine(Point start, Point end, SDL_Color color = colors.core.white)
+{
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);
+}
+
 #endif
