@@ -13,7 +13,7 @@ void draw()
     SDL_SetRenderTarget(renderer, texture);
 }
 
-int drawText(Point position, const char* text, SDL_Color color = APP_DEFAULT_FONT_COLOR, uint32_t size = APP_DEFAULT_FONT_SIZE, const char* fontPath = APP_FONT)
+int drawText(Point position, const char* text, SDL_Color color = colors.font, uint32_t size = APP_DEFAULT_FONT_SIZE, const char* fontPath = APP_FONT)
 {
     TTF_Font* font = TTF_OpenFont(fontPath, size);
     if (font == NULL) {
@@ -44,20 +44,20 @@ int drawText(Point position, const char* text, SDL_Color color = APP_DEFAULT_FON
     return x;
 }
 
-void drawClear(SDL_Color color = COLOR_BACKGROUND)
+void drawClear(SDL_Color color = colors.background)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderClear(renderer);
 }
 
-void drawFilledRect(Point position, Size size, SDL_Color color = COLOR_FOREGROUND)
+void drawFilledRect(Point position, Size size, SDL_Color color = colors.foreground)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_Rect rect = { position.x, position.y, size.w, size.h };
     SDL_RenderFillRect(renderer, &rect);
 }
 
-void drawRect(Point position, Size size, SDL_Color color = COLOR_FOREGROUND)
+void drawRect(Point position, Size size, SDL_Color color = colors.foreground)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_Rect rect = { position.x, position.y, size.w, size.h };

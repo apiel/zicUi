@@ -37,30 +37,40 @@
 
 #define ENCODER_COUNT 4
 
-struct Size {
+struct Size
+{
     int w;
     int h;
 };
 
-struct Point {
+struct Point
+{
     int x;
     int y;
 };
 
-#ifndef COLOR_WHITE
-#define COLOR_WHITE { 255, 255, 255, 255 }
-#endif
+// #ifndef COLOR_WHITE
+// #define COLOR_WHITE { 255, 255, 255, 255 }
+// #endif
 
-#ifndef COLOR_BACKGROUND // #21252b
-#define COLOR_BACKGROUND { 0x21, 0x25, 0x2b, 255 }
-#endif
+// #ifndef COLOR_BACKGROUND // #21252b
+// #define COLOR_BACKGROUND { 0x21, 0x25, 0x2b, 255 }
+// #endif
 
-#ifndef COLOR_FOREGROUND // #2b2c2e
-#define COLOR_FOREGROUND { 0x2b, 0x2c, 0x2e, 255 }
-#endif
+// #ifndef COLOR_FOREGROUND // #2b2c2e
+// #define COLOR_FOREGROUND { 0x2b, 0x2c, 0x2e, 255 }
+// #endif
 
-#ifndef APP_DEFAULT_FONT_COLOR
-#define APP_DEFAULT_FONT_COLOR COLOR_WHITE
-#endif
+// #ifndef APP_DEFAULT_FONT_COLOR
+// #define APP_DEFAULT_FONT_COLOR COLOR_WHITE
+// #endif
+
+struct Colors
+{
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Color background = {0x21, 0x25, 0x2b, 255}; // #21252b
+    SDL_Color foreground = {0x2b, 0x2c, 0x2e, 255}; // #2b2c2e
+    SDL_Color font = this->white;
+} colors;
 
 #endif
