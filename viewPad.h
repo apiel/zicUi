@@ -29,7 +29,7 @@ protected:
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  drawCenteredEncoder(position, "Cutoff", pad.cutoff);
+                  drawCenteredEncoder(position, pad.cutoff > 63 ? "High pass filter" : "Low pass filter", pad.cutoff);
               }},
              {[](int8_t direction)
               {
