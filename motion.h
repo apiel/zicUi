@@ -2,6 +2,7 @@
 #define _UI_MOTION_H_
 
 #include "def.h"
+#include "helpers/inRect.h"
 
 // Touch and mouse motion
 class Motion
@@ -43,10 +44,12 @@ public:
 
     bool in(Rect rect)
     {
-        return (position.x >= rect.position.x &&
-                position.x <= rect.position.x + rect.size.w &&
-                position.y >= rect.position.y &&
-                position.y <= rect.position.y + rect.size.h);
+        return inRect(rect, position);
+    }
+
+    bool inOrigin(Rect rect)
+    {
+        return inRect(rect, origin);
     }
 };
 

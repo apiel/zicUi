@@ -40,19 +40,7 @@ public:
 
     void onMotion(Motion &motion)
     {
-        // if (motion.position.x < position.x + margin ||
-        //     motion.position.x > position.x + size.w - margin ||
-        //     motion.position.y < position.y + margin ||
-        //     motion.position.y > position.y + size.h - margin)
-        // {
-        //     return;
-        // }
-        // if (!motion.inRect({position.x + margin, position.y + margin}, {size.w - 2 * margin, size.h - 2 * margin}))
-        // {
-        //     return;
-        // }
-
-        if (!motion.in({position, size}))
+        if (!motion.in({position, size}) || !motion.inOrigin({position, size}))
         {
             return;
         }
