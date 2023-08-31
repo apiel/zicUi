@@ -16,6 +16,9 @@ public:
     const Size size = {SCREEN_W / PAD_COUNT, dimensions.pad_h};
     const int margin = 1;
 
+    float xValue = 0.5f;
+    float yValue = 0.5f;
+
     ComponentPad(uint8_t id)
     {
         position.x = id * size.w;
@@ -27,6 +30,38 @@ public:
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.pad.background);
+
+        drawFilledRect(
+            {position.x + margin + (int)((size.w - 4) * xValue),
+             position.y + margin + (int)((size.h - 4) * yValue)},
+            {4, 4},
+            colors.pad.value);
+    }
+
+    void onMotion(Motion &motion)
+    {
+        // if (motion.position.x < position.x + margin ||
+        //     motion.position.x > position.x + size.w - margin ||
+        //     motion.position.y < position.y + margin ||
+        //     motion.position.y > position.y + size.h - margin)
+        // {
+        //     return;
+        // }
+        // if (!motion.inRect({position.x + margin, position.y + margin}, {size.w - 2 * margin, size.h - 2 * margin}))
+        // {
+        //     return;
+        // }
+
+        if (!motion.in({position, size}))
+        {
+            return;
+        }
+
+        xValue = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
+        yValue = (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
+        // printf("val %f %f\n", xValue, yValue);
+        render();
+        draw();
     }
 };
 

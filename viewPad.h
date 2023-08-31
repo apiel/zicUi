@@ -82,6 +82,12 @@ public:
         padA.render();
         padB.render();
     }
+
+    void onMotion(Motion &motion) override
+    {
+        padA.onMotion(motion);
+        padB.onMotion(motion);
+    }
 };
 
 ViewPad *ViewPad::instance = NULL;

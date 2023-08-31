@@ -52,6 +52,12 @@ struct Point
     int y;
 };
 
+struct Rect
+{
+    Point position;
+    Size size;
+};
+
 struct CoreColors
 {
     SDL_Color white = {255, 255, 255, 255};
@@ -59,6 +65,7 @@ struct CoreColors
     SDL_Color foreground = {0x2b, 0x2c, 0x2e, 255}; // #2b2c2e
     SDL_Color foreground2 = { 0x38, 0x3a, 0x3d, 255 }; // #384a3d
     SDL_Color font = this->white;
+        SDL_Color value = { 0xad, 0xcd, 0xff, 255 }; // #adcdff
 } coreColors;
 
 struct Colors
@@ -68,10 +75,11 @@ struct Colors
         // SDL_Color background = coreColors.foreground2;
         SDL_Color background = { 0x47, 0x56, 0x6e, 255 }; // #47566e
         SDL_Color title = { 0x7c, 0x98, 0xc4, 255 }; // #7c98c4
-        SDL_Color value = { 0xad, 0xcd, 0xff, 255 }; // #adcdff
+        SDL_Color value = coreColors.value;
     } encoder;
     struct Pad {
         SDL_Color background = coreColors.foreground;
+        SDL_Color value = coreColors.value;
     } pad;
 } colors;
 

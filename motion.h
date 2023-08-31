@@ -40,6 +40,14 @@ public:
         position.x = x;
         position.y = y;
     }
+
+    bool in(Rect rect)
+    {
+        return (position.x >= rect.position.x &&
+                position.x <= rect.position.x + rect.size.w &&
+                position.y >= rect.position.y &&
+                position.y <= rect.position.y + rect.size.h);
+    }
 };
 
 #endif

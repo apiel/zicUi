@@ -37,7 +37,7 @@ public:
 
     void onMotion(Motion &motion)
     {
-        // printf("Motion [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
+        // printf("Motion yo [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
         view.onMotion(motion);
     }
 

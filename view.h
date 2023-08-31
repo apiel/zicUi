@@ -9,15 +9,15 @@ class View
 public:
     virtual void render() = 0;
 
-    void onMotion(Motion &motion)
+    virtual void onMotion(Motion &motion)
     {
     }
 
-    void onMotionRelease(Motion &motion)
+    virtual void onMotionRelease(Motion &motion)
     {
     }
 
-    void onEncoder(int id, int8_t direction)
+    virtual void onEncoder(int id, int8_t direction)
     {
     }
 };
