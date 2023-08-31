@@ -3,10 +3,13 @@
 
 #include "view.h"
 #include "draw.h"
+#include "component/encoders.h"
 
 class ViewMain : public View
 {
 protected:
+    ComponentEncoders encoders;
+
     static ViewMain *instance;
 
     ViewMain() {}
@@ -24,8 +27,9 @@ public:
     void render()
     {
         drawClear();
-        drawText({10, 10}, "Hello World! 12345 # $ +");
-        drawRect({10, 40}, {100, 100}, {255, 0, 0, 255});
+        encoders.render();
+        drawText({10, 110}, "Hello World! 12345 # $ +");
+        drawRect({10, 140}, {100, 100}, {255, 0, 0, 255});
         draw();
     }
 
@@ -41,7 +45,7 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        printf("Encoder [%d] %d\n", id, direction);
+        encoders.onEncoder(id, direction);
     }
 };
 

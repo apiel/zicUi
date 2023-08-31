@@ -49,28 +49,22 @@ struct Point
     int y;
 };
 
-// #ifndef COLOR_WHITE
-// #define COLOR_WHITE { 255, 255, 255, 255 }
-// #endif
-
-// #ifndef COLOR_BACKGROUND // #21252b
-// #define COLOR_BACKGROUND { 0x21, 0x25, 0x2b, 255 }
-// #endif
-
-// #ifndef COLOR_FOREGROUND // #2b2c2e
-// #define COLOR_FOREGROUND { 0x2b, 0x2c, 0x2e, 255 }
-// #endif
-
-// #ifndef APP_DEFAULT_FONT_COLOR
-// #define APP_DEFAULT_FONT_COLOR COLOR_WHITE
-// #endif
-
-struct Colors
+struct CoreColors
 {
     SDL_Color white = {255, 255, 255, 255};
     SDL_Color background = {0x21, 0x25, 0x2b, 255}; // #21252b
     SDL_Color foreground = {0x2b, 0x2c, 0x2e, 255}; // #2b2c2e
+    SDL_Color foreground2 = { 0x38, 0x3a, 0x3d, 255 }; // #384a3d
     SDL_Color font = this->white;
+} coreColors;
+
+struct Colors
+{
+    CoreColors core = coreColors;
+    struct Encoder {
+        // SDL_Color background = coreColors.foreground2;
+        SDL_Color background = { 0x47, 0x56, 0x6e, 255 }; // #47566e
+    } encoder;
 } colors;
 
 #endif
