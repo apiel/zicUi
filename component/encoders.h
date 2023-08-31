@@ -41,11 +41,15 @@ public:
         }
     }
 
+    void render(uint8_t id) {
+        encoders[id].render();
+    }
+
     void render()
     {
         for (int i = 0; i < ENCODER_COUNT; ++i)
         {
-            encoders[i].render();
+            render(i);
         }
     }
 

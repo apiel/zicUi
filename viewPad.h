@@ -14,8 +14,6 @@ protected:
     ComponentPad padA = {0};
     ComponentPad padB = {1};
 
-    ComponentEncoders &encoders = ComponentEncoders::get();
-
     static ViewPad *instance;
 
     ViewPad()
@@ -25,7 +23,8 @@ protected:
               {
                   ViewPad &pad = ViewPad::get();
                   pad.cutoff = rangeMidi(pad.cutoff + direction);
-                  printf("Cutoff %d\n", pad.cutoff);
+                  pad.encoders.render(0);
+                  draw();
               },
               [](Point position)
               {
@@ -54,6 +53,8 @@ protected:
     }
 
 public:
+    ComponentEncoders &encoders = ComponentEncoders::get();
+
     // temp values
     uint8_t cutoff = 64;
     uint8_t resonance = 0;
