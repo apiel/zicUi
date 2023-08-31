@@ -47,7 +47,7 @@ public:
         return inRect(rect, position);
     }
 
-    bool inOrigin(Rect rect)
+    bool originIn(Rect rect)
     {
         return inRect(rect, origin);
     }

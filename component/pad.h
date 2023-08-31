@@ -40,7 +40,7 @@ public:
 
     void onMotion(Motion &motion)
     {
-        if (!motion.in({position, size}) || !motion.inOrigin({position, size}))
+        if (!motion.in({position, size}) || !motion.originIn({position, size}))
         {
             return;
         }
