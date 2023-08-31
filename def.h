@@ -35,6 +35,8 @@
 #define SCREEN_W 800
 #define SCREEN_H 480
 
+#define ENCODER_COUNT 4
+
 struct Size {
     int w;
     int h;
