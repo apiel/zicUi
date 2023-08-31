@@ -13,6 +13,11 @@ void draw()
     SDL_SetRenderTarget(renderer, texture);
 }
 
+void drawNext()
+{
+    needToDraw = true;
+}
+
 int drawText(Point position, const char* text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, const char* fontPath = APP_FONT)
 {
     TTF_Font* font = TTF_OpenFont(fontPath, size);

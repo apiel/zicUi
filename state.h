@@ -8,9 +8,5 @@ SDL_Renderer* renderer = NULL;
 SDL_Texture* texture = NULL;
 
 bool needToDraw = false;
-void drawNext()
-{
-    needToDraw = true;
-}
 
 #endif
