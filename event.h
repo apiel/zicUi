@@ -4,36 +4,80 @@
 #include "def.h"
 #include "state.h"
 #include "viewMain.h"
+#include "motion.h"
+
+#ifndef MAX_SCREEN_MOTION
+// The current display only support 5 touch point
+#define MAX_SCREEN_MOTION 5
+#endif
 
 class EventHandler
 {
 protected:
+    Motion motions[MAX_SCREEN_MOTION];
     ViewMain &viewMain = ViewMain::get();
     int encoderWidth = SCREEN_W / ENCODER_COUNT;
 
     static EventHandler *instance;
     EventHandler() {}
 
+    Motion* getMotion(int id)
+    {
+        for (int i = 0; i < MAX_SCREEN_MOTION; ++i)
+        {
+            if (motions[i].id == id)
+            {
+                return &motions[i];
+            }
+        }
+        return NULL;
+    }
+
+    Motion& getOldestMotion()
+    {
+        Motion& oldest = motions[0];
+        for (int i = 1; i < MAX_SCREEN_MOTION; ++i)
+        {
+            if (motions[i].id < oldest.id)
+            {
+                oldest = motions[i];
+            }
+        }
+        return oldest;
+    }
+
     void handleMotion(int x, int y, int id)
     {
-        Motion motion = {id, x, y};
-        viewMain.onMotion(motion);
+        Motion* motion = getMotion(id);
+        if (motion)
+        {
+            motion->move(x, y);
+            viewMain.onMotion(*motion);
+        }
     }
 
     void handleMotionUp(int x, int y, int id)
     {
-        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "MotionUp %d, %d (id: %d)", x, y, id);
+        Motion* motion = getMotion(id);
+        if (motion)
+        {
+            motion->move(x, y);
+            viewMain.onMotionRelease(*motion);
+            motion->setId(-1);
+        }
     }
 
     void handleMotionDown(int x, int y, int id)
     {
-        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "MotionDown %d, %d (id: %d)", x, y, id);
+        Motion& motion = getOldestMotion();
+        motion.init(id, x, y);
+        viewMain.onMotion(motion);
     }
 
     void emulateEncoder(SDL_MouseWheelEvent wheel)
     {
         uint8_t encoderId = wheel.mouseX / encoderWidth;
-        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Encoder %d: %d", encoderId, wheel.y);
+        viewMain.onEncoder(encoderId, wheel.y);
     }
 
 public:
