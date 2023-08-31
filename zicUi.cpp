@@ -43,8 +43,9 @@ int main()
     viewMain.render();
     draw();
 
+    EventHandler& event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
-    while (handleEvent())
+    while (event.handle())
     {
         unsigned long now = SDL_GetTicks();
 

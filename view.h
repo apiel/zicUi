@@ -2,11 +2,23 @@
 #define _UI_VIEW_H_
 
 #include "def.h"
+#include "motion.h"
 
 class View {
 public:
     virtual void render() = 0;
-    virtual void handle() = 0;
+
+    void onMotion(Motion& motion) {
+
+    }
+
+    void onMotionRelease(Motion& motion) {
+
+    }
+
+    void onEncoder(int id, int8_t direction) {
+
+    }
 };
 
 #endif

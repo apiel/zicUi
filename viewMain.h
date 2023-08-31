@@ -4,16 +4,18 @@
 #include "view.h"
 #include "draw.h"
 
-class ViewMain : public View {
+class ViewMain : public View
+{
 protected:
-    static ViewMain* instance;
+    static ViewMain *instance;
 
-    ViewMain() { }
+    ViewMain() {}
 
 public:
-    static ViewMain& get()
+    static ViewMain &get()
     {
-        if (!instance) {
+        if (!instance)
+        {
             instance = new ViewMain();
         }
         return *instance;
@@ -27,11 +29,22 @@ public:
         draw();
     }
 
-    void handle()
+    void onMotion(Motion &motion)
     {
+        printf("Motion [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
+    }
+
+    void onMotionRelease(Motion &motion)
+    {
+        printf("Motion released [%d] %d, %d (origin: %d, %d)\n", motion.id, motion.position.x, motion.position.y, motion.origin.x, motion.origin.y);
+    }
+
+    void onEncoder(int id, int8_t direction)
+    {
+        printf("Encoder [%d] %d\n", id, direction);
     }
 };
 
-ViewMain* ViewMain::instance = NULL;
+ViewMain *ViewMain::instance = NULL;
 
 #endif
