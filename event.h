@@ -18,10 +18,14 @@ protected:
     ViewMain &viewMain = ViewMain::get();
     int encoderWidth = SCREEN_W / ENCODER_COUNT;
 
+#if SDL_MINOR_VERSION <= 24
+    uint8_t emulateEncoderId = 0;
+#endif
+
     static EventHandler *instance;
     EventHandler() {}
 
-    Motion* getMotion(int id)
+    Motion *getMotion(int id)
     {
         for (int i = 0; i < MAX_SCREEN_MOTION; ++i)
         {
@@ -33,9 +37,9 @@ protected:
         return NULL;
     }
 
-    Motion& getOldestMotion()
+    Motion &getOldestMotion()
     {
-        Motion& oldest = motions[0];
+        Motion &oldest = motions[0];
         for (int i = 1; i < MAX_SCREEN_MOTION; ++i)
         {
             if (motions[i].id < oldest.id)
@@ -48,7 +52,12 @@ protected:
 
     void handleMotion(int x, int y, int id)
     {
-        Motion* motion = getMotion(id);
+#ifndef IS_RPI
+#if SDL_MINOR_VERSION <= 24
+        emulateEncoderId = x / encoderWidth;
+#endif
+#endif
+        Motion *motion = getMotion(id);
         if (motion)
         {
             motion->move(x, y);
@@ -58,7 +67,7 @@ protected:
 
     void handleMotionUp(int x, int y, int id)
     {
-        Motion* motion = getMotion(id);
+        Motion *motion = getMotion(id);
         if (motion)
         {
             motion->move(x, y);
@@ -69,15 +78,17 @@ protected:
 
     void handleMotionDown(int x, int y, int id)
     {
-        Motion& motion = getOldestMotion();
+        Motion &motion = getOldestMotion();
         motion.init(id, x, y);
         viewMain.onMotion(motion);
     }
 
     void emulateEncoder(SDL_MouseWheelEvent wheel)
     {
-        uint8_t encoderId = wheel.mouseX / encoderWidth;
-        viewMain.onEncoder(encoderId, wheel.y);
+#if SDL_MINOR_VERSION > 24
+        uint8_t emulateEncoderId = wheel.mouseX / encoderWidth;
+#endif
+        viewMain.onEncoder(emulateEncoderId, wheel.y);
     }
 
 public:
