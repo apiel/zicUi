@@ -4,11 +4,11 @@
 #include "def.h"
 #include <dlfcn.h>
 
-void *startHost = NULL;
+void (*startHost)() = NULL;
 
 int hostThread(void *data)
 {
-    ((void (*)())startHost)();
+    startHost();
     return 0;
 }
 
@@ -25,7 +25,7 @@ void loadHost()
     }
 
     dlerror();
-    startHost = dlsym(handle, "start");
+    startHost = (void (*)())dlsym(handle, "start");
     const char *dlsym_error = dlerror();
     if (dlsym_error)
     {
