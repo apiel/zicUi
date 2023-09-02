@@ -2,6 +2,7 @@
 #include "state.h"
 #include "event.h"
 #include "viewMain.h"
+#include "host.h"
 
 int main()
 {
@@ -42,6 +43,8 @@ int main()
     ViewMain &viewMain = ViewMain::get();
     viewMain.render();
     draw();
+
+    loadHost();
 
     EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
