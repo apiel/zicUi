@@ -3,6 +3,7 @@
 #include "event.h"
 #include "viewMain.h"
 #include "host.h"
+#include "osc.h"
 
 int main()
 {
@@ -45,6 +46,7 @@ int main()
     draw();
 
     loadHost();
+    startOscServer();
 
     EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
