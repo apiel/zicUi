@@ -7,6 +7,7 @@
 #include "component/encoders.h"
 #include "component/pad.h"
 #include "draw/encoder.h"
+#include "host.h"
 
 class ViewPad : public View
 {
@@ -29,7 +30,11 @@ protected:
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  drawCenteredEncoder(position, pad.cutoff > 63 ? "High pass filter" : "Low pass filter", pad.cutoff);
+                  //   drawCenteredEncoder(position, pad.cutoff > 63 ? "High pass filter" : "Low pass filter", pad.cutoff);
+
+                  int valueIndex = getValueIndexHost("MultiModeFilter", "CUTOFF");
+                  uint8_t cutoff = getValueHost(valueIndex) * 128;
+                  drawCenteredEncoder(position, cutoff > 63 ? "High pass filter" : "Low pass filter", cutoff);
               }},
              {[](int8_t direction)
               {

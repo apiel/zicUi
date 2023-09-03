@@ -41,30 +41,22 @@ int main()
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_H);
     SDL_SetRenderTarget(renderer, texture);
 
-    ViewMain &viewMain = ViewMain::get();
-    viewMain.render();
-    draw();
-
     loadHost();
     startOscServer();
 
-    // ValueInterface *valueInterface = valueHost("MultiModeFilter", "CUTOFF");
-    // if (!valueInterface)
+    // int valueIndex = getValueIndexHost("MultiModeFilter", "CUTOFF");
+    // if (valueIndex == -1)
     // {
     //     printf("----------------> Could not load MultiModeFilter value\n");
-    // } else {
-    //     printf("----------------> MultiModeFilter loaded value: %f\n");
-    //     // printf("----------------> MultiModeFilter value: %f\n", valueInterface->get());
     // }
-    int valueIndex = getValueIndexHost("MultiModeFilter", "CUTOFF");
-    if (valueIndex == -1)
-    {
-        printf("----------------> Could not load MultiModeFilter value\n");
-    }
-    else
-    {
-        printf("----------------> MultiModeFilter value (index %d): %f\n", valueIndex, getValueHost(valueIndex));
-    }
+    // else
+    // {
+    //     printf("----------------> MultiModeFilter value (index %d): %f\n", valueIndex, getValueHost(valueIndex));
+    // }
+
+    ViewMain &viewMain = ViewMain::get();
+    viewMain.render();
+    draw();
 
     EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
