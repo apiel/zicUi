@@ -41,7 +41,9 @@ int main()
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_H);
     SDL_SetRenderTarget(renderer, texture);
 
-    loadHost();
+    if (!loadHost()) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
+    }
     startOscServer();
 
     // int valueIndex = getValueIndexHost("MultiModeFilter", "CUTOFF");

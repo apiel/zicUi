@@ -8,7 +8,9 @@
 // FIXME
 #include "../zicHost/plugin.h"
 
-std::vector<Plugin> * (*initHost)() = NULL;
+std::vector<Plugin> *plugins = NULL;
+
+std::vector<Plugin> *(*initHost)() = NULL;
 int (*mainLoopHost)() = NULL;
 void (*midiHost)(std::vector<unsigned char> *message) = NULL;
 
@@ -30,7 +32,19 @@ void *linkHost(void *handle, const char *name)
     return fn;
 }
 
-void loadHost()
+AudioPlugin* getPlugin(const char *name)
+{
+    for (Plugin &plugin : *plugins)
+    {
+        if (strcmp(plugin.instance->name(), name) == 0)
+        {
+            return plugin.instance;
+        }
+    }
+    return NULL;
+}
+
+bool loadHost()
 {
     // FIXME
     const char *path = "../zicHost/zicHost.so";
@@ -40,41 +54,44 @@ void loadHost()
     if (!handle)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error loading host (%s): %s\n", path, dlerror());
-        return;
+        return false;
     }
 
     dlerror(); // clear previous error
 
-    initHost = (std::vector<Plugin> * (*)(void))linkHost(handle, "init");
+    initHost = (std::vector<Plugin> * (*)(void)) linkHost(handle, "init");
     if (!initHost)
     {
-        return;
+        return false;
     }
 
     mainLoopHost = (int (*)())linkHost(handle, "mainLoop");
     if (!mainLoopHost)
     {
-        return;
+        return false;
     }
 
     midiHost = (void (*)(std::vector<unsigned char> *))linkHost(handle, "midi");
     if (!midiHost)
     {
-        return;
+        return false;
     }
 
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Initializing host\n");
-    std::vector<Plugin> *plugins = initHost();
+    plugins = initHost();
     if (!plugins)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing host\n");
-        return;
+        return false;
     }
-    printf("Plugins: %ld\n", plugins->size());
-    printf("-------> Name: %s\n", (*plugins)[0].instance->name());
+
+    AudioPlugin * plugin = getPlugin("GainVolume");
+    printf("-------> Name: %s\n", plugin->name());
 
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Starting host in SDL thread\n");
     SDL_Thread *thread = SDL_CreateThread(hostThread, "host", NULL);
+
+    return true;
 }
 
 #endif
