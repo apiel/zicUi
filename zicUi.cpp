@@ -48,6 +48,24 @@ int main()
     loadHost();
     startOscServer();
 
+    // ValueInterface *valueInterface = valueHost("MultiModeFilter", "CUTOFF");
+    // if (!valueInterface)
+    // {
+    //     printf("----------------> Could not load MultiModeFilter value\n");
+    // } else {
+    //     printf("----------------> MultiModeFilter loaded value: %f\n");
+    //     // printf("----------------> MultiModeFilter value: %f\n", valueInterface->get());
+    // }
+    int valueIndex = getValueIndexHost("MultiModeFilter", "CUTOFF");
+    if (valueIndex == -1)
+    {
+        printf("----------------> Could not load MultiModeFilter value\n");
+    }
+    else
+    {
+        printf("----------------> MultiModeFilter value (index %d): %f\n", valueIndex, getValueHost(valueIndex));
+    }
+
     EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
     while (event.handle())

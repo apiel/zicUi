@@ -5,13 +5,16 @@
 #include <dlfcn.h>
 #include <vector>
 
-void (*startHost)() = NULL;
+bool (*initHost)() = NULL;
+int (*mainLoopHost)() = NULL;
 void (*midiHost)(std::vector<unsigned char> *message) = NULL;
+
+float (*getValueHost)(int index) = NULL;
+int (*getValueIndexHost)(const char * moduleName, const char * name) = NULL;
 
 int hostThread(void *data)
 {
-    startHost();
-    return 0;
+    return mainLoopHost();
 }
 
 void *linkHost(void *handle, const char *name)
@@ -30,7 +33,7 @@ void *linkHost(void *handle, const char *name)
 void loadHost()
 {
     const char *path = "../zicHost/zicHost.so";
-    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Loading host from %s", path);
+    SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Loading host from %s\n", path);
     void *handle = dlopen(path, RTLD_LAZY);
 
     if (!handle)
@@ -41,8 +44,14 @@ void loadHost()
 
     dlerror(); // clear previous error
 
-    startHost = (void (*)())linkHost(handle, "start");
-    if (!startHost)
+    initHost = (bool (*)())linkHost(handle, "init");
+    if (!initHost)
+    {
+        return;
+    }
+
+    mainLoopHost = (int (*)())linkHost(handle, "mainLoop");
+    if (!mainLoopHost)
     {
         return;
     }
@@ -53,7 +62,24 @@ void loadHost()
         return;
     }
 
-    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Starting host in SDL thread");
+    getValueHost = (float (*)(int))linkHost(handle, "getValue");
+    if (!getValueHost)
+    {
+        return;
+    }
+
+    getValueIndexHost = (int (*)(const char *, const char *))linkHost(handle, "getValueIndex");
+    if (!getValueIndexHost)
+    {
+        return;
+    }
+
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Initializing host\n");
+    if (!initHost()) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing host\n");
+        return;
+    }
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Starting host in SDL thread\n");
     SDL_Thread *thread = SDL_CreateThread(hostThread, "host", NULL);
 }
 
