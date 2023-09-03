@@ -10,7 +10,7 @@
 void drawEncoderBase(Point position, const char *name, const char *valueStr, int marginRight = 40)
 {
     drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
-    drawText({position.x + dimensions.encoder.w - marginRight, position.y + 5}, valueStr,
+    drawTextRight({position.x + dimensions.encoder.w - 10, position.y + 5}, valueStr,
              colors.encoder.value, 20, APP_FONT_BOLD);
 
     drawLine({position.x + 10, position.y + dimensions.encoder.h - 10},
@@ -41,14 +41,20 @@ void drawEncoderPercentage(Point position, const char *name, float value)
     drawEncoder(position, name, value * 100, valueStr, 100, 60);
 }
 
-void drawCenteredEncoder(Point position, const char *name, uint8_t value)
+void drawCenteredEncoder(Point position, const char *name, float value)
 {
-    int8_t val = value - 64;
-    drawEncoderBase(position, name, std::to_string(val).c_str());
+    drawTextCentered({(int)(position.x + (dimensions.encoder.w * 0.5)), position.y + 5}, name, colors.encoder.title, 12);
+
+    int margin = 10;
+    int val = value * 100;
+    drawTextRight({position.x + dimensions.encoder.w - margin, position.y + 5}, std::to_string(val).c_str(),
+             colors.encoder.value, 20, APP_FONT_BOLD);
+    drawText({position.x + margin, position.y + 5}, std::to_string(100 - val).c_str(),
+             colors.encoder.value, 20, APP_FONT_BOLD);
 
     int x = position.x + 10 + ((dimensions.encoder.w - 20) * 0.5);
     int y = position.y + dimensions.encoder.h - 10;
-    int x2 = position.x + 10 + ((dimensions.encoder.w - 20) * (value / 127.0));
+    int x2 = position.x + 10 + ((dimensions.encoder.w - 20) * value);
     drawLine({x, y}, {x2, y}, colors.encoder.value);
     drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
 }

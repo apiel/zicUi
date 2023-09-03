@@ -5,7 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "helpers/range.h"
-#include "helpers/rangeMidi.h"
+#include "helpers/rangeFloat.h"
 
 #ifndef APP_FONT
 // #define APP_FONT "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf"

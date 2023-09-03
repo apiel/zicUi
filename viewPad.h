@@ -23,23 +23,19 @@ protected:
             {{[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  // TODO utilize full float capability instead of midi limitation
-                  uint8_t cutoff = rangeMidi((pad.cutoff.get() * 128.0) + direction);
-                  pad.cutoff.set(cutoff / 128.0);
+                  pad.cutoff.set(pad.cutoff.get() + (direction * 0.01));
                   pad.encoders.render(0);
                   drawNext();
               },
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  // TODO utilize full float capability instead of midi limitation
-                  uint8_t cutoff = pad.cutoff.get() * 128;
-                  drawCenteredEncoder(position, cutoff > 63 ? "High pass filter" : "Low pass filter", cutoff);
+                  drawCenteredEncoder(position, "LPF | HPF", pad.cutoff.get());
               }},
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  pad.resonance = rangeMidi(pad.resonance + direction);
+                  //   pad.resonance = rangeMidi(pad.resonance + direction);
                   pad.encoders.render(1);
                   drawNext();
               },
@@ -51,13 +47,13 @@ protected:
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  pad.sampleReducer = rangeMidi(pad.sampleReducer + direction);
+                  //   pad.sampleReducer = rangeMidi(pad.sampleReducer + direction);
                   printf("SampleReducer %d\n", pad.sampleReducer);
               }},
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  pad.distortion = rangeMidi(pad.distortion + direction);
+                  //   pad.distortion = rangeMidi(pad.distortion + direction);
                   printf("Distortion %d\n", pad.distortion);
               }}},
         });
@@ -73,7 +69,7 @@ public:
     // AudioPlugin &effectPlugin = getPlugin("MultiModeFilter");
     // Value cutoff = Value(effectPlugin, "CUTOFF");
     // Value cutoff = Value("MultiModeFilter", "CUTOFF");
-    Value& cutoff = hostValue("MultiModeFilter", "CUTOFF");
+    Value &cutoff = hostValue("MultiModeFilter", "CUTOFF");
 
     static ViewPad &get()
     {
