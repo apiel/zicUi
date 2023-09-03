@@ -15,6 +15,8 @@ std::vector<Plugin> *(*initHost)() = NULL;
 int (*mainLoopHost)() = NULL;
 void (*midiHost)(std::vector<unsigned char> *message) = NULL;
 
+bool loadHost();
+
 int hostThread(void *data)
 {
     return mainLoopHost();
@@ -31,6 +33,103 @@ void *linkHost(void *handle, const char *name)
         return NULL;
     }
     return fn;
+}
+
+AudioPlugin &getPlugin(const char *name)
+{
+    if (!plugins)
+    {
+        if (!loadHost())
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
+        }
+    }
+
+    for (Plugin &plugin : *plugins)
+    {
+        if (strcmp(plugin.instance->name(), name) == 0)
+        {
+            return *plugin.instance;
+        }
+    }
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not find plugin: %s\n", name);
+    throw std::runtime_error("Could not find plugin");
+}
+
+class Value
+{
+public:
+    AudioPlugin &plugin;
+    const char *key;
+    int index = -1;
+
+    Value(AudioPlugin &plugin, int index)
+        : plugin(plugin), index(index)
+    {
+        key = plugin.getValueName(index);
+    }
+
+    Value(AudioPlugin &plugin, const char *key)
+        : plugin(plugin), key(key)
+    {
+        for (int i = 0; i < plugin.getValueCount(); i++)
+        {
+            if (strcmp(plugin.getValueName(i), key) == 0)
+            {
+                index = i;
+                break;
+            }
+        }
+        // if index is still -1 should we throw?
+    }
+
+    Value(const char *pluginName, const char *key)
+        : Value(getPlugin(pluginName), key)
+    {
+    }
+
+    float get()
+    {
+        return plugin.getValue(index);
+    }
+
+    void set(float value)
+    {
+        plugin.setValue(index, value);
+    }
+};
+
+std::vector<Value> hostValues;
+void loadHostValues()
+{
+    for (Plugin &plugin : *plugins)
+    {
+        AudioPlugin &audioPlugin = *plugin.instance;
+        for (int i = 0; i < audioPlugin.getValueCount(); i++)
+        {
+            hostValues.push_back(Value(audioPlugin, i));
+        }
+    }
+}
+
+Value &hostValue(const char *pluginName, const char *key)
+{
+    if (!plugins)
+    {
+        if (!loadHost())
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
+        }
+    }
+    for (Value &value : hostValues)
+    {
+        if (strcmp(value.key, key) == 0 && strcmp(value.plugin.name(), pluginName) == 0)
+        {
+            return value;
+        }
+    }
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not find host value: %s\n", key);
+    throw std::runtime_error("Could not find host value");
 }
 
 bool loadHost()
@@ -79,69 +178,12 @@ bool loadHost()
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing host\n");
         return false;
     }
+    loadHostValues();
 
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Starting host in SDL thread\n");
     SDL_Thread *thread = SDL_CreateThread(hostThread, "host", NULL);
 
     return true;
 }
-
-AudioPlugin &getPlugin(const char *name)
-{
-    if (!plugins)
-    {
-        if (!loadHost())
-        {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
-        }
-    }
-
-    for (Plugin &plugin : *plugins)
-    {
-        if (strcmp(plugin.instance->name(), name) == 0)
-        {
-            return *plugin.instance;
-        }
-    }
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not find plugin: %s\n", name);
-    throw std::runtime_error("Could not find plugin");
-}
-
-class Value
-{
-public:
-    AudioPlugin &plugin;
-    const char *key;
-    int index = -1;
-
-    Value(AudioPlugin &plugin, const char *key)
-        : plugin(plugin), key(key)
-    {
-        for (int i = 0; i < plugin.getValueCount(); i++)
-        {
-            if (strcmp(plugin.getValueName(i), key) == 0)
-            {
-                index = i;
-                break;
-            }
-        }
-        // if index is still -1 should we throw?
-    }
-
-    Value(const char *pluginName, const char *key)
-        : Value(getPlugin(pluginName), key)
-    {
-        }
-
-    float get()
-    {
-        return plugin.getValue(index);
-    }
-
-    void set(float value)
-    {
-        plugin.setValue(index, value);
-    }
-};
 
 #endif

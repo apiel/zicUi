@@ -23,6 +23,7 @@ protected:
             {{[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
+                  // TODO utilize full float capability instead of midi limitation
                   uint8_t cutoff = rangeMidi((pad.cutoff.get() * 128.0) + direction);
                   pad.cutoff.set(cutoff / 128.0);
                   pad.encoders.render(0);
@@ -31,6 +32,7 @@ protected:
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
+                  // TODO utilize full float capability instead of midi limitation
                   uint8_t cutoff = pad.cutoff.get() * 128;
                   drawCenteredEncoder(position, cutoff > 63 ? "High pass filter" : "Low pass filter", cutoff);
               }},
@@ -70,7 +72,8 @@ public:
 
     // AudioPlugin &effectPlugin = getPlugin("MultiModeFilter");
     // Value cutoff = Value(effectPlugin, "CUTOFF");
-    Value cutoff = Value("MultiModeFilter", "CUTOFF");
+    // Value cutoff = Value("MultiModeFilter", "CUTOFF");
+    Value& cutoff = hostValue("MultiModeFilter", "CUTOFF");
 
     static ViewPad &get()
     {
