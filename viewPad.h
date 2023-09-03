@@ -23,18 +23,16 @@ protected:
             {{[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  pad.cutoff = rangeMidi(pad.cutoff + direction);
+                  uint8_t cutoff = rangeMidi((pad.cutoff.get() * 128.0) + direction);
+                  pad.cutoff.set(cutoff / 128.0);
                   pad.encoders.render(0);
                   drawNext();
               },
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  drawCenteredEncoder(position, pad.cutoff > 63 ? "High pass filter" : "Low pass filter", pad.cutoff);
-
-                  //   int valueIndex = getValueIndexHost("MultiModeFilter", "CUTOFF");
-                  //   uint8_t cutoff = getValueHost(valueIndex) * 128;
-                  //   drawCenteredEncoder(position, cutoff > 63 ? "High pass filter" : "Low pass filter", cutoff);
+                  uint8_t cutoff = pad.cutoff.get() * 128;
+                  drawCenteredEncoder(position, cutoff > 63 ? "High pass filter" : "Low pass filter", cutoff);
               }},
              {[](int8_t direction)
               {
@@ -66,11 +64,13 @@ protected:
 public:
     ComponentEncoders &encoders = ComponentEncoders::get();
 
-    // temp values
-    uint8_t cutoff = 64;
     uint8_t resonance = 0;
     uint8_t sampleReducer = 0;
     uint8_t distortion = 0;
+
+    // AudioPlugin &effectPlugin = getPlugin("MultiModeFilter");
+    // Value cutoff = Value(effectPlugin, "CUTOFF");
+    Value cutoff = Value("MultiModeFilter", "CUTOFF");
 
     static ViewPad &get()
     {

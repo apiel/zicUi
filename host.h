@@ -33,33 +33,14 @@ void *linkHost(void *handle, const char *name)
     return fn;
 }
 
-AudioPlugin& getPlugin(const char *name)
-{
-    for (Plugin &plugin : *plugins)
-    {
-        if (strcmp(plugin.instance->name(), name) == 0)
-        {
-            return *plugin.instance;
-        }
-    }
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not find plugin: %s\n", name);
-    throw std::runtime_error("Could not find plugin");
-}
-
-int getValueIndex(AudioPlugin& plugin, const char *key)
-{
-    for (int i = 0; i < plugin.getValueCount(); i++)
-    {
-        if (strcmp(plugin.getValueName(i), key) == 0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
 bool loadHost()
 {
+    if (plugins)
+    {
+        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Host already loaded\n");
+        return true;
+    }
+
     // FIXME
     const char *path = "../zicHost/zicHost.so";
     SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Loading host from %s\n", path);
@@ -99,19 +80,68 @@ bool loadHost()
         return false;
     }
 
-    // AudioPlugin * plugin = getPlugin("GainVolume");
-    // printf("-------> Name: %s\n", plugin->name());
-
-    AudioPlugin& plugin = getPlugin("GainVolume");
-    printf("-------> Name: %s\n", plugin.name());
-
-    int valIndex = getValueIndex(plugin, "VOLUME");
-    printf("-------> Value index: %d => %f\n", valIndex, plugin.getValue(valIndex));
-
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Starting host in SDL thread\n");
     SDL_Thread *thread = SDL_CreateThread(hostThread, "host", NULL);
 
     return true;
 }
+
+AudioPlugin &getPlugin(const char *name)
+{
+    if (!plugins)
+    {
+        if (!loadHost())
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
+        }
+    }
+
+    for (Plugin &plugin : *plugins)
+    {
+        if (strcmp(plugin.instance->name(), name) == 0)
+        {
+            return *plugin.instance;
+        }
+    }
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not find plugin: %s\n", name);
+    throw std::runtime_error("Could not find plugin");
+}
+
+class Value
+{
+public:
+    AudioPlugin &plugin;
+    const char *key;
+    int index = -1;
+
+    Value(AudioPlugin &plugin, const char *key)
+        : plugin(plugin), key(key)
+    {
+        for (int i = 0; i < plugin.getValueCount(); i++)
+        {
+            if (strcmp(plugin.getValueName(i), key) == 0)
+            {
+                index = i;
+                break;
+            }
+        }
+        // if index is still -1 should we throw?
+    }
+
+    Value(const char *pluginName, const char *key)
+        : Value(getPlugin(pluginName), key)
+    {
+        }
+
+    float get()
+    {
+        return plugin.getValue(index);
+    }
+
+    void set(float value)
+    {
+        plugin.setValue(index, value);
+    }
+};
 
 #endif
