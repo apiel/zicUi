@@ -46,16 +46,6 @@ int main()
     }
     startOscServer();
 
-    // int valueIndex = getValueIndexHost("MultiModeFilter", "CUTOFF");
-    // if (valueIndex == -1)
-    // {
-    //     printf("----------------> Could not load MultiModeFilter value\n");
-    // }
-    // else
-    // {
-    //     printf("----------------> MultiModeFilter value (index %d): %f\n", valueIndex, getValueHost(valueIndex));
-    // }
-
     ViewMain &viewMain = ViewMain::get();
     viewMain.render();
     draw();

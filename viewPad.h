@@ -35,26 +35,38 @@ protected:
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  //   pad.resonance = rangeMidi(pad.resonance + direction);
+                  pad.resonance.set(pad.resonance.get() + (direction * 0.01));
                   pad.encoders.render(1);
                   drawNext();
               },
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  drawEncoder(position, "Resonance", pad.resonance);
+                  drawEncoder(position, "Resonance", pad.resonance.get());
               }},
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  //   pad.sampleReducer = rangeMidi(pad.sampleReducer + direction);
-                  printf("SampleReducer %d\n", pad.sampleReducer);
+                //   pad.sampleReducer.set(pad.sampleReducer.get() + (direction * 0.01));
+                  pad.encoders.render(2);
+                  drawNext();
+              },
+              [](Point position)
+              {
+                  ViewPad &pad = ViewPad::get();
+                //   drawEncoder(position, "Sample rate reducer", pad.sampleReducer.get());
               }},
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  //   pad.distortion = rangeMidi(pad.distortion + direction);
-                  printf("Distortion %d\n", pad.distortion);
+                //   pad.distortion.set(pad.distortion.get() + (direction * 0.01));
+                  pad.encoders.render(3);
+                  drawNext();
+              },
+              [](Point position)
+              {
+                  ViewPad &pad = ViewPad::get();
+                //   drawEncoder(position, "Distortion", pad.distortion.get());
               }}},
         });
     }
@@ -62,14 +74,13 @@ protected:
 public:
     ComponentEncoders &encoders = ComponentEncoders::get();
 
-    uint8_t resonance = 0;
-    uint8_t sampleReducer = 0;
-    uint8_t distortion = 0;
-
     // AudioPlugin &effectPlugin = getPlugin("MultiModeFilter");
     // Value cutoff = Value(effectPlugin, "CUTOFF");
     // Value cutoff = Value("MultiModeFilter", "CUTOFF");
     Value &cutoff = hostValue("MultiModeFilter", "CUTOFF");
+    Value &resonance = hostValue("MultiModeFilter", "RESONANCE");
+    // Value &sampleReducer = hostValue("SampleRateReducer", "SAMPLE_STEP");
+    // Value &distortion = hostValue("Distortion", "DRIVE");
 
     static ViewPad &get()
     {
