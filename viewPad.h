@@ -30,7 +30,7 @@ protected:
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  drawCenteredEncoder(position, "LPF | HPF", pad.cutoff.get());
+                  drawCenteredEncoder(position, "LPF | HPF", pad.cutoff.get(), pad.cutoff.stepCount());
               }},
              {[](int8_t direction)
               {

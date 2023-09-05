@@ -42,12 +42,12 @@ void drawEncoderPercentage(Point position, const char *name, float value)
     drawEncoder(position, name, value * 100, valueStr, 100, 60);
 }
 
-void drawCenteredEncoder(Point position, const char *name, float value)
+void drawCenteredEncoder(Point position, const char *name, float value, int stepCount)
 {
     drawTextCentered({(int)(position.x + (dimensions.encoder.w * 0.5)), position.y + 5}, name, colors.encoder.title, 12);
 
     int margin = 10;
-    int val = value * 100;
+    int val = value * stepCount;
     drawTextRight({position.x + dimensions.encoder.w - margin, position.y + 5}, std::to_string(val).c_str(),
                   colors.encoder.value, 20, APP_FONT_BOLD);
     drawText({position.x + margin, position.y + 5}, std::to_string(100 - val).c_str(),
