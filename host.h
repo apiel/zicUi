@@ -102,9 +102,14 @@ public:
     {
         plugin.setValue(index, value);
     }
+
+    const char *name()
+    {
+        return plugin.getValueName(index);
+    }
 };
 
-std::vector<Value> hostValues;
+std::vector<Value *> hostValues;
 void loadHostValues()
 {
     for (Plugin &plugin : *plugins)
@@ -112,12 +117,12 @@ void loadHostValues()
         AudioPlugin &audioPlugin = *plugin.instance;
         for (int i = 0; i < audioPlugin.getValueCount(); i++)
         {
-            hostValues.push_back(Value(audioPlugin, i));
+            hostValues.push_back(new Value(audioPlugin, i));
         }
     }
 }
 
-Value &hostValue(const char *pluginName, const char *key)
+Value * hostValue(const char *pluginName, const char *key)
 {
     if (!plugins)
     {
@@ -126,15 +131,14 @@ Value &hostValue(const char *pluginName, const char *key)
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
         }
     }
-    for (Value &value : hostValues)
+    for (Value *value : hostValues)
     {
-        if (strcmp(value.key, key) == 0 && strcmp(value.plugin.name(), pluginName) == 0)
+        if (strcmp(value->key, key) == 0 && strcmp(value->plugin.name(), pluginName) == 0)
         {
             return value;
         }
     }
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not find host value: %s\n", key);
-    throw std::runtime_error("Could not find host value");
+    return NULL;
 }
 
 bool loadHost()

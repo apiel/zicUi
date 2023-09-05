@@ -19,56 +19,61 @@ protected:
 
     ViewPad()
     {
-        encoders.set(EncodersProps{
-            {{[](int8_t direction)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  pad.cutoff.set(pad.cutoff.get() + (direction / (float)pad.cutoff.stepCount()));
-                  pad.encoders.render(0);
-                  drawNext();
-              },
-              [](Point position)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  drawCenteredEncoder(position, "LPF | HPF", pad.cutoff.get(), pad.cutoff.stepCount());
-              }},
-             {[](int8_t direction)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  pad.resonance.set(pad.resonance.get() + (direction / (float)pad.resonance.stepCount()));
-                  pad.encoders.render(1);
-                  drawNext();
-              },
-              [](Point position)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  drawEncoder(position, "Resonance", pad.resonance.get(), pad.resonance.stepCount());
-              }},
-             {[](int8_t direction)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  pad.sampleReducer.set(pad.sampleReducer.get() + (direction / (float)pad.sampleReducer.stepCount()));
-                  pad.encoders.render(2);
-                  drawNext();
-              },
-              [](Point position)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  drawEncoder(position, "Sample rate reducer", pad.sampleReducer.get(), pad.sampleReducer.stepCount());
-              }},
-             {[](int8_t direction)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  pad.distortion.set(pad.distortion.get() + (direction / (float)pad.distortion.stepCount()));
-                  pad.encoders.render(3);
-                  drawNext();
-              },
-              [](Point position)
-              {
-                  ViewPad &pad = ViewPad::get();
-                  drawEncoder(position, "Distortion", pad.distortion.get(), pad.distortion.stepCount());
-              }}},
-        });
+        // encoders.set(EncodersProps{
+        //     {{[](int8_t direction)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           pad.cutoff.set(pad.cutoff.get() + (direction / (float)pad.cutoff.stepCount()));
+        //           pad.encoders.render(0);
+        //           drawNext();
+        //       },
+        //       [](Point position)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           drawCenteredEncoder(position, "LPF | HPF", pad.cutoff.get(), pad.cutoff.stepCount());
+        //       }},
+        //      {[](int8_t direction)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           pad.resonance.set(pad.resonance.get() + (direction / (float)pad.resonance.stepCount()));
+        //           pad.encoders.render(1);
+        //           drawNext();
+        //       },
+        //       [](Point position)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           drawEncoder(position, "Resonance", pad.resonance.get(), pad.resonance.stepCount());
+        //       }},
+        //      {[](int8_t direction)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           pad.sampleReducer.set(pad.sampleReducer.get() + (direction / (float)pad.sampleReducer.stepCount()));
+        //           pad.encoders.render(2);
+        //           drawNext();
+        //       },
+        //       [](Point position)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           drawEncoder(position, "Sample rate reducer", pad.sampleReducer.get(), pad.sampleReducer.stepCount());
+        //       }},
+        //      {[](int8_t direction)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           pad.distortion.set(pad.distortion.get() + (direction / (float)pad.distortion.stepCount()));
+        //           pad.encoders.render(3);
+        //           drawNext();
+        //       },
+        //       [](Point position)
+        //       {
+        //           ViewPad &pad = ViewPad::get();
+        //           drawEncoder(position, "Distortion", pad.distortion.get(), pad.distortion.stepCount());
+        //       }}},
+        // });
+
+        encoders.set({{{"MultiModeFilter", "CUTOFF", "LPF | HPF", ENCODER_CENTERED},
+                       {"MultiModeFilter", "RESONANCE", "Resonance"},
+                       {"SampleRateReducer", "SAMPLE_STEP", "Sample rate reducer"},
+                       {"Distortion", "DRIVE", "Distortion"}}});
     }
 
 public:
@@ -77,10 +82,11 @@ public:
     // AudioPlugin &effectPlugin = getPlugin("MultiModeFilter");
     // Value cutoff = Value(effectPlugin, "CUTOFF");
     // Value cutoff = Value("MultiModeFilter", "CUTOFF");
-    Value &cutoff = hostValue("MultiModeFilter", "CUTOFF");
-    Value &resonance = hostValue("MultiModeFilter", "RESONANCE");
-    Value &sampleReducer = hostValue("SampleRateReducer", "SAMPLE_STEP");
-    Value &distortion = hostValue("Distortion", "DRIVE");
+
+    // Value &cutoff = hostValue("MultiModeFilter", "CUTOFF");
+    // Value &resonance = hostValue("MultiModeFilter", "RESONANCE");
+    // Value &sampleReducer = hostValue("SampleRateReducer", "SAMPLE_STEP");
+    // Value &distortion = hostValue("Distortion", "DRIVE");
 
     static ViewPad &get()
     {

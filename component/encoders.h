@@ -37,7 +37,7 @@ public:
     void set(EncodersProps props) {
         for (int i = 0; i < ENCODER_COUNT; ++i)
         {
-            encoders[i].props = props.props[i];
+            encoders[i].set(props.props[i]);
         }
     }
 
