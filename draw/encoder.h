@@ -18,21 +18,21 @@ void drawEncoderBase(Point position, const char *name, const char *valueStr, int
              colors.encoder.title);
 }
 
-void drawEncoder(Point position, const char *name, int value, const char *valueStr, int max = 100, int marginRight = 40)
+void drawEncoder(Point position, const char *name, int value, const char *valueStr, int stepCount, int marginRight = 40)
 {
     drawEncoderBase(position, name, valueStr, marginRight);
 
     int x = position.x + 10;
     int y = position.y + dimensions.encoder.h - 10;
-    int x2 = x + ((dimensions.encoder.w - 20) * (value / (float)max));
+    int x2 = x + ((dimensions.encoder.w - 20) * (value / (float)stepCount));
     drawLine({x, y}, {x2, y}, colors.encoder.value);
     drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
 }
 
-void drawEncoder(Point position, const char *name, float value)
+void drawEncoder(Point position, const char *name, float value, int stepCount)
 {
-    int val = value * 100;
-    drawEncoder(position, name, val, std::to_string(val).c_str());
+    int val = value * stepCount;
+    drawEncoder(position, name, val, std::to_string(val).c_str(), stepCount);
 }
 
 void drawEncoderPercentage(Point position, const char *name, float value)

@@ -23,7 +23,7 @@ protected:
             {{[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  pad.cutoff.set(pad.cutoff.get() + (direction * 0.01));
+                  pad.cutoff.set(pad.cutoff.get() + (direction / (float)pad.cutoff.stepCount()));
                   pad.encoders.render(0);
                   drawNext();
               },
@@ -35,38 +35,38 @@ protected:
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                  pad.resonance.set(pad.resonance.get() + (direction * 0.01));
+                  pad.resonance.set(pad.resonance.get() + (direction / (float)pad.resonance.stepCount()));
                   pad.encoders.render(1);
                   drawNext();
               },
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                  drawEncoder(position, "Resonance", pad.resonance.get());
+                  drawEncoder(position, "Resonance", pad.resonance.get(), pad.resonance.stepCount());
               }},
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                //   pad.sampleReducer.set(pad.sampleReducer.get() + (direction * 0.01));
+                  pad.sampleReducer.set(pad.sampleReducer.get() + (direction / (float)pad.sampleReducer.stepCount()));
                   pad.encoders.render(2);
                   drawNext();
               },
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                //   drawEncoder(position, "Sample rate reducer", pad.sampleReducer.get());
+                  drawEncoder(position, "Sample rate reducer", pad.sampleReducer.get(), pad.sampleReducer.stepCount());
               }},
              {[](int8_t direction)
               {
                   ViewPad &pad = ViewPad::get();
-                //   pad.distortion.set(pad.distortion.get() + (direction * 0.01));
+                  pad.distortion.set(pad.distortion.get() + (direction / (float)pad.distortion.stepCount()));
                   pad.encoders.render(3);
                   drawNext();
               },
               [](Point position)
               {
                   ViewPad &pad = ViewPad::get();
-                //   drawEncoder(position, "Distortion", pad.distortion.get());
+                  drawEncoder(position, "Distortion", pad.distortion.get(), pad.distortion.stepCount());
               }}},
         });
     }
@@ -79,8 +79,8 @@ public:
     // Value cutoff = Value("MultiModeFilter", "CUTOFF");
     Value &cutoff = hostValue("MultiModeFilter", "CUTOFF");
     Value &resonance = hostValue("MultiModeFilter", "RESONANCE");
-    // Value &sampleReducer = hostValue("SampleRateReducer", "SAMPLE_STEP");
-    // Value &distortion = hostValue("Distortion", "DRIVE");
+    Value &sampleReducer = hostValue("SampleRateReducer", "SAMPLE_STEP");
+    Value &distortion = hostValue("Distortion", "DRIVE");
 
     static ViewPad &get()
     {

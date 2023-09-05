@@ -88,6 +88,11 @@ public:
     {
     }
 
+    int stepCount()
+    {
+        return plugin.getStepCount(index);
+    }
+
     float get()
     {
         return plugin.getValue(index);
