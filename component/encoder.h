@@ -15,7 +15,6 @@ struct EncoderProps
 class ComponentEncoder : public View
 {
 protected:
-    Value *value = NULL;
     const char *name = NULL;
 
     void drawEncoderBase(Point position, const char *name, const char *valueStr, int marginRight = 10)
@@ -40,7 +39,7 @@ protected:
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
-    void drawEncoder(Point position, const char *name, float value, int stepCount, const char * unit)
+    void drawEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
     {
         int val = value * stepCount;
         int marginRight = 10;
@@ -48,7 +47,7 @@ protected:
         {
             marginRight += 3 + drawTextRight({position.x + dimensions.encoder.w - marginRight, position.y + 14}, unit, colors.encoder.title, 10);
         }
-        
+
         drawEncoder(position, name, val, std::to_string(val).c_str(), stepCount, marginRight);
     }
 
@@ -75,6 +74,8 @@ public:
     const Size size = dimensions.encoder;
     const int margin = 1;
 
+    Value *value = NULL;
+
     ComponentEncoder(Point _position)
         : position(_position)
     {
@@ -85,6 +86,13 @@ public:
         if (props.pluginName != NULL && props.key != NULL)
         {
             value = hostValue(props.pluginName, props.key);
+
+            if (value != NULL)
+            {
+                value->onUpdate([](float, void *data)
+                                { ((ComponentEncoder *)data)->render(); },
+                                this);
+            }
         }
         else
         {
@@ -117,7 +125,6 @@ public:
     void onEncoder(int id, int8_t direction)
     {
         value->set(value->get() + (direction / (float)value->stepCount()));
-        render();
     }
 };
 

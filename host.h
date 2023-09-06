@@ -122,6 +122,11 @@ public:
     {
         return plugin.getValueUnit(index);
     }
+
+    void onUpdate(void (*callback)(float, void * data), void * data)
+    {
+        plugin.setValueWatcher(index, callback, data);
+    }
 };
 
 std::vector<Value *> hostValues;

@@ -38,6 +38,11 @@ public:
         for (int i = 0; i < ENCODER_COUNT; ++i)
         {
             encoders[i].set(props.props[i]);
+            // if (encoders[i].value != NULL) {
+            //     encoders[i].value->onUpdate([] (float) {
+            //         ComponentEncoders::get().render(i);
+            //     }, i);
+            // }
         }
     }
 
