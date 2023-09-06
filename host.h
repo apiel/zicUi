@@ -60,21 +60,21 @@ class Value
 {
 public:
     AudioPlugin &plugin;
-    const char *key;
+    const char *valueKey;
     int index = -1;
 
     Value(AudioPlugin &plugin, int index)
         : plugin(plugin), index(index)
     {
-        key = plugin.getValueName(index);
+        valueKey = plugin.getValueKey(index);
     }
 
     Value(AudioPlugin &plugin, const char *key)
-        : plugin(plugin), key(key)
+        : plugin(plugin), valueKey(key)
     {
         for (int i = 0; i < plugin.getValueCount(); i++)
         {
-            if (strcmp(plugin.getValueName(i), key) == 0)
+            if (strcmp(plugin.getValueKey(i), key) == 0)
             {
                 index = i;
                 break;
@@ -90,7 +90,7 @@ public:
 
     int stepCount()
     {
-        return plugin.getStepCount(index);
+        return plugin.getValueStepCount(index);
     }
 
     float get()
@@ -103,9 +103,19 @@ public:
         plugin.setValue(index, value);
     }
 
-    const char *name()
+    const char *key()
     {
-        return plugin.getValueName(index);
+        return plugin.getValueKey(index);
+    }
+
+    const char *label()
+    {
+        return plugin.getValueLabel(index);
+    }
+
+    ValueType type()
+    {
+        return plugin.getValueType(index);
     }
 };
 
@@ -122,7 +132,7 @@ void loadHostValues()
     }
 }
 
-Value * hostValue(const char *pluginName, const char *key)
+Value *hostValue(const char *pluginName, const char *key)
 {
     if (!plugins)
     {
@@ -133,7 +143,7 @@ Value * hostValue(const char *pluginName, const char *key)
     }
     for (Value *value : hostValues)
     {
-        if (strcmp(value->key, key) == 0 && strcmp(value->plugin.name(), pluginName) == 0)
+        if (strcmp(value->valueKey, key) == 0 && strcmp(value->plugin.name(), pluginName) == 0)
         {
             return value;
         }

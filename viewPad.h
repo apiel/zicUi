@@ -70,10 +70,10 @@ protected:
         //       }}},
         // });
 
-        encoders.set({{{"MultiModeFilter", "CUTOFF", "LPF | HPF", ENCODER_CENTERED},
-                       {"MultiModeFilter", "RESONANCE", "Resonance"},
-                       {"SampleRateReducer", "SAMPLE_STEP", "Sample rate reducer"},
-                       {"Distortion", "DRIVE", "Distortion"}}});
+        encoders.set({{{"MultiModeFilter", "CUTOFF"},
+                       {"MultiModeFilter", "RESONANCE"},
+                       {"SampleRateReducer", "SAMPLE_STEP"},
+                       {"Distortion", "DRIVE"}}});
     }
 
 public:
