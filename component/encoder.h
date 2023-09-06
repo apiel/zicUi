@@ -40,18 +40,16 @@ protected:
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
-    void drawEncoder(Point position, const char *name, float value, int stepCount)
+    void drawEncoder(Point position, const char *name, float value, int stepCount, const char * unit)
     {
         int val = value * stepCount;
-        drawEncoder(position, name, val, std::to_string(val).c_str(), stepCount);
-    }
-
-    void drawEncoderPercentage(Point position, const char *name, float value)
-    {
-        char valueStr[6];
-        sprintf(valueStr, "%d", (int)(value * 100));
-        drawEncoder(position, name, value * 100, valueStr, 100, 20);
-        drawText({position.x + dimensions.encoder.w - 18, position.y + 14}, "%", colors.encoder.title, 10);
+        int marginRight = 10;
+        if (unit != NULL)
+        {
+            marginRight += 3 + drawTextRight({position.x + dimensions.encoder.w - marginRight, position.y + 14}, unit, colors.encoder.title, 10);
+        }
+        
+        drawEncoder(position, name, val, std::to_string(val).c_str(), stepCount, marginRight);
     }
 
     void drawCenteredEncoder(Point position, const char *name, float value, int stepCount)
@@ -107,13 +105,9 @@ public:
             {
                 drawCenteredEncoder(position, value->label(), value->get(), value->stepCount());
             }
-            else if (value->type() == VALUE_PERCENTAGE)
-            {
-                drawEncoderPercentage(position, value->label(), value->get());
-            }
             else
             {
-                drawEncoder(position, value->label(), value->get(), value->stepCount());
+                drawEncoder(position, value->label(), value->get(), value->stepCount(), value->unit());
             }
         }
 

@@ -117,6 +117,11 @@ public:
     {
         return plugin.getValueType(index);
     }
+
+    const char *unit()
+    {
+        return plugin.getValueUnit(index);
+    }
 };
 
 std::vector<Value *> hostValues;

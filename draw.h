@@ -63,17 +63,20 @@ int drawText(Point position, const char *text, SDL_Color color = colors.core.fon
 {
     SDL_Surface *surface = getTextSurface(text, color, size, fontPath);
     textToRenderer(position, surface);
-    int nextX = surface->w + position.x;
+    int w = surface->w;
     SDL_FreeSurface(surface);
 
-    return nextX;
+    return w;
 }
 
-void drawTextRight(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, const char *fontPath = APP_FONT)
+int drawTextRight(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, const char *fontPath = APP_FONT)
 {
     SDL_Surface *surface = getTextSurface(text, color, size, fontPath);
     textToRenderer({position.x - surface->w, position.y}, surface);
+    int w = surface->w;
     SDL_FreeSurface(surface);
+
+    return w;
 }
 
 void drawClear(SDL_Color color = colors.core.background)
