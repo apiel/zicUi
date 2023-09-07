@@ -44,6 +44,16 @@ public:
     {
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s %s", valueXProps.pluginName, valueXProps.key, valueX == NULL ? "NULL" : "NOT NULL");
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s %s", valueYProps.pluginName, valueYProps.key, valueY == NULL ? "NULL" : "NOT NULL");
+        if (valueY != NULL && valueX != NULL)
+        {
+            valueX->onUpdate([](float, void *data)
+                             { ((ComponentPad *)data)->render(); },
+                             this);
+
+            valueY->onUpdate([](float, void *data)
+                             { ((ComponentPad *)data)->render(); },
+                             this);
+        }
     }
 
     void render()
@@ -68,6 +78,7 @@ public:
                 {pointerSize, pointerSize},
                 colors.pad.value);
         }
+        drawNext();
     }
 
     void onMotion(Motion &motion)
@@ -82,24 +93,15 @@ public:
             return;
         }
 
-        bool valueChanged = false;
         float x = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
         if (x - valueX->get() > 0.01 || valueX->get() - x > 0.01)
         {
             valueX->set(x);
-            valueChanged = true;
         }
         float y = 1.0 - (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
         if (y - valueY->get() > 0.01 || valueY->get() - y > 0.01)
         {
             valueY->set(y);
-            valueChanged = true;
-        }
-
-        if (valueChanged)
-        {
-            render();
-            drawNext();
         }
     }
 };
