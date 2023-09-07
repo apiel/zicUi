@@ -12,6 +12,7 @@
 class ComponentPad : public View
 {
 public:
+    int pointerSize = 4;
     Point position;
     const Size size;
     Value *valueX = NULL;
@@ -20,10 +21,7 @@ public:
     const int margin = 1;
 
     ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps)
-        : position(position)
-        , size(size)
-        , valueX(hostValue(valueXProps))
-        , valueY(hostValue(valueYProps))
+        : position(position), size(size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps))
     {
     }
 
@@ -36,13 +34,14 @@ public:
 
         if (valueX != NULL && valueY != NULL)
         {
+
             // NOTE if it is not a centered value, should draw 0 in the middle
             // and both side from the center being positive value to 1.0 ?
 
             drawFilledRect(
-                {position.x + margin + (int)((size.w - 4) * valueX->get()),
-                 position.y + margin + (int)((size.h - 4) * valueY->get())},
-                {4, 4},
+                {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->get()),
+                 position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * valueY->get())},
+                {pointerSize, pointerSize},
                 colors.pad.value);
         }
     }
