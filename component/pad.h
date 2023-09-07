@@ -12,16 +12,16 @@
 class ComponentPad : public View
 {
 public:
-    Point position = {0, dimensions.pad_y};
-    const Size size = {SCREEN_W / PAD_COUNT, dimensions.pad_h};
+    Point position;
+    const Size size;
+
     const int margin = 1;
 
     float xValue = 0.5f;
     float yValue = 0.5f;
 
-    ComponentPad(uint8_t id)
+    ComponentPad(Point position, Size size) : position(position), size(size)
     {
-        position.x = id * size.w;
     }
 
     void render()
