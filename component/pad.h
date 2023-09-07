@@ -64,7 +64,7 @@ public:
 
             drawFilledRect(
                 {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->get()),
-                 position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * valueY->get())},
+                 position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * (1.0 - valueY->get()))},
                 {pointerSize, pointerSize},
                 colors.pad.value);
         }
@@ -89,7 +89,7 @@ public:
             valueX->set(x);
             valueChanged = true;
         }
-        float y = (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
+        float y = 1.0 - (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
         if (y - valueY->get() > 0.01 || valueY->get() - y > 0.01)
         {
             valueY->set(y);
