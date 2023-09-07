@@ -42,6 +42,8 @@ public:
     ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps)
         : position(position), size(size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps))
     {
+        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s %s", valueXProps.pluginName, valueXProps.key, valueX == NULL ? "NULL" : "NOT NULL");
+        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s %s", valueYProps.pluginName, valueYProps.key, valueY == NULL ? "NULL" : "NOT NULL");
     }
 
     void render()
