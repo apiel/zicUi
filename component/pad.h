@@ -60,8 +60,18 @@ public:
         }
 
         // should this be debounced
-        valueX->set((motion.position.x - position.x - margin) / (float)(size.w - 2 * margin));
-        valueY->set((motion.position.y - position.y - margin) / (float)(size.h - 2 * margin));
+        // valueX->set((motion.position.x - position.x - margin) / (float)(size.w - 2 * margin));
+        // valueY->set((motion.position.y - position.y - margin) / (float)(size.h - 2 * margin));
+        float x = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
+        if (x - valueX->get() > 0.01 || valueX->get() - x > 0.01)
+        {
+            valueX->set(x);
+        }
+        float y = (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
+        if (y - valueY->get() > 0.01 || valueY->get() - y > 0.01)
+        {
+            valueY->set(y);
+        }
         render();
         drawNext();
     }
