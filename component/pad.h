@@ -19,9 +19,6 @@ public:
 
     const int margin = 1;
 
-    float xValue = 0.5f;
-    float yValue = 0.5f;
-
     ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps)
         : position(position)
         , size(size)
@@ -37,11 +34,14 @@ public:
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.pad.background);
 
-        drawFilledRect(
-            {position.x + margin + (int)((size.w - 4) * xValue),
-             position.y + margin + (int)((size.h - 4) * yValue)},
-            {4, 4},
-            colors.pad.value);
+        if (valueX != NULL && valueY != NULL)
+        {
+            drawFilledRect(
+                {position.x + margin + (int)((size.w - 4) * valueX->get()),
+                 position.y + margin + (int)((size.h - 4) * valueY->get())},
+                {4, 4},
+                colors.pad.value);
+        }
     }
 
     void onMotion(Motion &motion)
@@ -51,9 +51,14 @@ public:
             return;
         }
 
-        xValue = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
-        yValue = (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
-        // printf("val %f %f\n", xValue, yValue);
+        if (valueX == NULL || valueY == NULL)
+        {
+            return;
+        }
+
+        // should this be debounced
+        valueX->set((motion.position.x - position.x - margin) / (float)(size.w - 2 * margin));
+        valueY->set((motion.position.y - position.y - margin) / (float)(size.h - 2 * margin));
         render();
         drawNext();
     }
