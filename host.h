@@ -56,6 +56,12 @@ AudioPlugin &getPlugin(const char *name)
     throw std::runtime_error("Could not find plugin");
 }
 
+struct ValueProps
+{
+    const char *pluginName;
+    const char *key;
+};
+
 class Value
 {
 public:
@@ -83,8 +89,8 @@ public:
         // if index is still -1 should we throw?
     }
 
-    Value(const char *pluginName, const char *key)
-        : Value(getPlugin(pluginName), key)
+    Value(ValueProps props)
+        : Value(getPlugin(props.pluginName), props.key)
     {
     }
 
@@ -137,7 +143,7 @@ void loadHostValues()
     }
 }
 
-Value *hostValue(const char *pluginName, const char *key)
+Value *hostValue(ValueProps props)
 {
     if (!plugins)
     {
@@ -148,7 +154,7 @@ Value *hostValue(const char *pluginName, const char *key)
     }
     for (Value *value : hostValues)
     {
-        if (strcmp(value->valueKey, key) == 0 && strcmp(value->plugin.name(), pluginName) == 0)
+        if (strcmp(value->valueKey, props.key) == 0 && strcmp(value->plugin.name(), props.pluginName) == 0)
         {
             return value;
         }
