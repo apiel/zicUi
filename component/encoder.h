@@ -34,7 +34,7 @@ protected:
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
-    void drawEncoder(Point position, const char *name, float value, int stepCount, const char * unit)
+    void drawEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
     {
         int val = value * stepCount;
         int marginRight = 10;
@@ -42,7 +42,7 @@ protected:
         {
             marginRight += 3 + drawTextRight({position.x + dimensions.encoder.w - marginRight, position.y + 14}, unit, colors.encoder.title, 10);
         }
-        
+
         drawEncoder(position, name, val, std::to_string(val).c_str(), stepCount, marginRight);
     }
 
@@ -76,14 +76,7 @@ public:
 
     void set(ValueProps props)
     {
-        if (props.pluginName != NULL && props.key != NULL)
-        {
-            value = hostValue(props);
-        }
-        else
-        {
-            value = NULL;
-        }
+        value = hostValue(props);
     }
 
     void render()

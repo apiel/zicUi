@@ -14,13 +14,19 @@ class ComponentPad : public View
 public:
     Point position;
     const Size size;
+    Value *valueX = NULL;
+    Value *valueY = NULL;
 
     const int margin = 1;
 
     float xValue = 0.5f;
     float yValue = 0.5f;
 
-    ComponentPad(Point position, Size size) : position(position), size(size)
+    ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps)
+        : position(position)
+        , size(size)
+        , valueX(hostValue(valueXProps))
+        , valueY(hostValue(valueYProps))
     {
     }
 

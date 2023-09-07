@@ -17,8 +17,8 @@ protected:
     int pad_y = encoders.encoders[0].position.x + encoders.encoders[0].size.h;
     int halfScreen_w = SCREEN_W / 2;
 
-    ComponentPad padA = {{0, pad_y}, {halfScreen_w, pad_h}};
-    ComponentPad padB = {{halfScreen_w, pad_y}, {halfScreen_w, pad_h}};
+    ComponentPad padA = {{0, pad_y}, {halfScreen_w, pad_h}, {"MultiModeFilter", "RESONANCE"},{"MultiModeFilter", "CUTOFF"}};
+    ComponentPad padB = {{halfScreen_w, pad_y}, {halfScreen_w, pad_h}, {NULL, NULL}, {NULL, NULL}};
 
     static ViewPad *instance;
 

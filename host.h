@@ -145,6 +145,9 @@ void loadHostValues()
 
 Value *hostValue(ValueProps props)
 {
+    if (props.pluginName == NULL || props.key == NULL) {
+        return NULL;
+    }
     if (!plugins)
     {
         if (!loadHost())
