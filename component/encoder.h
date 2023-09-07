@@ -39,7 +39,8 @@ protected:
         int marginRight = 10;
         if (unit != NULL)
         {
-            marginRight += 3 + drawTextRight({position.x + dimensions.encoder.w - marginRight, position.y + 14}, unit, colors.encoder.title, 10);
+            int x = position.x + dimensions.encoder.w - marginRight;
+            marginRight += 3 + (x - drawTextRight({x, position.y + 14}, unit, colors.encoder.title, 10));
         }
 
         drawEncoder(position, name, val, std::to_string(val).c_str(), stepCount, marginRight);
