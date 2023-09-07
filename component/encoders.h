@@ -7,7 +7,7 @@
 
 struct EncodersProps
 {
-    EncoderProps props[ENCODER_COUNT];
+    ValueProps props[ENCODER_COUNT];
 };
 
 class ComponentEncoders : public View

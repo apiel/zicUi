@@ -86,8 +86,6 @@ struct Colors
 struct Dimensions
 {
     Size encoder = {SCREEN_W / ENCODER_COUNT, 50};
-    int pad_h = SCREEN_H - this->encoder.h;
-    int pad_y = this->encoder.h;
 } dimensions;
 
 #endif

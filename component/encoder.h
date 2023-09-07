@@ -6,12 +6,6 @@
 #include "../draw.h"
 #include "../host.h"
 
-struct EncoderProps
-{
-    const char *pluginName;
-    const char *key;
-};
-
 class ComponentEncoder : public View
 {
 protected:
@@ -81,22 +75,14 @@ public:
     {
     }
 
-    void set(EncoderProps props)
+    void set(ValueProps props)
     {
-        if (props.pluginName != NULL && props.key != NULL)
+        value = hostValue(props);
+        if (value != NULL)
         {
-            value = hostValue(props.pluginName, props.key);
-
-            if (value != NULL)
-            {
-                value->onUpdate([](float, void *data)
-                                { ((ComponentEncoder *)data)->render(); },
-                                this);
-            }
-        }
-        else
-        {
-            value = NULL;
+            value->onUpdate([](float, void *data)
+                            { ((ComponentEncoder *)data)->render(); },
+                            this);
         }
     }
 

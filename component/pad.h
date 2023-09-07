@@ -12,16 +12,19 @@
 class ComponentPad : public View
 {
 public:
-    Point position = {0, dimensions.pad_y};
-    const Size size = {SCREEN_W / PAD_COUNT, dimensions.pad_h};
+    Point position;
+    const Size size;
+    Value *valueX = NULL;
+    Value *valueY = NULL;
+
     const int margin = 1;
 
-    float xValue = 0.5f;
-    float yValue = 0.5f;
-
-    ComponentPad(uint8_t id)
+    ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps)
+        : position(position)
+        , size(size)
+        , valueX(hostValue(valueXProps))
+        , valueY(hostValue(valueYProps))
     {
-        position.x = id * size.w;
     }
 
     void render()
@@ -31,11 +34,17 @@ public:
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.pad.background);
 
-        drawFilledRect(
-            {position.x + margin + (int)((size.w - 4) * xValue),
-             position.y + margin + (int)((size.h - 4) * yValue)},
-            {4, 4},
-            colors.pad.value);
+        if (valueX != NULL && valueY != NULL)
+        {
+            // NOTE if it is not a centered value, should draw 0 in the middle
+            // and both side from the center being positive value to 1.0 ?
+
+            drawFilledRect(
+                {position.x + margin + (int)((size.w - 4) * valueX->get()),
+                 position.y + margin + (int)((size.h - 4) * valueY->get())},
+                {4, 4},
+                colors.pad.value);
+        }
     }
 
     void onMotion(Motion &motion)
@@ -45,9 +54,14 @@ public:
             return;
         }
 
-        xValue = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
-        yValue = (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
-        // printf("val %f %f\n", xValue, yValue);
+        if (valueX == NULL || valueY == NULL)
+        {
+            return;
+        }
+
+        // should this be debounced
+        valueX->set((motion.position.x - position.x - margin) / (float)(size.w - 2 * margin));
+        valueY->set((motion.position.y - position.y - margin) / (float)(size.h - 2 * margin));
         render();
         drawNext();
     }
