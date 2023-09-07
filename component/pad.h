@@ -9,6 +9,13 @@
 #define PAD_COUNT 2
 #endif
 
+struct PadOptions
+{
+    bool holdValue = true;
+    float releaseX = 0.0f;
+    float releaseY = 0.0f;
+};
+
 class ComponentPad : public View
 {
 protected:
@@ -36,11 +43,12 @@ public:
     const Size size;
     Value *valueX = NULL;
     Value *valueY = NULL;
+    PadOptions options;
 
     const int margin = 1;
 
-    ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps)
-        : position(position), size(size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps))
+    ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps, PadOptions options = {})
+        : position(position), size(size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps)), options(options)
     {
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s %s", valueXProps.pluginName, valueXProps.key, valueX == NULL ? "NULL" : "NOT NULL");
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s %s", valueYProps.pluginName, valueYProps.key, valueY == NULL ? "NULL" : "NOT NULL");
@@ -102,6 +110,15 @@ public:
         if (y - valueY->get() > 0.01 || valueY->get() - y > 0.01)
         {
             valueY->set(y);
+        }
+    }
+
+    void onMotionRelease(Motion &motion)
+    {
+        if (options.holdValue == false && valueX != NULL && valueY != NULL)
+        {
+            valueX->set(options.releaseX);
+            valueY->set(options.releaseY);
         }
     }
 };

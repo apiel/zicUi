@@ -52,6 +52,12 @@ public:
         padA.onMotion(motion);
         padB.onMotion(motion);
     }
+
+    void onMotionRelease(Motion &motion)
+    {
+        padA.onMotionRelease(motion);
+        padB.onMotionRelease(motion);
+    }
 };
 
 ViewPad *ViewPad::instance = NULL;
