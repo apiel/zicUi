@@ -56,7 +56,7 @@ int main()
     {
         unsigned long now = SDL_GetTicks();
 
-        if (needToDraw && now - lastUpdate > 70)
+        if (needToDraw && now - lastUpdate > 100)
         {
             draw();
             needToDraw = false;
