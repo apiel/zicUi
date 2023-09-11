@@ -4,10 +4,14 @@
 #include "../def.h"
 #include "../view.h"
 #include "../draw.h"
+#include "../host.h"
 
 class ComponentGranular : public View
 {
 protected:
+    AudioPlugin &plugin;
+
+    bool noteIsOn = false;
 
 public:
     Point position;
@@ -16,7 +20,7 @@ public:
     const int margin = styles.margin;
 
     ComponentGranular(Point position, Size size)
-        : position(position), size(size)
+        : position(position), size(size), plugin(getPlugin("Granular"))
     {
     }
 
@@ -32,11 +36,20 @@ public:
 
     void onMotion(Motion &motion)
     {
-        
+        if (!noteIsOn)
+        {
+            plugin.noteOn(48, 127);
+            noteIsOn = true;
+        }
     }
 
     void onMotionRelease(Motion &motion)
     {
+        if (noteIsOn)
+        {
+            plugin.noteOff(48, 0);
+            noteIsOn = false;
+        }
     }
 };
 

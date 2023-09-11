@@ -6,6 +6,7 @@
 #include "draw.h"
 #include "component/encoders.h"
 #include "component/pad.h"
+#include "component/granular.h"
 #include "host.h"
 
 class ViewPad : public View
@@ -18,7 +19,7 @@ protected:
     int halfScreen_w = SCREEN_W / 2;
 
     ComponentPad padA = {{0, pad_y}, {halfScreen_w, pad_h}, {"Delay", "CUTOFF"}, {"Delay", "MASTER_AMPLITUDE"}};
-    ComponentPad padB = {{halfScreen_w, pad_y}, {halfScreen_w, pad_h}, {NULL, NULL}, {NULL, NULL}};
+    ComponentGranular granular = {{halfScreen_w, pad_y}, {halfScreen_w, 300}};
 
     static ViewPad *instance;
 
@@ -44,19 +45,19 @@ public:
     {
         encoders.render();
         padA.render();
-        padB.render();
+        granular.render();
     }
 
     void onMotion(Motion &motion) override
     {
         padA.onMotion(motion);
-        padB.onMotion(motion);
+        granular.onMotion(motion);
     }
 
     void onMotionRelease(Motion &motion)
     {
         padA.onMotionRelease(motion);
-        padB.onMotionRelease(motion);
+        granular.onMotionRelease(motion);
     }
 };
 
