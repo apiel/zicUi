@@ -4,9 +4,17 @@
 #include "viewMain.h"
 #include "host.h"
 #include "osc.h"
+#include "config.h"
 
 int main()
 {
+    if (!loadConfig())
+    {
+        // FIXME here we should close audio stuff
+        // however how come that it is loaded even before being called
+        return 1;
+    }
+
     SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -41,7 +49,8 @@ int main()
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_H);
     SDL_SetRenderTarget(renderer, texture);
 
-    if (!loadHost()) {
+    if (!loadHost())
+    {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
     }
     startOscServer();

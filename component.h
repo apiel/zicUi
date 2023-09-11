@@ -28,6 +28,10 @@ public:
     virtual void onEncoder(int id, int8_t direction)
     {
     }
+
+    virtual void config(char *key, char *value)
+    {
+    }
 };
 
 #endif

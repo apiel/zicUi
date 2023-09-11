@@ -19,16 +19,6 @@ protected:
 
     ViewMain()
     {
-        // TODO load component from config file
-        addComponent("Encoder", {0, 0}, styles.encoder);
-        addComponent("Encoder", {SCREEN_W / ENCODER_COUNT, 0}, styles.encoder);
-        addComponent("Encoder", {SCREEN_W / ENCODER_COUNT * 2, 0}, styles.encoder);
-        addComponent("Encoder", {SCREEN_W / ENCODER_COUNT * 3, 0}, styles.encoder);
-        int pad_h = SCREEN_H - styles.encoder.h;
-        int pad_y = styles.encoder.h;
-        int halfScreen_w = SCREEN_W / 2;
-        addComponent("Pad", {0, pad_y}, {halfScreen_w, pad_h});
-        addComponent("Granular", {halfScreen_w, pad_y}, {halfScreen_w, 300});
     }
 
 public:
@@ -93,6 +83,27 @@ public:
         {
             SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Unknown component: %s", name);
         }
+    }
+
+    void config(char *key, char *value)
+    {
+        if (strcmp(key, "COMPONENT") == 0)
+        {
+            char * name = strtok(value, " ");
+            Point position = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
+            Size size = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
+            addComponent(name, position, size); 
+        }
+        else
+        {
+            components.back()->config(key, value);
+        }
+    }
+
+    void config(const char *key, const char *value)
+    {
+
+        config((char *)key, (char *)value);
     }
 };
 

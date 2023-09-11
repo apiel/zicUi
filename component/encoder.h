@@ -74,6 +74,19 @@ public:
     {
     }
 
+    void config(char *key, char *value)
+    {
+        if (strcmp(key, "VALUE") == 0)
+        {
+            printf("value: %s\n", value);
+            // char *pluginName = strtok(value, " ");
+            // char *keyValue = strtok(NULL, " ");
+
+            // printf("plguinName: %s, keyValue: %s\n", plguinName, NULL);
+
+        }
+    }
+
     void set(ValueProps props)
     {
         value = hostValue(props);
