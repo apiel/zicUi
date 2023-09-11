@@ -16,8 +16,7 @@ protected:
 
     static ViewMain *instance;
 
-    ViewMain()
-        : View({0, 0}, {SCREEN_W, SCREEN_H}) {}
+    ViewMain() {}
 
 public:
     static ViewMain &get()

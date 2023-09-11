@@ -2,11 +2,11 @@
 #define _UI_COMPONENT_GRANULAR_H_
 
 #include "../def.h"
-#include "../view.h"
+#include "../component.h"
 #include "../draw.h"
 #include "../host.h"
 
-class ComponentGranular : public View
+class ComponentGranular : public Component
 {
 protected:
     AudioPlugin &plugin;
@@ -19,7 +19,7 @@ public:
     const int margin = styles.margin;
 
     ComponentGranular(Point position, Size size)
-        : View(position, size), plugin(getPlugin("Granular"))
+        : Component(position, size), plugin(getPlugin("Granular"))
     {
     }
 

@@ -2,11 +2,11 @@
 #define _UI_COMPONENT_ENCODER_H_
 
 #include "../def.h"
-#include "../view.h"
+#include "../component.h"
 #include "../draw.h"
 #include "../host.h"
 
-class ComponentEncoder : public View
+class ComponentEncoder : public Component
 {
 protected:
     const char *name = NULL;
@@ -70,7 +70,7 @@ public:
     Value *value = NULL;
 
     ComponentEncoder(Point position, Size size)
-        : View(position, size)
+        : Component(position, size)
     {
     }
 

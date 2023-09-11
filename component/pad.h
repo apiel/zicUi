@@ -2,7 +2,7 @@
 #define _UI_COMPONENT_PAD_H_
 
 #include "../def.h"
-#include "../view.h"
+#include "../component.h"
 #include "../draw.h"
 
 struct PadOptions
@@ -12,7 +12,7 @@ struct PadOptions
     float releaseY = 0.0f;
 };
 
-class ComponentPad : public View
+class ComponentPad : public Component
 {
 protected:
     int drawValue(const char *c, Value *value, Point position)
@@ -42,7 +42,7 @@ public:
     const int margin = styles.margin;
 
     ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps, PadOptions options = {})
-        : View(position, size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps)), options(options)
+        : Component(position, size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps)), options(options)
     {
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s %s", valueXProps.pluginName, valueXProps.key, valueX == NULL ? "NULL" : "NOT NULL");
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s %s", valueYProps.pluginName, valueYProps.key, valueY == NULL ? "NULL" : "NOT NULL");

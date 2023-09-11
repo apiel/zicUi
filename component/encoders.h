@@ -2,7 +2,7 @@
 #define _UI_COMPONENT_ENCODERS_H_
 
 #include "../def.h"
-#include "../view.h"
+#include "../component.h"
 #include "encoder.h"
 
 struct EncodersProps
@@ -10,12 +10,12 @@ struct EncodersProps
     ValueProps props[ENCODER_COUNT];
 };
 
-class ComponentEncoders : public View
+class ComponentEncoders : public Component
 {
 protected:
     static ComponentEncoders *instance;
 
-    ComponentEncoders(): View({0, 0}, {SCREEN_W, SCREEN_H}) {}
+    ComponentEncoders(): Component({0, 0}, {SCREEN_W, SCREEN_H}) {}
 
 public:
     ComponentEncoder encoders[ENCODER_COUNT] = {
