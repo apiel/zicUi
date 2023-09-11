@@ -2,6 +2,9 @@
 
 - TODO instead of needToDraw, should push a list of thing to render, if it is the same should skip it
 
+- TODO make layout conifurable:
+    each page have a list of componenent...
+
 - TODO slider: rotate encoder 90°
 
 ```cpp

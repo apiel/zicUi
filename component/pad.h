@@ -5,10 +5,6 @@
 #include "../view.h"
 #include "../draw.h"
 
-#ifndef PAD_COUNT
-#define PAD_COUNT 2
-#endif
-
 struct PadOptions
 {
     bool holdValue = true;
@@ -45,7 +41,7 @@ public:
     Value *valueY = NULL;
     PadOptions options;
 
-    const int margin = 1;
+    const int margin = styles.margin;
 
     ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps, PadOptions options = {})
         : position(position), size(size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps)), options(options)
