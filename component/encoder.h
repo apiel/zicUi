@@ -120,6 +120,7 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
+        // FIXME need to assign encoder ID from config...
         value->set(value->get() + (direction / (float)value->stepCount()));
     }
 };
