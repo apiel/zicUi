@@ -15,14 +15,14 @@ class ComponentEncoders : public View
 protected:
     static ComponentEncoders *instance;
 
-    ComponentEncoders() {}
+    ComponentEncoders(): View({0, 0}, {SCREEN_W, SCREEN_H}) {}
 
 public:
     ComponentEncoder encoders[ENCODER_COUNT] = {
-        {{0, 0}},
-        {{SCREEN_W / ENCODER_COUNT, 0}},
-        {{SCREEN_W / ENCODER_COUNT * 2, 0}},
-        {{SCREEN_W / ENCODER_COUNT * 3, 0}},
+        {{0, 0}, styles.encoder},
+        {{SCREEN_W / ENCODER_COUNT, 0}, styles.encoder},
+        {{SCREEN_W / ENCODER_COUNT * 2, 0}, styles.encoder},
+        {{SCREEN_W / ENCODER_COUNT * 3, 0}, styles.encoder},
     };
 
     static ComponentEncoders &get()
@@ -34,7 +34,8 @@ public:
         return *instance;
     }
 
-    void set(EncodersProps props) {
+    void set(EncodersProps props)
+    {
         for (int i = 0; i < ENCODER_COUNT; ++i)
         {
             encoders[i].set(props.props[i]);
@@ -46,7 +47,8 @@ public:
         }
     }
 
-    void render(uint8_t id) {
+    void render(uint8_t id)
+    {
         encoders[id].render();
     }
 

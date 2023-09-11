@@ -9,14 +9,15 @@
 class ViewMain : public View
 {
 protected:
-    ComponentEncoders& encoders = ComponentEncoders::get();
-    ViewPad& viewPad = ViewPad::get();
+    ComponentEncoders &encoders = ComponentEncoders::get();
+    ViewPad &viewPad = ViewPad::get();
 
-    View& view = viewPad;
+    View &view = viewPad;
 
     static ViewMain *instance;
 
-    ViewMain() {}
+    ViewMain()
+        : View({0, 0}, {SCREEN_W, SCREEN_H}) {}
 
 public:
     static ViewMain &get()

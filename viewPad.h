@@ -24,6 +24,7 @@ protected:
     static ViewPad *instance;
 
     ViewPad()
+    : View({0, 0}, {SCREEN_W, SCREEN_H})
     {
         encoders.set({{{"MultiModeFilter", "CUTOFF"},
                        {"MultiModeFilter", "RESONANCE"},

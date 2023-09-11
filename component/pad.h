@@ -35,8 +35,6 @@ protected:
 
 public:
     int pointerSize = 4;
-    Point position;
-    const Size size;
     Value *valueX = NULL;
     Value *valueY = NULL;
     PadOptions options;
@@ -44,7 +42,7 @@ public:
     const int margin = styles.margin;
 
     ComponentPad(Point position, Size size, ValueProps valueXProps, ValueProps valueYProps, PadOptions options = {})
-        : position(position), size(size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps)), options(options)
+        : View(position, size), valueX(hostValue(valueXProps)), valueY(hostValue(valueYProps)), options(options)
     {
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s %s", valueXProps.pluginName, valueXProps.key, valueX == NULL ? "NULL" : "NOT NULL");
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s %s", valueYProps.pluginName, valueYProps.key, valueY == NULL ? "NULL" : "NOT NULL");

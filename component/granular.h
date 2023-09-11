@@ -14,13 +14,12 @@ protected:
     bool noteIsOn = false;
 
 public:
-    Point position;
-    const Size size;
+
 
     const int margin = styles.margin;
 
     ComponentGranular(Point position, Size size)
-        : position(position), size(size), plugin(getPlugin("Granular"))
+        : View(position, size), plugin(getPlugin("Granular"))
     {
     }
 

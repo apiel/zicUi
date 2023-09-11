@@ -7,6 +7,14 @@
 class View
 {
 public:
+    Point position;
+    const Size size;
+
+    View(Point position, Size size)
+        : position(position), size(size)
+    {
+    }
+
     virtual void render() = 0;
 
     virtual void onMotion(Motion &motion)

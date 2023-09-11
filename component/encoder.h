@@ -65,14 +65,12 @@ protected:
     }
 
 public:
-    Point position;
-    const Size size = styles.encoder;
     const int margin = styles.margin;
 
     Value *value = NULL;
 
-    ComponentEncoder(Point _position)
-        : position(_position)
+    ComponentEncoder(Point position, Size size)
+        : View(position, size)
     {
     }
 
