@@ -11,26 +11,26 @@ class ComponentValue : public Component
 protected:
     const char *name = NULL;
 
-    void drawEncoderBase(Point position, const char *name, const char *valueStr, int marginRight = 10)
+    void drawBar(Point position, float value, int stepCount)
     {
-        drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
-        drawTextRight({position.x + styles.encoder.w - marginRight, position.y + 5}, valueStr,
-                      colors.encoder.value, 20, APP_FONT_BOLD);
-
-        drawLine({position.x + 10, position.y + styles.encoder.h - 10},
-                 {position.x + styles.encoder.w - 10, position.y + styles.encoder.h - 10},
+        drawLine({position.x + 10, position.y + size.h - 10},
+                 {position.x + size.w - 10, position.y + size.h - 10},
                  colors.encoder.title);
+
+        int x = position.x + 10;
+        int y = position.y + size.h - 10;
+        int x2 = x + ((size.w - 20) * (value / (float)stepCount));
+        drawLine({x, y}, {x2, y}, colors.encoder.value);
+        drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
     void drawEncoder(Point position, const char *name, int value, const char *valueStr, int stepCount, int marginRight = 10)
     {
-        drawEncoderBase(position, name, valueStr, marginRight);
+        drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
+        drawTextRight({position.x + size.w - marginRight, position.y + 5}, valueStr,
+                      colors.encoder.value, 20, APP_FONT_BOLD);
 
-        int x = position.x + 10;
-        int y = position.y + styles.encoder.h - 10;
-        int x2 = x + ((styles.encoder.w - 20) * (value / (float)stepCount));
-        drawLine({x, y}, {x2, y}, colors.encoder.value);
-        drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
+        drawBar(position, value, stepCount);
     }
 
     void drawEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
@@ -39,7 +39,7 @@ protected:
         int marginRight = 10;
         if (unit != NULL)
         {
-            int x = position.x + styles.encoder.w - marginRight;
+            int x = position.x + size.w - marginRight;
             marginRight += 3 + (x - drawTextRight({x, position.y + 14}, unit, colors.encoder.title, 10));
         }
 
@@ -48,22 +48,27 @@ protected:
 
     void drawCenteredEncoder(Point position, const char *name, float value, int stepCount)
     {
-        drawTextCentered({(int)(position.x + (styles.encoder.w * 0.5)), position.y + 5}, name, colors.encoder.title, 12);
+        drawTextCentered({(int)(position.x + (size.w * 0.5)), position.y + 5}, name, colors.encoder.title, 12);
 
         int margin = 10;
         int val = value * stepCount;
-        drawTextRight({position.x + styles.encoder.w - margin, position.y + 5}, std::to_string(val).c_str(),
+        drawTextRight({position.x + size.w - margin, position.y + 5}, std::to_string(val).c_str(),
                       colors.encoder.value, 20, APP_FONT_BOLD);
         drawText({position.x + margin, position.y + 5}, std::to_string(100 - val).c_str(),
                  colors.encoder.value, 20, APP_FONT_BOLD);
 
-        int x = position.x + 10 + ((styles.encoder.w - 20) * 0.5);
-        int y = position.y + styles.encoder.h - 10;
-        int x2 = position.x + 10 + ((styles.encoder.w - 20) * value);
+        int x = position.x + 10 + ((size.w - 20) * 0.5);
+        int y = position.y + size.h - 10;
+        int x2 = position.x + 10 + ((size.w - 20) * value);
         drawLine({x, y}, {x2, y}, colors.encoder.value);
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
+    void drawStringEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
+    {
+        printf("-----------------------------> drawStringEncoder\n");
+        drawBar(position, value, stepCount);
+    }
 
     void render()
     {
@@ -78,13 +83,16 @@ protected:
             {
                 drawCenteredEncoder(position, value->label(), value->get(), value->stepCount());
             }
+            else if (value->type() == VALUE_STRING)
+            {
+                drawStringEncoder(position, value->label(), value->get(), value->stepCount(), value->unit());
+            }
             else
             {
                 drawEncoder(position, value->label(), value->get(), value->stepCount(), value->unit());
             }
         }
     }
-
 
 public:
     int8_t enocderId = -1;
@@ -105,7 +113,8 @@ public:
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
             set({pluginName, keyValue});
-        } else  if (strcmp(key, "ENCODER_ID") == 0)
+        }
+        else if (strcmp(key, "ENCODER_ID") == 0)
         {
             enocderId = atoi(value);
         }

@@ -86,7 +86,6 @@ struct Colors
 struct Styles
 {
     const int margin = 1;
-    Size encoder = {SCREEN_W / ENCODER_COUNT, 50};
 } styles;
 
 #endif
