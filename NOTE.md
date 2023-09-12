@@ -1,9 +1,5 @@
 # TODO
 
-- TODO instead of needToDraw, should push a list of thing to render, if it is the same should skip it
-    NOT EVEN THIS:
-    make  componenent a  flag "needToRender", and if needToRender is true, then we render
-
 - TODO make layout conifurable:
     each page have a list of componenent...
 
