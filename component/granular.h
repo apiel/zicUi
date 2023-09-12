@@ -13,24 +13,20 @@ protected:
 
     bool noteIsOn = false;
 
-public:
-
-
-    const int margin = styles.margin;
-
-    ComponentGranular(Point position, Size size)
-        : Component(position, size), plugin(getPlugin("Granular"))
-    {
-    }
-
     void render()
     {
         drawFilledRect(
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.pad.background);
+    }
 
-        drawNext();
+public:
+    const int margin = styles.margin;
+
+    ComponentGranular(Point position, Size size)
+        : Component(position, size), plugin(getPlugin("Granular"))
+    {
     }
 
     void onMotion(Motion &motion)

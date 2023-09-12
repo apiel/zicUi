@@ -7,7 +7,7 @@
 - TODO make layout conifurable:
     each page have a list of componenent...
 
-- TODO slider: rotate encoder 90°
+- TODO componentValue option rotate 90°
 
 ```cpp
 float rotationAngle = 90.0f;

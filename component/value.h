@@ -64,6 +64,28 @@ protected:
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
+
+    void render()
+    {
+        drawFilledRect(
+            {position.x + margin, position.y + margin},
+            {size.w - 2 * margin, size.h - 2 * margin},
+            colors.encoder.background);
+
+        if (value != NULL)
+        {
+            if (value->type() == VALUE_CENTERED)
+            {
+                drawCenteredEncoder(position, value->label(), value->get(), value->stepCount());
+            }
+            else
+            {
+                drawEncoder(position, value->label(), value->get(), value->stepCount(), value->unit());
+            }
+        }
+    }
+
+
 public:
     int8_t enocderId = -1;
     const int margin = styles.margin;
@@ -95,31 +117,9 @@ public:
         if (value != NULL)
         {
             value->onUpdate([](float, void *data)
-                            { ((ComponentValue *)data)->render(); },
+                            { ((ComponentValue *)data)->renderNext(); },
                             this);
         }
-    }
-
-    void render()
-    {
-        drawFilledRect(
-            {position.x + margin, position.y + margin},
-            {size.w - 2 * margin, size.h - 2 * margin},
-            colors.encoder.background);
-
-        if (value != NULL)
-        {
-            if (value->type() == VALUE_CENTERED)
-            {
-                drawCenteredEncoder(position, value->label(), value->get(), value->stepCount());
-            }
-            else
-            {
-                drawEncoder(position, value->label(), value->get(), value->stepCount(), value->unit());
-            }
-        }
-
-        drawNext();
     }
 
     void onEncoder(int id, int8_t direction)

@@ -64,11 +64,15 @@ int main()
     while (event.handle())
     {
         unsigned long now = SDL_GetTicks();
-
-        if (needToDraw && now - lastUpdate > 100)
+        if (now - lastUpdate > 50)
         {
-            draw();
-            needToDraw = false;
+            lastUpdate = now;
+            viewMain.renderComponents();
+            if (needToDraw)
+            {
+                draw();
+                needToDraw = false;
+            }
         }
         SDL_Delay(1);
     }

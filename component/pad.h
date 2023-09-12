@@ -26,6 +26,30 @@ protected:
         return x;
     }
 
+    void render()
+    {
+        drawFilledRect(
+            {position.x + margin, position.y + margin},
+            {size.w - 2 * margin, size.h - 2 * margin},
+            colors.pad.background);
+
+        if (valueX != NULL && valueY != NULL)
+        {
+            int y = position.y + size.h - 20;
+            drawValue("X:", valueX, {position.x + 10, y});
+            drawValue("Y:", valueY, {(int)(position.x + size.w * 0.5), y});
+
+            // NOTE if it is not a centered value, should draw 0 in the middle
+            // and both side from the center being positive value to 1.0 ?
+
+            drawFilledRect(
+                {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->get()),
+                 position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * (1.0 - valueY->get()))},
+                {pointerSize, pointerSize},
+                colors.pad.value);
+        }
+    }
+
 public:
     int pointerSize = 4;
     Value *valueX = NULL;
@@ -48,7 +72,7 @@ public:
         if (valueX != NULL)
         {
             valueX->onUpdate([](float, void *data)
-                             { ((ComponentPad *)data)->render(); },
+                             { ((ComponentPad *)data)->renderNext(); },
                              this);
         }
     }
@@ -60,7 +84,7 @@ public:
         if (valueY != NULL)
         {
             valueY->onUpdate([](float, void *data)
-                             { ((ComponentPad *)data)->render(); },
+                             { ((ComponentPad *)data)->renderNext(); },
                              this);
         }
     }
@@ -91,31 +115,6 @@ public:
         {
             releaseY = atof(value);
         }
-    }
-
-    void render()
-    {
-        drawFilledRect(
-            {position.x + margin, position.y + margin},
-            {size.w - 2 * margin, size.h - 2 * margin},
-            colors.pad.background);
-
-        if (valueX != NULL && valueY != NULL)
-        {
-            int y = position.y + size.h - 20;
-            drawValue("X:", valueX, {position.x + 10, y});
-            drawValue("Y:", valueY, {(int)(position.x + size.w * 0.5), y});
-
-            // NOTE if it is not a centered value, should draw 0 in the middle
-            // and both side from the center being positive value to 1.0 ?
-
-            drawFilledRect(
-                {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->get()),
-                 position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * (1.0 - valueY->get()))},
-                {pointerSize, pointerSize},
-                colors.pad.value);
-        }
-        drawNext();
     }
 
     void onMotion(Motion &motion)

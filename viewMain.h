@@ -34,11 +34,16 @@ public:
     void render()
     {
         drawClear();
+        renderComponents();
+        drawNext();
+    }
+
+    void renderComponents()
+    {
         for (auto &component : components)
         {
-            component->render();
+            component->triggerRenderer();
         }
-        drawNext();
     }
 
     void onMotion(Motion &motion)
