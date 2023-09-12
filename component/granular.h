@@ -29,13 +29,19 @@ public:
     {
     }
 
-    void onMotion(Motion &motion)
+    bool onMotion(Motion &motion)
     {
+        if (!Component::onMotion(motion))
+        {
+            return false;
+        }
+
         if (!noteIsOn)
         {
             plugin.noteOn(48, 127);
             noteIsOn = true;
         }
+        return true;
     }
 
     void onMotionRelease(Motion &motion)

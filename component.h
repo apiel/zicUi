@@ -35,8 +35,17 @@ public:
         needRendering = true;
     }
 
-    virtual void onMotion(Motion &motion)
+    virtual bool onMotion(Motion &motion)
     {
+        if (motion.in({position, size}))
+        {
+            if (motion.isStarting())
+            {
+                printf("Motion Starting\n");
+            }
+            return true;
+        }
+        return false;
     }
 
     virtual void onMotionRelease(Motion &motion)

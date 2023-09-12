@@ -117,16 +117,16 @@ public:
         }
     }
 
-    void onMotion(Motion &motion)
+    bool onMotion(Motion &motion)
     {
-        if (!motion.in({position, size}) || !motion.originIn({position, size}))
+        if (!Component::onMotion(motion) || !motion.originIn({position, size}))
         {
-            return;
+            return false;
         }
 
         if (valueX == NULL || valueY == NULL)
         {
-            return;
+            return false;
         }
 
         float x = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
@@ -139,6 +139,7 @@ public:
         {
             valueY->set(y);
         }
+        return true;
     }
 
     void onMotionRelease(Motion &motion)

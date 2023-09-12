@@ -11,6 +11,7 @@ public:
     int id;
     Point position;
     Point origin;
+    unsigned long counter = 0;
 
     Motion() : id(-1), position({0, 0}), origin({0, 0})
     {
@@ -34,12 +35,19 @@ public:
         position.y = y;
         origin.x = x;
         origin.y = y;
+        counter = 0;
     }
 
     void move(int x, int y)
     {
         position.x = x;
         position.y = y;
+        counter++;
+    }
+
+    bool isStarting()
+    {
+        return counter == 0;
     }
 
     bool in(Rect rect)
