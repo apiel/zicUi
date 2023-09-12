@@ -71,9 +71,9 @@ public:
         {
             components.push_back(new ComponentPad(position, size));
         }
-        else if (strcmp(name, "Encoder") == 0)
+        else if (strcmp(name, "Value") == 0)
         {
-            components.push_back(new ComponentEncoder(position, size));
+            components.push_back(new ComponentValue(position, size));
         }
         else if (strcmp(name, "Granular") == 0)
         {

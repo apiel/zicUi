@@ -1,12 +1,12 @@
-#ifndef _UI_COMPONENT_ENCODER_H_
-#define _UI_COMPONENT_ENCODER_H_
+#ifndef _UI_COMPONENT_VALUE_H_
+#define _UI_COMPONENT_VALUE_H_
 
 #include "../def.h"
 #include "../component.h"
 #include "../draw.h"
 #include "../host.h"
 
-class ComponentEncoder : public Component
+class ComponentValue : public Component
 {
 protected:
     const char *name = NULL;
@@ -65,12 +65,12 @@ protected:
     }
 
 public:
-    int8_t id = -1;
+    int8_t enocderId = -1;
     const int margin = styles.margin;
 
     Value *value = NULL;
 
-    ComponentEncoder(Point position, Size size)
+    ComponentValue(Point position, Size size)
         : Component(position, size)
     {
     }
@@ -83,9 +83,9 @@ public:
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
             set({pluginName, keyValue});
-        } else  if (strcmp(key, "ID") == 0)
+        } else  if (strcmp(key, "ENCODER_ID") == 0)
         {
-            id = atoi(value);
+            enocderId = atoi(value);
         }
     }
 
@@ -95,7 +95,7 @@ public:
         if (value != NULL)
         {
             value->onUpdate([](float, void *data)
-                            { ((ComponentEncoder *)data)->render(); },
+                            { ((ComponentValue *)data)->render(); },
                             this);
         }
     }
@@ -122,9 +122,9 @@ public:
         drawNext();
     }
 
-    void onEncoder(int _id, int8_t direction)
+    void onEncoder(int id, int8_t direction)
     {
-        if (id == _id)
+        if (id == enocderId)
         {
             value->set(value->get() + (direction / (float)value->stepCount()));
         }
