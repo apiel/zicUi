@@ -5,13 +5,6 @@
 #include "../component.h"
 #include "../draw.h"
 
-struct PadOptions
-{
-    bool holdValue = true;
-    float releaseX = 0.0f;
-    float releaseY = 0.0f;
-};
-
 class ComponentPad : public Component
 {
 protected:
@@ -37,7 +30,9 @@ public:
     int pointerSize = 4;
     Value *valueX = NULL;
     Value *valueY = NULL;
-    PadOptions options;
+    bool holdValue = true;
+    float releaseX = 0.0f;
+    float releaseY = 0.0f;
 
     const int margin = styles.margin;
 
@@ -46,22 +41,55 @@ public:
     {
     }
 
-    void set(ValueProps valueXProps, ValueProps valueYProps, PadOptions options = {})
+    void setValueX(ValueProps value)
     {
-        valueX = hostValue(valueXProps);
-        valueY = hostValue(valueYProps);
-        this->options = options;
-        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s %s", valueXProps.pluginName, valueXProps.key, valueX == NULL ? "NULL" : "NOT NULL");
-        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s %s", valueYProps.pluginName, valueYProps.key, valueY == NULL ? "NULL" : "NOT NULL");
-        if (valueY != NULL && valueX != NULL)
+        valueX = hostValue(value);
+        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s", value.pluginName, value.key);
+        if (valueX != NULL)
         {
             valueX->onUpdate([](float, void *data)
                              { ((ComponentPad *)data)->render(); },
                              this);
+        }
+    }
 
+    void setValueY(ValueProps value)
+    {
+        valueY = hostValue(value);
+        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s", value.pluginName, value.key);
+        if (valueY != NULL)
+        {
             valueY->onUpdate([](float, void *data)
                              { ((ComponentPad *)data)->render(); },
                              this);
+        }
+    }
+
+    void config(char *key, char *value)
+    {
+        if (strcmp(key, "VALUE_X") == 0)
+        {
+            char *pluginName = strtok(value, " ");
+            char *keyValue = strtok(NULL, " ");
+            setValueX({pluginName, keyValue});
+        }
+        else if (strcmp(key, "VALUE_Y") == 0)
+        {
+            char *pluginName = strtok(value, " ");
+            char *keyValue = strtok(NULL, " ");
+            setValueY({pluginName, keyValue});
+        }
+        else if (strcmp(key, "HOLD_VALUE") == 0)
+        {
+            holdValue = strcmp(value, "true") == 0;
+        }
+        else if (strcmp(key, "RELEASE_X") == 0)
+        {
+            releaseX = atof(value);
+        }
+        else if (strcmp(key, "RELEASE_Y") == 0)
+        {
+            releaseY = atof(value);
         }
     }
 
@@ -116,10 +144,10 @@ public:
 
     void onMotionRelease(Motion &motion)
     {
-        if (options.holdValue == false && valueX != NULL && valueY != NULL)
+        if (holdValue == false && valueX != NULL && valueY != NULL)
         {
-            valueX->set(options.releaseX);
-            valueY->set(options.releaseY);
+            valueX->set(releaseX);
+            valueY->set(releaseY);
         }
     }
 };
