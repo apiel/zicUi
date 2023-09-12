@@ -65,6 +65,7 @@ protected:
     }
 
 public:
+    int8_t id = -1;
     const int margin = styles.margin;
 
     Value *value = NULL;
@@ -82,6 +83,9 @@ public:
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
             set({pluginName, keyValue});
+        } else  if (strcmp(key, "ID") == 0)
+        {
+            id = atoi(value);
         }
     }
 
@@ -118,10 +122,12 @@ public:
         drawNext();
     }
 
-    void onEncoder(int id, int8_t direction)
+    void onEncoder(int _id, int8_t direction)
     {
-        // FIXME need to assign encoder ID from config...
-        value->set(value->get() + (direction / (float)value->stepCount()));
+        if (id == _id)
+        {
+            value->set(value->get() + (direction / (float)value->stepCount()));
+        }
     }
 };
 
