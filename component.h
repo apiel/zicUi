@@ -46,7 +46,7 @@ public:
         {
             if (motion.isStarting())
             {
-                printf("Motion Starting, set encoderRootIndex %d\n", encoderRootIndex);
+                // printf("Motion Starting, set encoderRootIndex %d\n", encoderRootIndex);
                 setEncoderRootIndex(encoderRootIndex);
             }
             onMotion(motion);
@@ -69,6 +69,17 @@ public:
 
     virtual void config(char *key, char *value)
     {
+    }
+    virtual void baseConfig(char *key, char *value)
+    {
+        if (strcmp(key, "ENCODER_ROOT_INDEX") == 0)
+        {
+            encoderRootIndex = atoi(value);
+        }
+        else
+        {
+            config(key, value);
+        }
     }
 };
 

@@ -27,7 +27,6 @@ public:
     ComponentGranular(Point position, Size size)
         : Component(position, size), plugin(getPlugin("Granular"))
     {
-        Component::encoderRootIndex = 4;
     }
 
     void onMotion(Motion &motion)

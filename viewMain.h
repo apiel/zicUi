@@ -101,7 +101,7 @@ public:
         }
         else
         {
-            components.back()->config(key, value);
+            components.back()->baseConfig(key, value);
         }
     }
 
