@@ -9,4 +9,16 @@ SDL_Texture* texture = NULL;
 
 bool needToDraw = false;
 
+uint8_t encoderRootIndex = 0;
+
+void setEncoderRootIndex(uint8_t index)
+{
+    encoderRootIndex = index;
+}
+
+void resetEncoderRootIndex()
+{
+    encoderRootIndex = 0;
+}
+
 #endif

@@ -50,7 +50,7 @@ public:
     {
         for (auto &component : components)
         {
-            component->onMotion(motion);
+            component->handleMotion(motion);
         }
     }
 
@@ -58,7 +58,7 @@ public:
     {
         for (auto &component : components)
         {
-            component->onMotionRelease(motion);
+            component->handleMotionRelease(motion);
         }
     }
 
@@ -66,7 +66,7 @@ public:
     {
         for (auto &component : components)
         {
-            component->onEncoder(id, direction);
+            component->onEncoder(id + encoderRootIndex, direction);
         }
     }
 

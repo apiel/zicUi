@@ -27,25 +27,21 @@ public:
     ComponentGranular(Point position, Size size)
         : Component(position, size), plugin(getPlugin("Granular"))
     {
+        Component::encoderRootIndex = 4;
     }
 
-    bool onMotion(Motion &motion)
+    void onMotion(Motion &motion)
     {
-        if (!Component::onMotion(motion))
-        {
-            return false;
-        }
-
         if (!noteIsOn)
         {
             plugin.noteOn(48, 127);
             noteIsOn = true;
         }
-        return true;
     }
 
     void onMotionRelease(Motion &motion)
     {
+        Component::onMotionRelease(motion);
         if (noteIsOn)
         {
             plugin.noteOff(48, 0);

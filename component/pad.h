@@ -117,16 +117,16 @@ public:
         }
     }
 
-    bool onMotion(Motion &motion)
+    void onMotion(Motion &motion)
     {
-        if (!Component::onMotion(motion) || !motion.originIn({position, size}))
+        if (!motion.originIn({position, size}))
         {
-            return false;
+            return;
         }
 
         if (valueX == NULL || valueY == NULL)
         {
-            return false;
+            return;
         }
 
         float x = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
@@ -139,11 +139,11 @@ public:
         {
             valueY->set(y);
         }
-        return true;
     }
 
     void onMotionRelease(Motion &motion)
     {
+        Component::onMotionRelease(motion);
         if (holdValue == false && valueX != NULL && valueY != NULL && (valueX->get() != releaseX || valueY->get() != releaseY))
         {
             valueX->set(releaseX);

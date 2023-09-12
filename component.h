@@ -14,6 +14,7 @@ public:
     Point position;
     const Size size;
     bool needRendering = true;
+    uint8_t encoderRootIndex = 0;
 
     Component(Point position, Size size)
         : position(position), size(size)
@@ -35,21 +36,31 @@ public:
         needRendering = true;
     }
 
-    virtual bool onMotion(Motion &motion)
+    virtual void onMotion(Motion &motion)
+    {
+    }
+
+    virtual void handleMotion(Motion &motion)
     {
         if (motion.in({position, size}))
         {
             if (motion.isStarting())
             {
-                printf("Motion Starting\n");
+                printf("Motion Starting, set encoderRootIndex %d\n", encoderRootIndex);
+                setEncoderRootIndex(encoderRootIndex);
             }
-            return true;
+            onMotion(motion);
         }
-        return false;
     }
 
     virtual void onMotionRelease(Motion &motion)
     {
+    }
+
+    virtual void handleMotionRelease(Motion &motion)
+    {
+        resetEncoderRootIndex();
+        onMotionRelease(motion);
     }
 
     virtual void onEncoder(int id, int8_t direction)
