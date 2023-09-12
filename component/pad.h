@@ -143,7 +143,7 @@ public:
 
     void onMotionRelease(Motion &motion)
     {
-        if (holdValue == false && valueX != NULL && valueY != NULL)
+        if (holdValue == false && valueX != NULL && valueY != NULL && (valueX->get() != releaseX || valueY->get() != releaseY))
         {
             valueX->set(releaseX);
             valueY->set(releaseY);
