@@ -93,7 +93,8 @@ struct Colors
         // SDL_Color start = {0xad, 0xcd, 0xff, 125};   // #adcdff
         // SDL_Color start = {0x36, 0x77, 0xd9, 125};   // #3677d9
         // SDL_Color start = {0xff, 0xff, 0xff, 70};
-        SDL_Color start = {0xd1, 0xe3, 0xff, 70};       // #d1e3ff
+        // SDL_Color start = {0xd1, 0xe3, 0xff, 70};       // #d1e3ff
+        SDL_Color start = {0xd1, 0xe3, 0xff, 30};       // #d1e3ff
     } granular;
 } colors;
 

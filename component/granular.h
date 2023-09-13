@@ -12,6 +12,7 @@ protected:
     AudioPlugin &plugin;
     Value *browser = hostValue({"Granular", "BROWSER"});
     Value *start = hostValue({"Granular", "START"});
+    Value *grainSize = hostValue({"Granular", "GRAIN_SIZE"});
 
     bool noteIsOn = false;
 
@@ -53,7 +54,12 @@ protected:
         renderSampleWaveform();
 
         int x = position.x + margin + (start->get() * (size.w - 2 * margin));
-        drawLine({x, position.y + margin}, {x, position.y + margin + size.h}, colors.granular.start);
+        int end = (grainSize->get() * (size.w - 2 * margin));
+
+        // drawLine({x, position.y + margin}, {x, position.y + margin + size.h}, colors.granular.start);
+        // drawLine({xEnd, position.y + margin}, {x + end, position.y + margin + size.h}, colors.granular.start);
+
+        drawFilledRect({x, position.y + margin}, {end, size.h}, colors.granular.start);
     }
 
 public:
