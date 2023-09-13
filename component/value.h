@@ -28,7 +28,7 @@ protected:
     {
         drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
         drawTextRight({position.x + size.w - marginRight, position.y + 5}, valueStr,
-                      colors.encoder.value, 20, APP_FONT_BOLD);
+                      colors.encoder.value, 20, {APP_FONT_BOLD});
 
         drawBar(position, value, stepCount);
     }
@@ -53,9 +53,9 @@ protected:
         int margin = 10;
         int val = value * stepCount;
         drawTextRight({position.x + size.w - margin, position.y + 5}, std::to_string(val).c_str(),
-                      colors.encoder.value, 20, APP_FONT_BOLD);
+                      colors.encoder.value, 20, {APP_FONT_BOLD});
         drawText({position.x + margin, position.y + 5}, std::to_string(100 - val).c_str(),
-                 colors.encoder.value, 20, APP_FONT_BOLD);
+                 colors.encoder.value, 20, {APP_FONT_BOLD});
 
         int x = position.x + 10 + ((size.w - 20) * 0.5);
         int y = position.y + size.h - 10;
@@ -66,7 +66,7 @@ protected:
 
     void drawStringEncoder(Point position, const char *stringValue, float value, int stepCount)
     {
-        drawText({position.x + 10, position.y + 5}, stringValue, colors.encoder.value, 12);
+        drawText({position.x + 10, position.y + 5}, stringValue, colors.encoder.value, 12, {.maxWidth = size.w - 20});
         char valueStr[20];
         sprintf(valueStr, "%d / %d", (int)(value * stepCount), stepCount);
         drawTextRight({position.x + size.w - 10, position.y + 25}, valueStr, colors.encoder.title, 10);

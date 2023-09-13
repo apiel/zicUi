@@ -15,10 +15,10 @@ protected:
         int val = value->get() * value->stepCount();
         if (value->type() == VALUE_CENTERED)
         {
-            x = drawText({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.encoder.value, 12, APP_FONT_BOLD);
+            x = drawText({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
         }
         x = drawText({x + 3, position.y}, value->label(), colors.encoder.title, 12);
-        x = drawText({x + 3, position.y}, std::to_string(val).c_str(), colors.encoder.value, 12, APP_FONT_BOLD);
+        x = drawText({x + 3, position.y}, std::to_string(val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
         if (value->unit() != NULL)
         {
             x = drawText({x + 2, position.y}, value->unit(), colors.encoder.title, 10);

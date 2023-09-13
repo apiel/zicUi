@@ -37,9 +37,8 @@ SDL_Surface *getTextSurface(const char *text, SDL_Color color, uint32_t size, co
     return surface;
 }
 
-void textToRenderer(Point position, SDL_Surface *surface)
+void textToRenderer(Point position, SDL_Surface *surface, int maxWidth)
 {
-    SDL_Rect rect = {position.x, position.y, surface->w, surface->h};
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (texture == NULL)
@@ -47,33 +46,45 @@ void textToRenderer(Point position, SDL_Surface *surface)
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create texture\n");
         return;
     }
-    SDL_RenderCopy(renderer, texture, NULL, &rect);
+    // SDL_Rect rect = {position.x, position.y, surface->w, surface->h};
+    // SDL_RenderCopy(renderer, texture, NULL, &rect);
+
+    int w = maxWidth < surface->w ? maxWidth : surface->w;
+    SDL_Rect rect1 = {0, 0, w, surface->h};
+    SDL_Rect rect2 = {position.x, position.y, w, surface->h};
+    SDL_RenderCopy(renderer, texture, &rect1, &rect2);
     SDL_DestroyTexture(texture);
 }
 
-void drawTextCentered(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, const char *fontPath = APP_FONT)
+struct DrawTextOptions
 {
-    SDL_Surface *surface = getTextSurface(text, color, size, fontPath);
+    const char *fontPath = APP_FONT;
+    int maxWidth = SCREEN_W;
+};
+
+void drawTextCentered(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
+{
+    SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
     int x = position.x - (surface->w * 0.5);
-    textToRenderer({x, position.y}, surface);
+    textToRenderer({x, position.y}, surface, options.maxWidth);
     SDL_FreeSurface(surface);
 }
 
-int drawText(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, const char *fontPath = APP_FONT)
+int drawText(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
 {
-    SDL_Surface *surface = getTextSurface(text, color, size, fontPath);
-    textToRenderer(position, surface);
+    SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
+    textToRenderer(position, surface, options.maxWidth);
     int xEnd = position.x + surface->w;
     SDL_FreeSurface(surface);
 
     return xEnd;
 }
 
-int drawTextRight(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, const char *fontPath = APP_FONT)
+int drawTextRight(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
 {
-    SDL_Surface *surface = getTextSurface(text, color, size, fontPath);
+    SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
     int x = position.x - surface->w;
-    textToRenderer({x, position.y}, surface);
+    textToRenderer({x, position.y}, surface, options.maxWidth);
     SDL_FreeSurface(surface);
 
     return x;
