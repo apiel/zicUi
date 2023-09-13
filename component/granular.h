@@ -10,16 +10,25 @@ class ComponentGranular : public Component
 {
 protected:
     AudioPlugin &plugin;
+    Value *value = hostValue({"Granular", "BROWSER"});
 
     bool noteIsOn = false;
 
     SDL_Texture *textureSampleWaveform = NULL;
+    float lastSampleBrowserPosition = -1.0f;
 
     void renderSampleWaveform()
     {
         Size textureSize = {size.w - 2 * margin, size.h - 2 * margin};
+        if (lastSampleBrowserPosition != value->get())
+        {
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Sample browser position changed, clear textureSampleWaveform.");
+            SDL_DestroyTexture(textureSampleWaveform);
+            textureSampleWaveform = NULL;
+        }
         if (textureSampleWaveform == NULL)
         {
+            lastSampleBrowserPosition = value->get();
             textureSampleWaveform = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, textureSize.w, textureSize.h);
             SDL_SetRenderTarget(renderer, textureSampleWaveform);
 
@@ -40,30 +49,10 @@ protected:
         SDL_Rect rect = {position.x + margin, position.y + margin, textureSize.w, textureSize.h};
         SDL_RenderCopy(renderer, textureSampleWaveform, NULL, &rect);
         SDL_RenderPresent(renderer);
-
-        // we wll destroy when changing sample value...
-        // SDL_DestroyTexture(textureSampleWaveform);
     }
 
     void render()
     {
-        // drawFilledRect(
-        //     {position.x + margin, position.y + margin},
-        //     {size.w - 2 * margin, size.h - 2 * margin},
-        //     colors.pad.background);
-
-        // uint64_t *samplesCount = (uint64_t *)plugin.data(0);
-        // float *bufferSamples = (float *)plugin.data(1);
-        // int h = (size.h - 2 * margin) * 0.5f;
-        // for (int i = 0; i < *samplesCount; i++)
-        // {
-        //     int x = position.x + margin + (i * (size.w - 2 * margin) / *samplesCount);
-        //     float sample = bufferSamples[i];
-        //     int sampleHeight = (int)(sample * h);
-        //     int y1 = position.y + margin + (h - sampleHeight);
-        //     int y2 = position.y + margin + (h + sampleHeight);
-        //     drawLine({x, y1}, {x, y2}, colors.encoder.title);
-        // }
         renderSampleWaveform();
     }
 
