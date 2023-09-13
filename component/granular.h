@@ -19,6 +19,25 @@ protected:
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.pad.background);
+
+        uint64_t *samplesCount = (uint64_t *)plugin.data(0);
+        float *bufferSamples = (float *)plugin.data(1);
+        // printf("-------------------> samplesCount: %lu\n", *samplesCount);
+
+        // loop through all samples and creat a graph
+        int h = (size.h - 2 * margin) * 0.5f;
+        for (int i = 0; i < *samplesCount; i++)
+        {
+            // drawBar({position.x + margin, position.y + margin},
+            //         bufferSamples[i], *samplesCount);
+
+            int x = position.x + margin + (i * (size.w - 2 * margin) / *samplesCount);
+            float sample = bufferSamples[i];
+            int sampleHeight = (int)(sample * h);
+            int y1 = position.y + margin + (h - sampleHeight);
+            int y2 = position.y + margin + (h + sampleHeight);
+            drawLine({x, y1}, {x, y2}, colors.encoder.title);
+        }
     }
 
 public:

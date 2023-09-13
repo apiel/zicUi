@@ -66,7 +66,6 @@ protected:
 
     void drawStringEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
     {
-        printf("-----------------------------> drawStringEncoder\n");
         drawBar(position, value, stepCount);
     }
 
