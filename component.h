@@ -42,6 +42,11 @@ public:
 
     virtual void handleMotion(Motion &motion)
     {
+        if (!motion.originIn({position, size}))
+        {
+            return;
+        }
+        
         if (motion.in({position, size}))
         {
             if (motion.isStarting())

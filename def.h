@@ -62,29 +62,38 @@ struct Rect
 struct CoreColors
 {
     SDL_Color white = {255, 255, 255, 255};
-    SDL_Color background = {0x21, 0x25, 0x2b, 255}; // #21252b
-    SDL_Color foreground = {0x2b, 0x2c, 0x2e, 255}; // #2b2c2e
-    SDL_Color foreground2 = { 0x38, 0x3a, 0x3d, 255 }; // #384a3d
+    SDL_Color background = {0x21, 0x25, 0x2b, 255};  // #21252b
+    SDL_Color foreground = {0x2b, 0x2c, 0x2e, 255};  // #2b2c2e
+    SDL_Color foreground2 = {0x38, 0x3a, 0x3d, 255}; // #384a3d
     SDL_Color font = this->white;
-        SDL_Color value = { 0xad, 0xcd, 0xff, 255 }; // #adcdff
+    SDL_Color value = {0xad, 0xcd, 0xff, 255}; // #adcdff
 } coreColors;
 
 struct Colors
 {
     CoreColors core = coreColors;
-    struct Encoder {
+    struct Encoder
+    {
         // SDL_Color background = coreColors.foreground2;
-        SDL_Color background = { 0x47, 0x56, 0x6e, 255 }; // #47566e
-        SDL_Color title = { 0x7c, 0x98, 0xc4, 255 }; // #7c98c4
+        SDL_Color background = {0x47, 0x56, 0x6e, 255}; // #47566e
+        SDL_Color title = {0x7c, 0x98, 0xc4, 255};      // #7c98c4
         SDL_Color value = coreColors.value;
     } encoder;
-    struct Pad {
+    struct Pad
+    {
         SDL_Color background = coreColors.foreground;
         SDL_Color value = coreColors.value;
     } pad;
 
-    struct granular {
-        SDL_Color sampleName = { 0x47, 0x56, 0x6e, 255 }; // #47566e
+    struct granular
+    {
+        SDL_Color background = coreColors.foreground;
+        SDL_Color sampleName = {0x47, 0x56, 0x6e, 255}; // #47566e
+        SDL_Color samples = {0x7c, 0x98, 0xc4, 255};    // #7c98c4
+        // SDL_Color start = {0xad, 0xcd, 0xff, 125};   // #adcdff
+        // SDL_Color start = {0x36, 0x77, 0xd9, 125};   // #3677d9
+        // SDL_Color start = {0xff, 0xff, 0xff, 70};
+        SDL_Color start = {0xd1, 0xe3, 0xff, 70};       // #d1e3ff
     } granular;
 } colors;
 

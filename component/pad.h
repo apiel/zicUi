@@ -119,11 +119,6 @@ public:
 
     void onMotion(Motion &motion)
     {
-        if (!motion.originIn({position, size}))
-        {
-            return;
-        }
-
         if (valueX == NULL || valueY == NULL)
         {
             return;
