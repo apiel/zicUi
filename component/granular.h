@@ -16,12 +16,12 @@ protected:
 
     bool noteIsOn = false;
 
+    Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
     float lastSampleBrowserPosition = -1.0f;
 
     void renderSampleWaveform()
     {
-        Size textureSize = {size.w - 2 * margin, size.h - 2 * margin};
         if (textureSampleWaveform == NULL)
         {
             lastSampleBrowserPosition = browser->get();
@@ -53,9 +53,13 @@ protected:
     {
         renderSampleWaveform();
 
-        int x = position.x + margin + (start->get() * (size.w - 2 * margin));
-        int end = (grainSize->get() * (size.w - 2 * margin));
-        drawFilledRect({x, position.y + margin}, {end, size.h}, colors.granular.start);
+        int x = position.x + margin + (start->get() * (textureSize.w));
+        int w = (grainSize->get() * (textureSize.w));
+        if (x + w > position.x + textureSize.w)
+        {
+            w -= (x + w) - (position.x + textureSize.w);
+        }
+        drawFilledRect({x, position.y + margin}, {w, textureSize.h}, colors.granular.start);
     }
 
 public:
@@ -64,6 +68,7 @@ public:
     ComponentGranular(Point position, Size size)
         : Component(position, size), plugin(getPlugin("Granular"))
     {
+        textureSize = {size.w - 2 * margin, size.h - 2 * margin};
         if (start != NULL)
         {
             start->onUpdate([](float, void *data)
@@ -97,7 +102,7 @@ public:
         {
             xStart = start->get();
         }
-        float x = xStart + (motion.position.x - motion.origin.x) / (float)(size.w - 2 * margin);
+        float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
         if (x - start->get() > 0.01 || start->get() - x > 0.01)
         {
             start->set(x);
