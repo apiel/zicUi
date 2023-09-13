@@ -104,6 +104,11 @@ public:
         return plugin.getValue(index);
     }
 
+    char *string()
+    {
+        return plugin.getValueString(index);
+    }
+
     void set(float value)
     {
         plugin.setValue(index, value);

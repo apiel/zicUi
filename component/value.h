@@ -64,8 +64,12 @@ protected:
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
-    void drawStringEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
+    void drawStringEncoder(Point position, const char *stringValue, float value, int stepCount)
     {
+        drawText({position.x + 10, position.y + 5}, stringValue, colors.encoder.value, 12);
+        char valueStr[20];
+        sprintf(valueStr, "%d / %d", (int)(value * stepCount), stepCount);
+        drawTextRight({position.x + size.w - 10, position.y + 25}, valueStr, colors.encoder.title, 10);
         drawBar(position, value, stepCount);
     }
 
@@ -84,7 +88,7 @@ protected:
             }
             else if (value->type() == VALUE_STRING)
             {
-                drawStringEncoder(position, value->label(), value->get(), value->stepCount(), value->unit());
+                drawStringEncoder(position, value->string(), value->get(), value->stepCount());
             }
             else
             {
