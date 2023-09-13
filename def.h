@@ -82,6 +82,10 @@ struct Colors
         SDL_Color background = coreColors.foreground;
         SDL_Color value = coreColors.value;
     } pad;
+
+    struct granular {
+        SDL_Color sampleName = { 0x47, 0x56, 0x6e, 255 }; // #47566e
+    } granular;
 } colors;
 
 struct Styles

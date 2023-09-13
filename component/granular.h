@@ -20,12 +20,6 @@ protected:
     void renderSampleWaveform()
     {
         Size textureSize = {size.w - 2 * margin, size.h - 2 * margin};
-        if (lastSampleBrowserPosition != value->get())
-        {
-            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Sample browser position changed, clear textureSampleWaveform.");
-            SDL_DestroyTexture(textureSampleWaveform);
-            textureSampleWaveform = NULL;
-        }
         if (textureSampleWaveform == NULL)
         {
             lastSampleBrowserPosition = value->get();
@@ -44,6 +38,8 @@ protected:
                 int y2 = margin + (h + (int)(bufferSamples[i] * h));
                 drawLine({x, y1}, {x, y2}, colors.encoder.title);
             }
+
+            drawText({10, 5}, value->string(), colors.granular.sampleName, 12);
             SDL_SetRenderTarget(renderer, texture);
         }
         SDL_Rect rect = {position.x + margin, position.y + margin, textureSize.w, textureSize.h};
@@ -62,6 +58,18 @@ public:
     ComponentGranular(Point position, Size size)
         : Component(position, size), plugin(getPlugin("Granular"))
     {
+    }
+
+    virtual void triggerRenderer() override
+    {
+        if (lastSampleBrowserPosition != value->get())
+        {
+            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Sample browser position changed, clear textureSampleWaveform.");
+            SDL_DestroyTexture(textureSampleWaveform);
+            textureSampleWaveform = NULL;
+            needRendering = true;
+        }
+        Component::triggerRenderer();
     }
 
     void onMotion(Motion &motion)
