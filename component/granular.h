@@ -55,10 +55,6 @@ protected:
 
         int x = position.x + margin + (start->get() * (size.w - 2 * margin));
         int end = (grainSize->get() * (size.w - 2 * margin));
-
-        // drawLine({x, position.y + margin}, {x, position.y + margin + size.h}, colors.granular.start);
-        // drawLine({xEnd, position.y + margin}, {x + end, position.y + margin + size.h}, colors.granular.start);
-
         drawFilledRect({x, position.y + margin}, {end, size.h}, colors.granular.start);
     }
 
@@ -88,6 +84,7 @@ public:
         Component::triggerRenderer();
     }
 
+    float xStart = 0.0;
     void onMotion(Motion &motion)
     {
         if (!noteIsOn)
@@ -96,7 +93,11 @@ public:
             noteIsOn = true;
         }
 
-        float x = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
+        if (motion.isStarting())
+        {
+            xStart = start->get();
+        }
+        float x = xStart + (motion.position.x - motion.origin.x) / (float)(size.w - 2 * margin);
         if (x - start->get() > 0.01 || start->get() - x > 0.01)
         {
             start->set(x);

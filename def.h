@@ -90,10 +90,6 @@ struct Colors
         SDL_Color background = coreColors.foreground;
         SDL_Color sampleName = {0x47, 0x56, 0x6e, 255}; // #47566e
         SDL_Color samples = {0x7c, 0x98, 0xc4, 255};    // #7c98c4
-        // SDL_Color start = {0xad, 0xcd, 0xff, 125};   // #adcdff
-        // SDL_Color start = {0x36, 0x77, 0xd9, 125};   // #3677d9
-        // SDL_Color start = {0xff, 0xff, 0xff, 70};
-        // SDL_Color start = {0xd1, 0xe3, 0xff, 70};       // #d1e3ff
         SDL_Color start = {0xd1, 0xe3, 0xff, 30};       // #d1e3ff
     } granular;
 } colors;
