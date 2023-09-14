@@ -19,7 +19,7 @@ protected:
     Value *spray = hostValue({"Granular", "SPRAY"});
     float lastSpray = -1.0f;
 
-    bool noteIsOn = false;
+    int motionId = -1;
 
     Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
@@ -67,7 +67,7 @@ protected:
     void renderInfo()
     {
         char info[256];
-        snprintf(info, sizeof(info), "Start: %d%% Size: %d%% Spray: %d%%",
+        snprintf(info, sizeof(info), "Start %d%% Size %d%% Spray %d%%",
                  (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100));
         drawText({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.granular.info, 12);
     }
@@ -110,27 +110,29 @@ public:
     float xStart = 0.0;
     void onMotion(Motion &motion)
     {
-        if (!noteIsOn)
+        if (motionId == -1)
         {
             plugin.noteOn(48, 127);
-            noteIsOn = true;
-        }
-
-        if (motion.isStarting())
-        {
+            motionId = motion.id;
             xStart = start->get();
         }
-        float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
-        if (x - start->get() > 0.01 || start->get() - x > 0.01)
-        {
-            start->set(x);
-        }
 
-        float rangeMargin = 40;
-        float y = 1.0 - (motion.position.y - position.y - margin - rangeMargin) / (float)(textureSize.h - (rangeMargin * 2));
-        if (y - spray->get() > 0.01 || spray->get() - y > 0.01)
+printf("Granular Motion %d: %d %d\n", motion.id, motion.position.x, motion.position.y);
+
+        if (motionId == motion.id)
         {
-            spray->set(y);
+            float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
+            if (x - start->get() > 0.01 || start->get() - x > 0.01)
+            {
+                start->set(x);
+            }
+
+            float rangeMargin = 40;
+            float y = 1.0 - (motion.position.y - position.y - margin - rangeMargin) / (float)(textureSize.h - (rangeMargin * 2));
+            if (y - spray->get() > 0.01 || spray->get() - y > 0.01)
+            {
+                spray->set(y);
+            }
         }
 
         // y change spray / or density
@@ -140,10 +142,10 @@ public:
     void onMotionRelease(Motion &motion)
     {
         Component::onMotionRelease(motion);
-        if (noteIsOn)
+        if (motionId == motion.id)
         {
+            motionId = -1;
             plugin.noteOff(48, 0);
-            noteIsOn = false;
         }
     }
 };

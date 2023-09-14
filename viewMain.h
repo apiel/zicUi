@@ -48,6 +48,8 @@ public:
 
     void onMotion(Motion &motion)
     {
+        printf("Motion %d: %d %d\n", motion.id, motion.position.x, motion.position.y);
+
         for (auto &component : components)
         {
             component->handleMotion(motion);
@@ -56,6 +58,8 @@ public:
 
     void onMotionRelease(Motion &motion)
     {
+        printf("Motion RELEASE %d: %d %d\n", motion.id, motion.position.x, motion.position.y);
+
         for (auto &component : components)
         {
             component->handleMotionRelease(motion);

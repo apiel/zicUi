@@ -15,3 +15,5 @@ See also https://www.parallelrealities.co.uk/tutorials/ttf/ttf1.php
 `blitRotated` is actually using `SDL_RenderCopyEx` https://www.parallelrealities.co.uk/tutorials/bad/bad2.php
 
 - TODO components should be library to load
+
+- TODO should we show the grains???
