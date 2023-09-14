@@ -45,6 +45,7 @@ protected:
             if (motions[i].id < oldest.id)
             {
                 oldest = motions[i];
+                printf("Older %d\n", i);
             }
         }
         return oldest;
