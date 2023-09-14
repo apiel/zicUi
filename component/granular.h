@@ -108,19 +108,20 @@ public:
         Component::triggerRenderer();
     }
 
-    float xStart = 0.0;
+    float startOrigin = 0.0;
+    float sizeOrigin = 0.0;
     void onMotion(Motion &motion)
     {
         if (motion1 == NULL)
         {
             plugin.noteOn(48, 127);
             motion1 = &motion;
-            xStart = start->get();
+            startOrigin = start->get();
         }
 
         if (motion1 == &motion)
         {
-            float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
+            float x = startOrigin + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
             if (x - start->get() > 0.01 || start->get() - x > 0.01)
             {
                 start->set(x);
@@ -136,11 +137,13 @@ public:
         else if (motion2 == NULL)
         {
             motion2 = &motion;
+            sizeOrigin = grainSize->get();
         }
 
         if (motion2 == &motion)
         {
-            float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
+            // float x = startOrigin + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
+            float x = sizeOrigin + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
             if (x - grainSize->get() > 0.01 || grainSize->get() - x > 0.01)
             {
                 grainSize->set(x);
