@@ -34,17 +34,18 @@ protected:
                 return &motions[i];
             }
         }
+        printf("Motion %d not found\n", id);
         return NULL;
     }
 
-    Motion &getOldestMotion()
+    Motion *getOldestMotion()
     {
-        Motion &oldest = motions[0];
+        Motion *oldest = &motions[0];
         for (int i = 1; i < MAX_SCREEN_MOTION; ++i)
         {
-            if (motions[i].id < oldest.id)
+            if (motions[i].id < oldest->id)
             {
-                oldest = motions[i];
+                oldest = &motions[i];
                 printf("Older %d\n", i);
             }
         }
@@ -83,9 +84,9 @@ protected:
 
     void handleMotionDown(int x, int y, int id)
     {
-        Motion &motion = getOldestMotion();
-        motion.init(id, x, y);
-        viewMain.onMotion(motion);
+        Motion *motion = getOldestMotion();
+        motion->init(id, x, y);
+        viewMain.onMotion(*motion);
     }
 
     void emulateEncoder(SDL_MouseWheelEvent wheel)
