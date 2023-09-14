@@ -11,7 +11,7 @@ class ComponentValue : public Component
 protected:
     const char *name = NULL;
 
-    void drawBar(Point position, float value, int stepCount)
+    void drawBar(Point position, float value)
     {
         drawLine({position.x + 10, position.y + size.h - 10},
                  {position.x + size.w - 10, position.y + size.h - 10},
@@ -19,18 +19,9 @@ protected:
 
         int x = position.x + 10;
         int y = position.y + size.h - 10;
-        int x2 = x + ((size.w - 20) * (value / (float)stepCount));
+        int x2 = x + ((size.w - 20) * value);
         drawLine({x, y}, {x2, y}, colors.encoder.value);
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
-    }
-
-    void drawEncoder(Point position, const char *name, int value, const char *valueStr, int stepCount, int marginRight = 10)
-    {
-        drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
-        drawTextRight({position.x + size.w - marginRight, position.y + 5}, valueStr,
-                      colors.encoder.value, 20, {APP_FONT_BOLD});
-
-        drawBar(position, value, stepCount);
     }
 
     void drawEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
@@ -43,7 +34,11 @@ protected:
             marginRight += 3 + (x - drawTextRight({x, position.y + 14}, unit, colors.encoder.title, 10));
         }
 
-        drawEncoder(position, name, val, std::to_string(val).c_str(), stepCount, marginRight);
+        drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
+        drawTextRight({position.x + size.w - marginRight, position.y + 5}, std::to_string(val).c_str(),
+                      colors.encoder.value, 20, {APP_FONT_BOLD});
+
+        drawBar(position, value);
     }
 
     void drawCenteredEncoder(Point position, const char *name, float value, int stepCount)
@@ -68,9 +63,9 @@ protected:
     {
         drawText({position.x + 10, position.y + 5}, stringValue, colors.encoder.value, 12, {.maxWidth = size.w - 20});
         char valueStr[20];
-        sprintf(valueStr, "%d / %d", (int)(value * stepCount), stepCount);
+        sprintf(valueStr, "%d / %d", (int)((value * stepCount) + 1), stepCount + 1);
         drawTextRight({position.x + size.w - 10, position.y + 25}, valueStr, colors.encoder.title, 10);
-        drawBar(position, value, stepCount);
+        drawBar(position, value);
     }
 
     void render()
