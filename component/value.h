@@ -42,6 +42,27 @@ protected:
         drawBar();
     }
 
+    void drawCenteredBar()
+    {
+        int x = position.x + 10 + ((size.w - 20) * 0.5);
+        int y = position.y + size.h - 10;
+        int x2 = position.x + 10 + ((size.w - 20) * value->get());
+        drawLine({x, y}, {x2, y}, colors.encoder.value);
+        drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
+    }
+
+    void drawCenteredEncoderOneSided()
+    {
+        drawText({position.x + 10, position.y + 5}, value->label(), colors.encoder.title, 12);
+
+        int margin = 10;
+        int val = (value->get() * value->props->stepCount) + value->props->stepStart;
+        drawTextRight({position.x + size.w - margin, position.y + 5}, std::to_string(val).c_str(),
+                      colors.encoder.value, 20, {APP_FONT_BOLD});
+
+        drawCenteredBar();
+    }
+
     void drawCenteredEncoder()
     {
         drawTextCentered({(int)(position.x + (size.w * 0.5)), position.y + 5}, value->label(), colors.encoder.title, 12);
@@ -50,14 +71,10 @@ protected:
         int val = (value->get() * value->props->stepCount) + value->props->stepStart;
         drawTextRight({position.x + size.w - margin, position.y + 5}, std::to_string(val).c_str(),
                       colors.encoder.value, 20, {APP_FONT_BOLD});
-        drawText({position.x + margin, position.y + 5}, std::to_string(100 - val).c_str(),
+        drawText({position.x + margin, position.y + 5}, std::to_string(value->props->stepCount - val).c_str(),
                  colors.encoder.value, 20, {APP_FONT_BOLD});
 
-        int x = position.x + 10 + ((size.w - 20) * 0.5);
-        int y = position.y + size.h - 10;
-        int x2 = position.x + 10 + ((size.w - 20) * value->get());
-        drawLine({x, y}, {x2, y}, colors.encoder.value);
-        drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
+        drawCenteredBar();
     }
 
     void drawStringEncoder()
@@ -81,6 +98,10 @@ protected:
             if (value->props->type == VALUE_CENTERED)
             {
                 drawCenteredEncoder();
+            }
+            else if (value->props->type == VALUE_CENTERED_ONE_SIDED)
+            {
+                drawCenteredEncoderOneSided();
             }
             else if (value->props->type == VALUE_STRING)
             {
