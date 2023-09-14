@@ -13,6 +13,7 @@ protected:
     Value *browser = hostValue({"Granular", "BROWSER"});
     Value *start = hostValue({"Granular", "START"});
     Value *grainSize = hostValue({"Granular", "GRAIN_SIZE"});
+    Value *spray = hostValue({"Granular", "SPRAY"});
 
     bool noteIsOn = false;
 
@@ -71,6 +72,8 @@ public:
         textureSize = {size.w - 2 * margin, size.h - 2 * margin};
         if (start != NULL)
         {
+            // TODO
+            // NOTE should we even rely on this, as an encoder could be set to define the start position...
             start->onUpdate([](float, void *data)
                             { ((ComponentGranular *)data)->renderNext(); },
                             this);
@@ -107,6 +110,16 @@ public:
         {
             start->set(x);
         }
+
+        float rangeMargin = 40;
+        float y = 1.0 - (motion.position.y - position.y - margin - rangeMargin) / (float)(textureSize.h - (rangeMargin * 2));
+        if (y - spray->get() > 0.01 || spray->get() - y > 0.01)
+        {
+            spray->set(y);
+        }
+
+        // y change spray / or density
+        // Second point change x the grain size, y the spray / or density
     }
 
     void onMotionRelease(Motion &motion)

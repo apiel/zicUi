@@ -1,9 +1,8 @@
 # TODO
 
-- TODO feature onMotion component increase encoder id....?
+- TODO show active encoder/value
 
-- TODO make layout conifurable:
-    each page have a list of componenent...
+- TODO page of components list
 
 - TODO componentValue option rotate 90°
 
