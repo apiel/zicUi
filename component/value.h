@@ -11,7 +11,7 @@ class ComponentValue : public Component
 protected:
     const char *name = NULL;
 
-    void drawBar(Point position, float value)
+    void drawBar()
     {
         drawLine({position.x + 10, position.y + size.h - 10},
                  {position.x + size.w - 10, position.y + size.h - 10},
@@ -19,31 +19,27 @@ protected:
 
         int x = position.x + 10;
         int y = position.y + size.h - 10;
-        int x2 = x + ((size.w - 20) * value);
+        int x2 = x + ((size.w - 20) * value->get());
         drawLine({x, y}, {x2, y}, colors.encoder.value);
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
     void drawEncoder()
     {
-        // // Point position, const char *name, float value, int stepCount, const char *unit
-        // // position, value->label(), value->get(), value->props->stepCount, value->props->unit
+        int marginRight = 10;
+        if (value->props->unit != NULL)
+        {
+            int x = position.x + size.w - marginRight;
+            marginRight += 3 + (x - drawTextRight({x, position.y + 14}, value->props->unit, colors.encoder.title, 10));
+        }
 
-        // float val = value->get();
-        // int marginRight = 10;
-        // if (value->props->unit != NULL)
-        // {
-        //     int x = position.x + size.w - marginRight;
-        //     marginRight += 3 + (x - drawTextRight({x, position.y + 14}, value->props->unit, colors.encoder.title, 10));
-        // }
+        drawText({position.x + 10, position.y + 5}, value->label(), colors.encoder.title, 12);
 
-        // drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
+        int valInt = (value->get() * value->props->stepCount) + value->props->stepStart;
+        drawTextRight({position.x + size.w - marginRight, position.y + 5}, std::to_string(valInt).c_str(),
+                      colors.encoder.value, 20, {APP_FONT_BOLD});
 
-        // int valInt = val * value->props->stepCount;
-        // drawTextRight({position.x + size.w - marginRight, position.y + 5}, std::to_string(valInt).c_str(),
-        //               colors.encoder.value, 20, {APP_FONT_BOLD});
-
-        // drawBar(position, val);
+        drawBar();
     }
 
     void drawCenteredEncoder(Point position, const char *name, float value, int stepCount)
@@ -70,7 +66,7 @@ protected:
         char valueStr[20];
         sprintf(valueStr, "%d / %d", (int)((value * stepCount) + 1), stepCount + 1);
         drawTextRight({position.x + size.w - 10, position.y + 25}, valueStr, colors.encoder.title, 10);
-        drawBar(position, value);
+        drawBar();
     }
 
     void render()
