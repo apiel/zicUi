@@ -52,6 +52,11 @@ protected:
 
     void handleMotion(int x, int y, int id)
     {
+        if (id < 0)
+        {
+            return;
+        }
+
 #ifndef IS_RPI
 #if SDL_MINOR_VERSION <= 24
         emulateEncoderId = x / encoderWidth;
@@ -68,6 +73,11 @@ protected:
 
     void handleMotionUp(int x, int y, int id)
     {
+        if (id < 0)
+        {
+            return;
+        }
+
         Motion *motion = getMotion(id);
         if (motion)
         {
@@ -79,6 +89,11 @@ protected:
 
     void handleMotionDown(int x, int y, int id)
     {
+        if (id < 0)
+        {
+            return;
+        }
+
         Motion *motion = getOldestMotion();
         motion->init(id, x, y);
         viewMain.onMotion(*motion);
