@@ -117,10 +117,6 @@ public:
             motionId = motion.id;
             xStart = start->get();
         }
-        else if (motionId2 == -1)
-        {
-            motionId2 = motion.id;
-        }
 
         if (motionId == motion.id)
         {
@@ -136,6 +132,10 @@ public:
             {
                 spray->set(y);
             }
+        }
+        else if (motionId2 == -1)
+        {
+            motionId2 = motion.id;
         }
 
         if (motionId2 == motion.id)
