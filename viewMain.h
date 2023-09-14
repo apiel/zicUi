@@ -48,8 +48,6 @@ public:
 
     void onMotion(Motion &motion)
     {
-        printf("Motion %d: %d %d\n", motion.id, motion.position.x, motion.position.y);
-
         for (auto &component : components)
         {
             component->handleMotion(motion);

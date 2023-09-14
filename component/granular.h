@@ -117,8 +117,6 @@ public:
             xStart = start->get();
         }
 
-printf("Granular Motion %d: %d %d\n", motion.id, motion.position.x, motion.position.y);
-
         if (motionId == motion.id)
         {
             float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);

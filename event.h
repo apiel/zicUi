@@ -34,7 +34,6 @@ protected:
                 return &motions[i];
             }
         }
-        printf("Motion %d not found\n", id);
         return NULL;
     }
 
@@ -46,7 +45,6 @@ protected:
             if (motions[i].id < oldest->id)
             {
                 oldest = &motions[i];
-                printf("Older %d\n", i);
             }
         }
         return oldest;
@@ -59,9 +57,6 @@ protected:
         emulateEncoderId = x / encoderWidth;
 #endif
 #endif
-
-        printf("Motion RELEASE %d: %d %d\n", id, x, y);
-
 
         Motion *motion = getMotion(id);
         if (motion)
