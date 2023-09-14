@@ -57,6 +57,10 @@ protected:
         emulateEncoderId = x / encoderWidth;
 #endif
 #endif
+
+        printf("Motion RELEASE %d: %d %d\n", id, x, y);
+
+
         Motion *motion = getMotion(id);
         if (motion)
         {
