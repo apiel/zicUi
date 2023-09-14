@@ -88,7 +88,7 @@ struct Colors
     struct granular
     {
         SDL_Color background = coreColors.foreground;
-        SDL_Color sampleName = {0x47, 0x56, 0x6e, 255}; // #47566e
+        SDL_Color info = {0x47, 0x56, 0x6e, 255}; // #47566e
         SDL_Color samples = {0x7c, 0x98, 0xc4, 255};    // #7c98c4
         SDL_Color start = {0xd1, 0xe3, 0xff, 30};       // #d1e3ff
     } granular;

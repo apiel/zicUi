@@ -11,21 +11,24 @@ class ComponentGranular : public Component
 protected:
     AudioPlugin &plugin;
     Value *browser = hostValue({"Granular", "BROWSER"});
+    float lastBrowser = -1.0f;
     Value *start = hostValue({"Granular", "START"});
+    float lastStart = -1.0f;
     Value *grainSize = hostValue({"Granular", "GRAIN_SIZE"});
+    float lastGrainSize = -1.0f;
     Value *spray = hostValue({"Granular", "SPRAY"});
+    float lastSpray = -1.0f;
 
     bool noteIsOn = false;
 
     Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
-    float lastSampleBrowserPosition = -1.0f;
 
     void renderSampleWaveform()
     {
         if (textureSampleWaveform == NULL)
         {
-            lastSampleBrowserPosition = browser->get();
+            lastBrowser = browser->get();
             textureSampleWaveform = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, textureSize.w, textureSize.h);
             SDL_SetRenderTarget(renderer, textureSampleWaveform);
 
@@ -42,7 +45,7 @@ protected:
                 drawLine({x, y1}, {x, y2}, colors.granular.samples);
             }
 
-            drawText({10, 5}, browser->string(), colors.granular.sampleName, 12);
+            drawText({10, 5}, browser->string(), colors.granular.info, 12);
             SDL_SetRenderTarget(renderer, texture);
         }
         SDL_Rect rect = {position.x + margin, position.y + margin, textureSize.w, textureSize.h};
@@ -50,10 +53,8 @@ protected:
         SDL_RenderPresent(renderer);
     }
 
-    void render()
+    void renderStartRange()
     {
-        renderSampleWaveform();
-
         int x = position.x + margin + (start->get() * (textureSize.w));
         int w = (grainSize->get() * (textureSize.w));
         if (x + w > position.x + textureSize.w)
@@ -63,6 +64,21 @@ protected:
         drawFilledRect({x, position.y + margin}, {w, textureSize.h}, colors.granular.start);
     }
 
+    void renderInfo()
+    {
+        char info[256];
+        snprintf(info, sizeof(info), "Start: %d%% Size: %d%% Spray: %d%%",
+                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100));
+        drawText({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.granular.info, 12);
+    }
+
+    void render()
+    {
+        renderSampleWaveform();
+        renderInfo();
+        renderStartRange();
+    }
+
 public:
     const int margin = styles.margin;
 
@@ -70,23 +86,22 @@ public:
         : Component(position, size), plugin(getPlugin("Granular"))
     {
         textureSize = {size.w - 2 * margin, size.h - 2 * margin};
-        if (start != NULL)
-        {
-            // TODO
-            // NOTE should we even rely on this, as an encoder could be set to define the start position...
-            start->onUpdate([](float, void *data)
-                            { ((ComponentGranular *)data)->renderNext(); },
-                            this);
-        }
     }
 
     virtual void triggerRenderer() override
     {
-        if (lastSampleBrowserPosition != browser->get())
+        if (lastBrowser != browser->get())
         {
             SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Sample browser position changed, clear textureSampleWaveform.");
             SDL_DestroyTexture(textureSampleWaveform);
             textureSampleWaveform = NULL;
+            needRendering = true;
+        }
+        if (lastStart != start->get() || lastGrainSize != grainSize->get() || lastSpray != spray->get())
+        {
+            lastStart = start->get();
+            lastGrainSize = grainSize->get();
+            lastSpray = spray->get();
             needRendering = true;
         }
         Component::triggerRenderer();
