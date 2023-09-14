@@ -18,9 +18,11 @@ protected:
     float lastGrainSize = -1.0f;
     Value *spray = hostValue({"Granular", "SPRAY"});
     float lastSpray = -1.0f;
+    Value *density = hostValue({"Granular", "DENSITY"});
+    float lastDensity = -1.0f;
 
-    Motion* motion1 = NULL;
-    Motion* motion2 = NULL;
+    Motion *motion1 = NULL;
+    Motion *motion2 = NULL;
 
     Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
@@ -68,8 +70,8 @@ protected:
     void renderInfo()
     {
         char info[256];
-        snprintf(info, sizeof(info), "Start %d%% Size %d%% Spray %d%%",
-                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100));
+        snprintf(info, sizeof(info), "Start %d%% Size %d%% Spray %d%% Density %d",
+                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), (int)(lastDensity * (density->stepCount() - 1) + 1));
         drawText({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.granular.info, 12);
     }
 
@@ -98,11 +100,12 @@ public:
             textureSampleWaveform = NULL;
             needRendering = true;
         }
-        if (lastStart != start->get() || lastGrainSize != grainSize->get() || lastSpray != spray->get())
+        if (lastStart != start->get() || lastGrainSize != grainSize->get() || lastSpray != spray->get() || lastDensity != density->get())
         {
             lastStart = start->get();
             lastGrainSize = grainSize->get();
             lastSpray = spray->get();
+            lastDensity = density->get();
             needRendering = true;
         }
         Component::triggerRenderer();
@@ -147,6 +150,13 @@ public:
             if (x - grainSize->get() > 0.01 || grainSize->get() - x > 0.01)
             {
                 grainSize->set(x);
+            }
+
+            float rangeMargin = 40;
+            float y = 1.0 - (motion.position.y - position.y - margin - rangeMargin) / (float)(textureSize.h - (rangeMargin * 2));
+            if (y - density->get() > 0.01 || density->get() - y > 0.01)
+            {
+                density->set(y);
             }
         }
 
