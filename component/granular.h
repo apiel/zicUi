@@ -71,7 +71,7 @@ protected:
     {
         char info[256];
         snprintf(info, sizeof(info), "Start %d%% Size %d%% Spray %d%% Density %d",
-                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), (int)(lastDensity * (density->stepCount() - 1) + 1));
+                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), (int)(lastDensity * density->props->stepCount + 1));
         drawText({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.granular.info, 12);
     }
 

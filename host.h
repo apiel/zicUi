@@ -68,11 +68,13 @@ public:
     AudioPlugin &plugin;
     const char *valueKey;
     int index = -1;
+    AudioPlugin::ValueProps* props;
 
     Value(AudioPlugin &plugin, int index)
         : plugin(plugin), index(index)
     {
         valueKey = plugin.getValueKey(index);
+        props = plugin.getValueProps(index);
     }
 
     Value(AudioPlugin &plugin, const char *key)
@@ -87,16 +89,12 @@ public:
             }
         }
         // if index is still -1 should we throw?
+        props = plugin.getValueProps(index);
     }
 
     Value(ValueProps props)
         : Value(getPlugin(props.pluginName), props.key)
     {
-    }
-
-    int stepCount()
-    {
-        return plugin.getValueStepCount(index);
     }
 
     float get()
@@ -122,16 +120,6 @@ public:
     const char *label()
     {
         return plugin.getValueLabel(index);
-    }
-
-    ValueType type()
-    {
-        return plugin.getValueType(index);
-    }
-
-    const char *unit()
-    {
-        return plugin.getValueUnit(index);
     }
 
     void onUpdate(void (*callback)(float, void * data), void * data)

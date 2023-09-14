@@ -24,21 +24,26 @@ protected:
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
-    void drawEncoder(Point position, const char *name, float value, int stepCount, const char *unit)
+    void drawEncoder()
     {
-        int val = value * stepCount;
-        int marginRight = 10;
-        if (unit != NULL)
-        {
-            int x = position.x + size.w - marginRight;
-            marginRight += 3 + (x - drawTextRight({x, position.y + 14}, unit, colors.encoder.title, 10));
-        }
+        // // Point position, const char *name, float value, int stepCount, const char *unit
+        // // position, value->label(), value->get(), value->props->stepCount, value->props->unit
 
-        drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
-        drawTextRight({position.x + size.w - marginRight, position.y + 5}, std::to_string(val).c_str(),
-                      colors.encoder.value, 20, {APP_FONT_BOLD});
+        // float val = value->get();
+        // int marginRight = 10;
+        // if (value->props->unit != NULL)
+        // {
+        //     int x = position.x + size.w - marginRight;
+        //     marginRight += 3 + (x - drawTextRight({x, position.y + 14}, value->props->unit, colors.encoder.title, 10));
+        // }
 
-        drawBar(position, value);
+        // drawText({position.x + 10, position.y + 5}, name, colors.encoder.title, 12);
+
+        // int valInt = val * value->props->stepCount;
+        // drawTextRight({position.x + size.w - marginRight, position.y + 5}, std::to_string(valInt).c_str(),
+        //               colors.encoder.value, 20, {APP_FONT_BOLD});
+
+        // drawBar(position, val);
     }
 
     void drawCenteredEncoder(Point position, const char *name, float value, int stepCount)
@@ -77,17 +82,17 @@ protected:
 
         if (value != NULL)
         {
-            if (value->type() == VALUE_CENTERED)
+            if (value->props->type == VALUE_CENTERED)
             {
-                drawCenteredEncoder(position, value->label(), value->get(), value->stepCount());
+                drawCenteredEncoder(position, value->label(), value->get(), value->props->stepCount);
             }
-            else if (value->type() == VALUE_STRING)
+            else if (value->props->type == VALUE_STRING)
             {
-                drawStringEncoder(position, value->string(), value->get(), value->stepCount());
+                drawStringEncoder(position, value->string(), value->get(), value->props->stepCount);
             }
             else
             {
-                drawEncoder(position, value->label(), value->get(), value->stepCount(), value->unit());
+                drawEncoder();
             }
         }
     }
@@ -133,7 +138,7 @@ public:
     {
         if (id == enocderId)
         {
-            value->set(value->get() + (direction / (float)value->stepCount()));
+            value->set(value->get() + (direction / (float)value->props->stepCount));
         }
     }
 };

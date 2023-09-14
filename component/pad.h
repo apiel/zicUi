@@ -12,16 +12,16 @@ protected:
     {
         int x = position.x;
         x = drawText({x, position.y}, c, colors.encoder.title, 12);
-        int val = value->get() * value->stepCount();
-        if (value->type() == VALUE_CENTERED)
+        int val = value->get() * value->props->stepCount;
+        if (value->props->type == VALUE_CENTERED)
         {
             x = drawText({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
         }
         x = drawText({x + 3, position.y}, value->label(), colors.encoder.title, 12);
         x = drawText({x + 3, position.y}, std::to_string(val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
-        if (value->unit() != NULL)
+        if (value->props->unit != NULL)
         {
-            x = drawText({x + 2, position.y}, value->unit(), colors.encoder.title, 10);
+            x = drawText({x + 2, position.y}, value->props->unit, colors.encoder.title, 10);
         }
         return x;
     }
