@@ -20,6 +20,7 @@ protected:
     float lastSpray = -1.0f;
 
     int motionId = -1;
+    int motionId2 = -1;
 
     Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
@@ -116,6 +117,10 @@ public:
             motionId = motion.id;
             xStart = start->get();
         }
+        else if (motionId2 == -1)
+        {
+            motionId2 = motion.id;
+        }
 
         if (motionId == motion.id)
         {
@@ -133,6 +138,15 @@ public:
             }
         }
 
+        if (motionId2 == motion.id)
+        {
+            float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
+            if (x - grainSize->get() > 0.01 || grainSize->get() - x > 0.01)
+            {
+                grainSize->set(x);
+            }
+        }
+
         // y change spray / or density
         // Second point change x the grain size, y the spray / or density
     }
@@ -144,6 +158,10 @@ public:
         {
             motionId = -1;
             plugin.noteOff(48, 0);
+        }
+        if (motionId2 == motion.id)
+        {
+            motionId2 = -1;
         }
     }
 };
