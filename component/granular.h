@@ -19,8 +19,8 @@ protected:
     Value *spray = hostValue({"Granular", "SPRAY"});
     float lastSpray = -1.0f;
 
-    int motionId = -1;
-    int motionId2 = -1;
+    Motion* motion1 = NULL;
+    Motion* motion2 = NULL;
 
     Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
@@ -111,14 +111,14 @@ public:
     float xStart = 0.0;
     void onMotion(Motion &motion)
     {
-        if (motionId == -1)
+        if (motion1 == NULL)
         {
             plugin.noteOn(48, 127);
-            motionId = motion.id;
+            motion1 = &motion;
             xStart = start->get();
         }
 
-        if (motionId == motion.id)
+        if (motion1 == &motion)
         {
             float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
             if (x - start->get() > 0.01 || start->get() - x > 0.01)
@@ -133,12 +133,12 @@ public:
                 spray->set(y);
             }
         }
-        else if (motionId2 == -1)
+        else if (motion2 == NULL)
         {
-            motionId2 = motion.id;
+            motion2 = &motion;
         }
 
-        if (motionId2 == motion.id)
+        if (motion2 == &motion)
         {
             float x = xStart + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
             if (x - grainSize->get() > 0.01 || grainSize->get() - x > 0.01)
@@ -154,14 +154,14 @@ public:
     void onMotionRelease(Motion &motion)
     {
         Component::onMotionRelease(motion);
-        if (motionId == motion.id)
+        if (motion1 == &motion)
         {
-            motionId = -1;
+            motion1 = NULL;
             plugin.noteOff(48, 0);
         }
-        if (motionId2 == motion.id)
+        if (motion2 == &motion)
         {
-            motionId2 = -1;
+            motion2 = NULL;
         }
     }
 };
