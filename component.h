@@ -46,7 +46,7 @@ public:
         {
             return;
         }
-        
+
         if (motion.in({position, size}))
         {
             if (motion.isStarting())
@@ -85,6 +85,10 @@ public:
         {
             config(key, value);
         }
+    }
+
+    virtual void onEncoderRootIndexChanged(uint8_t index)
+    {
     }
 };
 

@@ -158,6 +158,11 @@ public:
             value->set(value->get() + (direction / (float)value->props->stepCount));
         }
     }
+
+    void onEncoderRootIndexChanged(uint8_t index)
+    {
+        printf("Encoder root index changed to %d\n", index);
+    }
 };
 
 #endif

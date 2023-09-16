@@ -6,6 +6,7 @@
 #include "view.h"
 #include "draw.h"
 #include "def.h"
+#include "state.h"
 #include "component.h"
 #include "component/components.h"
 
@@ -14,6 +15,7 @@ class ViewMain : public View
 protected:
     // TODO add multiple screen/view/page
     std::vector<Component *> components;
+    uint8_t lastEncoderRootIndex = encoderRootIndex;
 
     static ViewMain *instance;
 
@@ -40,6 +42,16 @@ public:
 
     void renderComponents()
     {
+        bool encoderRootIndexChanged = encoderRootIndex != lastEncoderRootIndex;
+        if (encoderRootIndexChanged)
+        {
+            lastEncoderRootIndex = encoderRootIndex;
+            for (auto &component : components)
+            {
+                // INFO should there be generic state event change?
+                component->onEncoderRootIndexChanged(encoderRootIndex);
+            }
+        }
         for (auto &component : components)
         {
             component->triggerRenderer();
