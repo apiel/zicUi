@@ -48,7 +48,7 @@ public:
             lastEncoderRootIndex = encoderRootIndex;
             for (auto &component : components)
             {
-                component->onEncoderRootIndexChanged(encoderRootIndex);
+                component->onEncoderRootIndexChanged(encoderRootIndex, encoderCount);
             }
         }
         for (auto &component : components)

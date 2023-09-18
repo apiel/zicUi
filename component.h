@@ -87,7 +87,7 @@ public:
         }
     }
 
-    virtual void onEncoderRootIndexChanged(uint8_t index)
+    virtual void onEncoderRootIndexChanged(uint8_t index, uint8_t encoderCount)
     {
     }
 };

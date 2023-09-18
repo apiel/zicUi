@@ -12,6 +12,7 @@ protected:
     const char *name = NULL;
 
     int xDraw;
+    bool drawId = false;
 
     void drawBar()
     {
@@ -95,13 +96,14 @@ protected:
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.encoder.background);
 
-        drawFilledRect(
-            {position.x + margin, position.y + margin},
-            { 12, 12},
-            colors.encoder.id
-        );
-
-        drawTextCentered({position.x + margin + 6, position.y + margin}, std::to_string(encoderId).c_str(), colors.encoder.background, 8);
+        if (drawId)
+        {
+            drawFilledRect(
+                {position.x + margin, position.y + margin},
+                {12, 12},
+                colors.encoder.id);
+            drawTextCentered({position.x + margin + 6, position.y + margin}, std::to_string(encoderId + 1).c_str(), colors.encoder.background, 8);
+        }
 
         if (value != NULL)
         {
@@ -131,8 +133,7 @@ public:
     Value *value = NULL;
 
     ComponentValue(Point position, Size size)
-        : Component(position, size)
-        , xDraw(position.x + 15)
+        : Component(position, size), xDraw(position.x + 15)
     {
     }
 
@@ -170,9 +171,18 @@ public:
         }
     }
 
-    void onEncoderRootIndexChanged(uint8_t index)
+    void onEncoderRootIndexChanged(uint8_t index, uint8_t encoderCount)
     {
-        printf("Encoder root index changed to %d\n", index);
+        bool shouldDrawId = false;
+        if (index >= encoderId && index < encoderId + encoderCount)
+        {
+            shouldDrawId = true;
+        }
+        if (shouldDrawId != drawId)
+        {
+            drawId = shouldDrawId;
+            renderNext();
+        }
     }
 };
 
