@@ -15,7 +15,7 @@ class ViewMain : public View
 protected:
     // TODO add multiple screen/view/page
     std::vector<Component *> components;
-    uint8_t lastEncoderRootIndex = encoderRootIndex;
+    int8_t lastEncoderRootIndex = -1;
 
     static ViewMain *instance;
 
