@@ -1,12 +1,12 @@
-#ifndef _UI_COMPONENT_VALUE_H_
-#define _UI_COMPONENT_VALUE_H_
+#ifndef _UI_COMPONENT_ENCODER_H_
+#define _UI_COMPONENT_ENCODER_H_
 
 #include "../def.h"
 #include "../component.h"
 #include "../draw.h"
 #include "../host.h"
 
-class ComponentValue : public Component
+class ComponentEncoder : public Component
 {
 protected:
     const char *name = NULL;
@@ -132,7 +132,7 @@ public:
 
     Value *value = NULL;
 
-    ComponentValue(Point position, Size size)
+    ComponentEncoder(Point position, Size size)
         : Component(position, size), xDraw(position.x + 15)
     {
     }
@@ -158,7 +158,7 @@ public:
         if (value != NULL)
         {
             value->onUpdate([](float, void *data)
-                            { ((ComponentValue *)data)->renderNext(); },
+                            { ((ComponentEncoder *)data)->renderNext(); },
                             this);
         }
     }
@@ -183,8 +183,7 @@ public:
             drawId = shouldDrawId;
             renderNext();
         }
-        printf("%d onEncoderRootIndexChanged %d %d => %d %d\n", encoderId, index, encoderCount, encoderId % encoderCount, drawId);
-
+        // printf("%d onEncoderRootIndexChanged %d %d => %d %d\n", encoderId, index, encoderCount, encoderId % encoderCount, drawId);
     }
 };
 
