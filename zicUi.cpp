@@ -3,7 +3,7 @@
 #include "event.h"
 #include "viewMain.h"
 #include "host.h"
-#include "osc.h"
+// #include "osc.h"
 #include "config.h"
 
 int main()
@@ -57,7 +57,7 @@ int main()
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
     }
-    startOscServer();
+    // startOscServer();
 
     ViewMain &viewMain = ViewMain::get();
     viewMain.render();

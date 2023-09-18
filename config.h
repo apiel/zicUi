@@ -4,14 +4,17 @@
 #include "def.h"
 #include "fs.h"
 #include "viewMain.h"
+#include "plugins.h"
 
 #define CONFIG_FILE "./config.ui.cfg"
 
-char* trimChar(char* str, char c = '\n')
+char *trimChar(char *str, char c = '\n')
 {
     int len = strlen(str);
-    for (int i = 0; i < len; i++) {
-        if (str[i] == c) {
+    for (int i = 0; i < len; i++)
+    {
+        if (str[i] == c)
+        {
             str[i] = '\0';
             break;
         }
@@ -19,21 +22,34 @@ char* trimChar(char* str, char c = '\n')
     return str;
 }
 
-void assignKeyValue(char* key, char* value)
+void assignKeyValue(char *key, char *value)
 {
-    ViewMain::get().config(key, value);
+    if (strcmp(key, "PLUGIN_INTERFACE") == 0)
+    {
+        loadPluginInterface(value);
+    }
+    else if (lastPluginInstance && lastPluginInstance->config(key, value))
+    {
+        return;
+    }
+    else
+    {
+        ViewMain::get().config(key, value);
+    }
 }
 
-void parseConfigLine(char* line)
+void parseConfigLine(char *line)
 {
     // ignore comments and empty lines
-    if (line[0] == '#' || line[0] == '\n') {
+    if (line[0] == '#' || line[0] == '\n')
+    {
         return;
     }
     // split by '='
-    char* key = strtok(line, "=");
-    char* value = strtok(NULL, "=");
-    if (key == NULL || value == NULL) {
+    char *key = strtok(line, "=");
+    char *value = strtok(NULL, "=");
+    if (key == NULL || value == NULL)
+    {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Invalid config line: %s\n", line);
         return;
     }
@@ -42,15 +58,17 @@ void parseConfigLine(char* line)
 
 bool loadConfig()
 {
-    FILE* file = fopen(CONFIG_FILE, "r");
-    if (file == NULL) {
+    FILE *file = fopen(CONFIG_FILE, "r");
+    if (file == NULL)
+    {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load config file: %s\n", CONFIG_FILE);
         return false;
     }
 
     char line[256];
 
-    while (fgets(line, sizeof(line), file)) {
+    while (fgets(line, sizeof(line), file))
+    {
         parseConfigLine(line);
     }
     fclose(file);
