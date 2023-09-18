@@ -1,7 +1,5 @@
 # TODO
 
-- TODO show active encoder/value
-
 - TODO rename back componentValue to componentEncoder...
 
 - TODO midi for encoder
