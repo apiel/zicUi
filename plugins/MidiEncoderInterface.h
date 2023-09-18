@@ -42,8 +42,6 @@ protected:
         }
 
         midi.openPort(port);
-        midi.setCallback(midiHandler, this);
-        midi.ignoreTypes(false, false, false);
         printf("Midi input loaded: %s\n", midi.getPortName(port).c_str());
     }
 
@@ -52,7 +50,10 @@ public:
 
     MidiEncoderInterface(Props &props) : Interface(props)
     {
-        load("Arduino Leonardo:Arduino Leonardo MIDI 1 28:0");
+        midi.setCallback(midiHandler, this);
+        midi.ignoreTypes(false, false, false);
+
+        load("");
     }
 
     bool config(char *key, char *value)
@@ -60,6 +61,7 @@ public:
         if (strcmp(key, "DEVICE") == 0)
         {
             load(value);
+            return true;
         }
         return false;
     }
