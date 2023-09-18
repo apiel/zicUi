@@ -1,7 +1,5 @@
 # TODO
 
-- FIXME if config is not known it can mess other configs...
-
 - TODO make componentEncoder keep 1 to 4 sticky and ignore rootEncoderIndex...
 
 - TODO components should be library to load

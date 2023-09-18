@@ -110,7 +110,7 @@ public:
             Size size = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
             addComponent(name, position, size); 
         }
-        else
+        else if (components.size() > 0)
         {
             components.back()->baseConfig(key, value);
         }
