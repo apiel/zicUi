@@ -12,7 +12,7 @@ protected:
     const char *name = NULL;
 
     int xDraw;
-    bool drawId = false;
+    int8_t drawId = -1;
 
     void drawBar()
     {
@@ -96,13 +96,13 @@ protected:
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.encoder.background);
 
-        if (drawId)
+        if (drawId > 0)
         {
             drawFilledRect(
                 {position.x + margin, position.y + margin},
                 {12, 12},
                 colors.encoder.id);
-            drawTextCentered({position.x + margin + 6, position.y + margin}, std::to_string(encoderId + 1).c_str(), colors.encoder.background, 8);
+            drawTextCentered({position.x + margin + 6, position.y + margin}, std::to_string(drawId).c_str(), colors.encoder.background, 8);
         }
 
         if (value != NULL)
@@ -173,16 +173,18 @@ public:
 
     void onEncoderRootIndexChanged(uint8_t index, uint8_t encoderCount)
     {
-        bool shouldDrawId = false;
-        if (index >= encoderId && index < encoderId + encoderCount)
+        int8_t shouldDrawId = -1;
+        if (encoderId >= index  && encoderId <  index + encoderCount)
         {
-            shouldDrawId = true;
+            shouldDrawId = (encoderId % encoderCount) + 1;
         }
         if (shouldDrawId != drawId)
         {
             drawId = shouldDrawId;
             renderNext();
         }
+        printf("%d onEncoderRootIndexChanged %d %d => %d %d\n", encoderId, index, encoderCount, encoderId % encoderCount, drawId);
+
     }
 };
 
