@@ -13,7 +13,7 @@ std::vector<Plugin> *plugins = NULL;
 
 std::vector<Plugin> *(*initHost)() = NULL;
 int (*mainLoopHost)() = NULL;
-void (*midiHost)(std::vector<unsigned char> *message) = NULL;
+void (*midiHost)(std::vector<unsigned char> *message) = [](std::vector<unsigned char> *message) {};
 
 bool loadHost();
 
@@ -68,7 +68,7 @@ public:
     AudioPlugin &plugin;
     const char *valueKey;
     int index = -1;
-    AudioPlugin::ValueProps* props;
+    AudioPlugin::ValueProps *props;
 
     Value(AudioPlugin &plugin, int index)
         : plugin(plugin), index(index)
@@ -122,7 +122,7 @@ public:
         return plugin.getValueLabel(index);
     }
 
-    void onUpdate(void (*callback)(float, void * data), void * data)
+    void onUpdate(void (*callback)(float, void *data), void *data)
     {
         plugin.setValueWatcher(index, callback, data);
     }
@@ -143,7 +143,8 @@ void loadHostValues()
 
 Value *hostValue(ValueProps props)
 {
-    if (props.pluginName == NULL || props.key == NULL) {
+    if (props.pluginName == NULL || props.key == NULL)
+    {
         return NULL;
     }
     if (!plugins)
