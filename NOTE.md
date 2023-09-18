@@ -1,8 +1,8 @@
 # TODO
 
-- TODO midi for encoder
-    - might want to make midi, osc, and all kind of external interface a plugin
-    - should midi on ui also forward midi to host?
+- FIXME if config is not known it can mess other configs...
+
+- TODO make componentEncoder keep 1 to 4 sticky and ignore rootEncoderIndex...
 
 - TODO components should be library to load
 
