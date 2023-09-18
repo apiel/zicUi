@@ -48,7 +48,6 @@ public:
             lastEncoderRootIndex = encoderRootIndex;
             for (auto &component : components)
             {
-                // INFO should there be generic state event change?
                 component->onEncoderRootIndexChanged(encoderRootIndex);
             }
         }

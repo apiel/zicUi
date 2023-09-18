@@ -2,6 +2,8 @@
 
 - TODO show active encoder/value
 
+- TODO rename back componentValue to componentEncoder...
+
 - TODO midi for encoder
     - might want to make midi, osc, and all kind of external interface a plugin
     - should midi on ui also forward midi to host?

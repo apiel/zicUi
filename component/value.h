@@ -11,13 +11,15 @@ class ComponentValue : public Component
 protected:
     const char *name = NULL;
 
+    int xDraw;
+
     void drawBar()
     {
-        drawLine({position.x + 10, position.y + size.h - 10},
+        drawLine({xDraw, position.y + size.h - 10},
                  {position.x + size.w - 10, position.y + size.h - 10},
                  colors.encoder.title);
 
-        int x = position.x + 10;
+        int x = xDraw;
         int y = position.y + size.h - 10;
         int x2 = x + ((size.w - 20) * value->get());
         drawLine({x, y}, {x2, y}, colors.encoder.value);
@@ -33,7 +35,7 @@ protected:
             marginRight += 3 + (x - drawTextRight({x, position.y + 14}, value->props->unit, colors.encoder.title, 10));
         }
 
-        drawText({position.x + 10, position.y + 5}, value->label(), colors.encoder.title, 12);
+        drawText({xDraw, position.y + 5}, value->label(), colors.encoder.title, 12);
 
         int valInt = (value->get() * value->props->stepCount) + value->props->stepStart;
         drawTextRight({position.x + size.w - marginRight, position.y + 5}, std::to_string(valInt).c_str(),
@@ -44,16 +46,16 @@ protected:
 
     void drawCenteredBar()
     {
-        int x = position.x + 10 + ((size.w - 20) * 0.5);
+        int x = xDraw + ((size.w - 20) * 0.5);
         int y = position.y + size.h - 10;
-        int x2 = position.x + 10 + ((size.w - 20) * value->get());
+        int x2 = xDraw + ((size.w - 20) * value->get());
         drawLine({x, y}, {x2, y}, colors.encoder.value);
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
     void drawCenteredEncoderOneSided()
     {
-        drawText({position.x + 10, position.y + 5}, value->label(), colors.encoder.title, 12);
+        drawText({xDraw, position.y + 5}, value->label(), colors.encoder.title, 12);
 
         int margin = 10;
         int val = (value->get() * value->props->stepCount) + value->props->stepStart;
@@ -79,7 +81,7 @@ protected:
 
     void drawStringEncoder()
     {
-        drawText({position.x + 10, position.y + 5}, value->string(), colors.encoder.value, 12, {.maxWidth = size.w - 20});
+        drawText({xDraw, position.y + 5}, value->string(), colors.encoder.value, 12, {.maxWidth = size.w - 20});
         char valueStr[20];
         sprintf(valueStr, "%d / %d", (int)((value->get() * value->props->stepCount) + 1), value->props->stepCount + 1);
         drawTextRight({position.x + size.w - 10, position.y + 25}, valueStr, colors.encoder.title, 10);
@@ -92,6 +94,14 @@ protected:
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.encoder.background);
+
+        drawFilledRect(
+            {position.x + margin, position.y + margin},
+            { 12, 12},
+            colors.encoder.id
+        );
+
+        drawTextCentered({position.x + margin + 6, position.y + margin}, std::to_string(encoderId).c_str(), colors.encoder.background, 8);
 
         if (value != NULL)
         {
@@ -115,13 +125,14 @@ protected:
     }
 
 public:
-    int8_t enocderId = -1;
+    int8_t encoderId = -1;
     const int margin = styles.margin;
 
     Value *value = NULL;
 
     ComponentValue(Point position, Size size)
         : Component(position, size)
+        , xDraw(position.x + 15)
     {
     }
 
@@ -136,7 +147,7 @@ public:
         }
         else if (strcmp(key, "ENCODER_ID") == 0)
         {
-            enocderId = atoi(value);
+            encoderId = atoi(value);
         }
     }
 
@@ -153,7 +164,7 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        if (id == enocderId)
+        if (id == encoderId)
         {
             value->set(value->get() + (direction / (float)value->props->stepCount));
         }

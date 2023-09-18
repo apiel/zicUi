@@ -76,6 +76,8 @@ struct Colors
     {
         // SDL_Color background = coreColors.foreground2;
         SDL_Color background = {0x47, 0x56, 0x6e, 255}; // #47566e
+        // SDL_Color id = {0x5a, 0x6f, 0x91, 255};     // #5a6f91
+        SDL_Color id = {0x6f, 0x86, 0xab, 255};
         SDL_Color title = {0x7c, 0x98, 0xc4, 255};      // #7c98c4
         SDL_Color value = coreColors.value;
     } encoder;
