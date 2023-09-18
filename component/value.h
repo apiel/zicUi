@@ -73,7 +73,7 @@ protected:
         int val = (value->get() * value->props->stepCount) + value->props->stepStart;
         drawTextRight({position.x + size.w - margin, position.y + 5}, std::to_string(val).c_str(),
                       colors.encoder.value, 20, {APP_FONT_BOLD});
-        drawText({position.x + margin, position.y + 5}, std::to_string(value->props->stepCount - val).c_str(),
+        drawText({xDraw, position.y + 5}, std::to_string(value->props->stepCount - val).c_str(),
                  colors.encoder.value, 20, {APP_FONT_BOLD});
 
         drawCenteredBar();
