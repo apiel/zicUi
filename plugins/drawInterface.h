@@ -7,7 +7,7 @@
 struct DrawTextOptions
 {
     const char *fontPath = font.regular;
-    int maxWidth = SCREEN_W;
+    int maxWidth = styles.screen.w;
 };
 
 class DrawInterface

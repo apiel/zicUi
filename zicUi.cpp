@@ -31,7 +31,7 @@ int main()
     window = SDL_CreateWindow(
         "Zic",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_W, SCREEN_H,
+        styles.screen.w, styles.screen.h,
         SDL_WINDOW_SHOWN
 #ifdef IS_RPI
             | SDL_WINDOW_FULLSCREEN
@@ -49,7 +49,7 @@ int main()
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    texture = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_H);
+    texture = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, styles.screen.w, styles.screen.h);
     SDL_SetRenderTarget(renderer, texture);
 
     if (!loadHost())

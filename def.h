@@ -7,19 +7,9 @@
 #include "helpers/range.h"
 #include "helpers/rangeFloat.h"
 
-struct Font
-{
-    uint32_t defaultSize = 16;
-    const char *regular = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Regular.ttf";
-    const char *bold = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Bold.ttf";
-    const char *italic = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Italic.ttf";
-} font;
-
-#define SCREEN_W 800
-#define SCREEN_H 480
-#define PIXEL_FORMAT SDL_PIXELFORMAT_RGBA8888
-
 #define ENCODER_COUNT 8
+
+#define PIXEL_FORMAT SDL_PIXELFORMAT_RGBA8888
 
 struct Size
 {
@@ -39,6 +29,20 @@ struct Rect
     Size size;
 };
 
+struct Font
+{
+    uint32_t defaultSize = 16;
+    const char *regular = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Regular.ttf";
+    const char *bold = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Bold.ttf";
+    const char *italic = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Italic.ttf";
+} font;
+
+struct Styles
+{
+    Size screen = {800, 480};
+    const int margin = 1;
+} styles;
+
 struct CoreColors
 {
     SDL_Color background = {0x21, 0x25, 0x2b, 255};  // #21252b
@@ -49,10 +53,5 @@ struct CoreColors
     SDL_Color textDark = {0x7c, 0x98, 0xc4, 255};    // #7c98c4
     SDL_Color overlay = {0xd1, 0xe3, 0xff, 0x1e};    // #d1e3ff1e
 } coreColors;
-
-struct Styles
-{
-    const int margin = 1;
-} styles;
 
 #endif

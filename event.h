@@ -16,7 +16,7 @@ class EventHandler
 protected:
     Motion motions[MAX_SCREEN_MOTION];
     ViewMain &viewMain = ViewMain::get();
-    int encoderWidth = SCREEN_W / ENCODER_COUNT;
+    int encoderWidth = styles.screen.w / ENCODER_COUNT;
 
 #if SDL_MINOR_VERSION <= 24
     uint8_t emulateEncoderId = 0;
@@ -146,15 +146,15 @@ public:
                 return true;
 
             case SDL_FINGERMOTION:
-                handleMotion(event.tfinger.x * SCREEN_W, event.tfinger.y * SCREEN_H, event.tfinger.fingerId);
+                handleMotion(event.tfinger.x * styles.screen.w, event.tfinger.y * styles.screen.h, event.tfinger.fingerId);
                 return true;
 
             case SDL_FINGERDOWN:
-                handleMotionDown(event.tfinger.x * SCREEN_W, event.tfinger.y * SCREEN_H, event.tfinger.fingerId);
+                handleMotionDown(event.tfinger.x * styles.screen.w, event.tfinger.y * styles.screen.h, event.tfinger.fingerId);
                 return true;
 
             case SDL_FINGERUP:
-                handleMotionUp(event.tfinger.x * SCREEN_W, event.tfinger.y * SCREEN_H, event.tfinger.fingerId);
+                handleMotionUp(event.tfinger.x * styles.screen.w, event.tfinger.y * styles.screen.h, event.tfinger.fingerId);
                 return true;
             }
         }
