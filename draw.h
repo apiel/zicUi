@@ -62,12 +62,15 @@ struct DrawTextOptions
     int maxWidth = SCREEN_W;
 };
 
-void drawTextCentered(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
+int drawTextCentered(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
 {
     SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
     int x = position.x - (surface->w * 0.5);
     textToRenderer({x, position.y}, surface, options.maxWidth);
+    int xEnd = x + surface->w;
     SDL_FreeSurface(surface);
+
+    return xEnd;
 }
 
 int drawText(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})

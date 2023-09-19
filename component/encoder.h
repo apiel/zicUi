@@ -11,70 +11,80 @@ class ComponentEncoder : public Component
 protected:
     const char *name = NULL;
 
-    int xDraw;
+    struct DrawArea
+    {
+        int x;
+        int xCenter;
+        int y;
+        int w;
+        int h;
+    } area;
+
+    const int valueMarginTop = 15;
+
     int8_t drawId = -1;
+
+    void drawLabel()
+    {
+        drawText({area.x, area.y}, value->label(), colors.encoder.title, 12);
+    }
 
     void drawBar()
     {
-        drawLine({xDraw, position.y + size.h - 10},
-                 {position.x + size.w - 10, position.y + size.h - 10},
+        drawLine({area.x, area.y + size.h - 10},
+                 {position.x + size.w - 10, area.y + size.h - 10},
                  colors.encoder.title);
 
-        int x = xDraw;
-        int y = position.y + size.h - 10;
+        int x = area.x;
+        int y = area.y + size.h - 10;
         int x2 = x + ((size.w - 20) * value->get());
         drawLine({x, y}, {x2, y}, colors.encoder.value);
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
-    void drawEncoder()
+    void drawValue()
     {
-        int marginRight = 10;
+        int val = (value->get() * value->props->stepCount) + value->props->stepStart;
+        int x = drawTextCentered({area.xCenter, area.y + valueMarginTop}, std::to_string(val).c_str(),
+                                 colors.encoder.value, 20, {APP_FONT_BOLD});
+
         if (value->props->unit != NULL)
         {
-            int x = position.x + size.w - marginRight;
-            marginRight += 3 + (x - drawTextRight({x, position.y + 14}, value->props->unit, colors.encoder.title, 10));
+            drawText({x + 2, area.y + valueMarginTop + 8}, value->props->unit, colors.encoder.title, 10);
         }
+    }
 
-        drawText({xDraw, position.y + 5}, value->label(), colors.encoder.title, 12);
-
-        int valInt = (value->get() * value->props->stepCount) + value->props->stepStart;
-        drawTextRight({position.x + size.w - marginRight, position.y + 5}, std::to_string(valInt).c_str(),
-                      colors.encoder.value, 20, {APP_FONT_BOLD});
-
+    void drawEncoder()
+    {
+        drawLabel();
+        drawValue();
         drawBar();
     }
 
     void drawCenteredBar()
     {
-        int x = xDraw + ((size.w - 20) * 0.5);
-        int y = position.y + size.h - 10;
-        int x2 = xDraw + ((size.w - 20) * value->get());
+        int x = area.x + (area.w * 0.5);
+        int y = area.y + area.h - 10;
+        int x2 = area.x + (area.w * value->get());
         drawLine({x, y}, {x2, y}, colors.encoder.value);
         drawLine({x, y - 1}, {x2, y - 1}, colors.encoder.value);
     }
 
     void drawCenteredEncoderOneSided()
     {
-        drawText({xDraw, position.y + 5}, value->label(), colors.encoder.title, 12);
-
-        int margin = 10;
-        int val = (value->get() * value->props->stepCount) + value->props->stepStart;
-        drawTextRight({position.x + size.w - margin, position.y + 5}, std::to_string(val).c_str(),
-                      colors.encoder.value, 20, {APP_FONT_BOLD});
-
+        drawLabel();
+        drawValue();
         drawCenteredBar();
     }
 
     void drawCenteredEncoder()
     {
-        drawTextCentered({(int)(position.x + (size.w * 0.5)), position.y + 5}, value->label(), colors.encoder.title, 12);
+        drawTextCentered({area.xCenter, area.y}, value->label(), colors.encoder.title, 12);
 
-        int margin = 10;
         int val = (value->get() * value->props->stepCount) + value->props->stepStart;
-        drawTextRight({position.x + size.w - margin, position.y + 5}, std::to_string(val).c_str(),
+        drawTextRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
                       colors.encoder.value, 20, {APP_FONT_BOLD});
-        drawText({xDraw, position.y + 5}, std::to_string(value->props->stepCount - val).c_str(),
+        drawText({area.x, area.y + valueMarginTop}, std::to_string(value->props->stepCount - val).c_str(),
                  colors.encoder.value, 20, {APP_FONT_BOLD});
 
         drawCenteredBar();
@@ -82,10 +92,10 @@ protected:
 
     void drawStringEncoder()
     {
-        drawText({xDraw, position.y + 5}, value->string(), colors.encoder.value, 12, {.maxWidth = size.w - 20});
+        drawText({area.x, area.y + 5}, value->string(), colors.encoder.value, 12, {.maxWidth = area.w});
         char valueStr[20];
         sprintf(valueStr, "%d / %d", (int)((value->get() * value->props->stepCount) + 1), value->props->stepCount + 1);
-        drawTextRight({position.x + size.w - 10, position.y + 25}, valueStr, colors.encoder.title, 10);
+        drawTextRight({area.x + area.w, area.y + 25}, valueStr, colors.encoder.title, 10);
         drawBar();
     }
 
@@ -132,9 +142,12 @@ public:
 
     Value *value = NULL;
 
+    // margin left 15
+    // margin right 10
     ComponentEncoder(Point position, Size size)
-        : Component(position, size), xDraw(position.x + 15)
+        : Component(position, size), area({position.x + 15, 0, position.y, size.w - (15 + 10), size.h})
     {
+        area.xCenter = (int)(area.x + (area.w * 0.5));
     }
 
     void config(char *key, char *value)

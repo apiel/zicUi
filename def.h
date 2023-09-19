@@ -39,7 +39,7 @@
 #define SCREEN_H 480
 #define PIXEL_FORMAT SDL_PIXELFORMAT_RGBA8888
 
-#define ENCODER_COUNT 4
+#define ENCODER_COUNT 8
 
 struct Size
 {
