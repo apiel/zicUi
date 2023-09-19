@@ -3,7 +3,6 @@
 
 #include "../def.h"
 #include "../component.h"
-#include "../draw.h"
 
 class ComponentPad : public Component
 {
@@ -11,24 +10,24 @@ protected:
     int drawValue(const char *c, Value *value, Point position)
     {
         int x = position.x;
-        x = drawText({x, position.y}, c, colors.encoder.title, 12);
+        x = draw.text({x, position.y}, c, colors.encoder.title, 12);
         int val = value->get() * value->props->stepCount;
         if (value->props->type == VALUE_CENTERED)
         {
-            x = drawText({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
+            x = draw.text({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
         }
-        x = drawText({x + 3, position.y}, value->label(), colors.encoder.title, 12);
-        x = drawText({x + 3, position.y}, std::to_string(val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
+        x = draw.text({x + 3, position.y}, value->label(), colors.encoder.title, 12);
+        x = draw.text({x + 3, position.y}, std::to_string(val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
         if (value->props->unit != NULL)
         {
-            x = drawText({x + 2, position.y}, value->props->unit, colors.encoder.title, 10);
+            x = draw.text({x + 2, position.y}, value->props->unit, colors.encoder.title, 10);
         }
         return x;
     }
 
     void render()
     {
-        drawFilledRect(
+        draw.filledRect(
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.pad.background);
@@ -42,7 +41,7 @@ protected:
             // NOTE if it is not a centered value, should draw 0 in the middle
             // and both side from the center being positive value to 1.0 ?
 
-            drawFilledRect(
+            draw.filledRect(
                 {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->get()),
                  position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * (1.0 - valueY->get()))},
                 {pointerSize, pointerSize},
@@ -84,8 +83,8 @@ public:
 
     const int margin = styles.margin;
 
-    ComponentPad(Point position, Size size)
-        : Component(position, size)
+    ComponentPad(Point position, Size size, Draw &draw)
+        : Component(position, size, draw)
     {
     }
 

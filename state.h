@@ -7,8 +7,6 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* texture = NULL;
 
-bool needToDraw = false;
-
 // TODO make this configurable 
 uint8_t encoderCount = 4;
 int8_t group = 0;

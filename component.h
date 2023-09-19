@@ -8,6 +8,7 @@
 class Component
 {
 protected:
+    Draw &draw;
     virtual void render() = 0;
 
 public:
@@ -16,8 +17,8 @@ public:
     bool needRendering = true;
     int8_t group = -1;
 
-    Component(Point position, Size size)
-        : position(position), size(size)
+    Component(Point position, Size size, Draw &draw)
+        : draw(draw), position(position), size(size)
     {
     }
 
@@ -27,7 +28,7 @@ public:
         {
             render();
             needRendering = false;
-            drawNext();
+            draw.next();
         }
     }
 

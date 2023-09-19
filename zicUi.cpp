@@ -59,7 +59,6 @@ int main()
 
     ViewMain &viewMain = ViewMain::get();
     viewMain.render();
-    draw();
 
     EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
@@ -70,11 +69,6 @@ int main()
         {
             lastUpdate = now;
             viewMain.renderComponents();
-            if (needToDraw)
-            {
-                draw();
-                needToDraw = false;
-            }
         }
         SDL_Delay(1);
     }

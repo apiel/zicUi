@@ -13,6 +13,7 @@
 class ViewMain : public View
 {
 protected:
+    Draw& draw = Draw::get();
     // TODO add multiple screen/view/page
     std::vector<Component *> components;
     int8_t lastGroup = -100;
@@ -35,9 +36,9 @@ public:
 
     void render()
     {
-        drawClear();
+        draw.clear();
+        draw.next();
         renderComponents();
-        drawNext();
     }
 
     void renderComponents()
@@ -54,6 +55,7 @@ public:
         {
             component->triggerRenderer();
         }
+        draw.triggerRender();
     }
 
     void onMotion(Motion &motion)
@@ -84,15 +86,15 @@ public:
     {
         if (strcmp(name, "Pad") == 0)
         {
-            components.push_back(new ComponentPad(position, size));
+            components.push_back(new ComponentPad(position, size, draw));
         }
         else if (strcmp(name, "Encoder") == 0)
         {
-            components.push_back(new ComponentEncoder(position, size));
+            components.push_back(new ComponentEncoder(position, size, draw));
         }
         else if (strcmp(name, "Granular") == 0)
         {
-            components.push_back(new ComponentGranular(position, size));
+            components.push_back(new ComponentGranular(position, size, draw));
         }
         else
         {
