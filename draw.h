@@ -86,7 +86,7 @@ public:
         needToRender = true;
     }
 
-    int textCentered(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
+    int textCentered(Point position, const char *text, SDL_Color color, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - (surface->w * 0.5);
@@ -97,7 +97,7 @@ public:
         return xEnd;
     }
 
-    int text(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
+    int text(Point position, const char *text, SDL_Color color, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         textToRenderer(position, surface, options.maxWidth);
@@ -107,7 +107,7 @@ public:
         return xEnd;
     }
 
-    int textRight(Point position, const char *text, SDL_Color color = colors.core.font, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
+    int textRight(Point position, const char *text, SDL_Color color, uint32_t size = APP_DEFAULT_FONT_SIZE, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - surface->w;
@@ -123,21 +123,21 @@ public:
         SDL_RenderClear(renderer);
     }
 
-    void filledRect(Point position, Size size, SDL_Color color = colors.core.foreground)
+    void filledRect(Point position, Size size, SDL_Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_Rect rect = {position.x, position.y, size.w, size.h};
         SDL_RenderFillRect(renderer, &rect);
     }
 
-    void rect(Point position, Size size, SDL_Color color = colors.core.foreground)
+    void rect(Point position, Size size, SDL_Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_Rect rect = {position.x, position.y, size.w, size.h};
         SDL_RenderDrawRect(renderer, &rect);
     }
 
-    void line(Point start, Point end, SDL_Color color = colors.core.white)
+    void line(Point start, Point end, SDL_Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);

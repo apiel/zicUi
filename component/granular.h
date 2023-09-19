@@ -26,6 +26,8 @@ protected:
     Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
 
+    // FIXME
+    // TODO This how to handle texture
     void renderSampleWaveform()
     {
         if (textureSampleWaveform == NULL)
