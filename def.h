@@ -70,31 +70,6 @@ struct CoreColors
     SDL_Color overlay = {0xd1, 0xe3, 0xff, 0x1e};    // #d1e3ff1e
 } coreColors;
 
-// struct Colors
-// {
-//     CoreColors core = coreColors;
-//     struct Encoder
-//     {
-//         SDL_Color background = coreColors.foreground2;
-//         SDL_Color id = coreColors.foreground3;
-//         SDL_Color title = coreColors.textDark;
-//         SDL_Color value = coreColors.text;
-//     } encoder;
-//     struct Pad
-//     {
-//         SDL_Color background = coreColors.foreground;
-//         SDL_Color value = coreColors.text;
-//     } pad;
-
-//     struct granular
-//     {
-//         SDL_Color background = coreColors.foreground;
-//         SDL_Color info = coreColors.foreground2;
-//         SDL_Color samples = coreColors.textDark;
-//         SDL_Color start = coreColors.overlay;
-//     } granular;
-// } colors;
-
 struct Styles
 {
     const int margin = 1;
