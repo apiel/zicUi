@@ -22,7 +22,7 @@ protected:
 
     const int valueMarginTop = 15;
 
-    int8_t drawId = -1;
+    bool encoderActive = false;
 
     void drawLabel()
     {
@@ -106,13 +106,13 @@ protected:
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.encoder.background);
 
-        if (drawId > 0)
+        if (encoderActive)
         {
             drawFilledRect(
                 {position.x + margin, position.y + margin},
                 {12, 12},
                 colors.encoder.id);
-            drawTextCentered({position.x + margin + 6, position.y + margin}, std::to_string(drawId).c_str(), colors.encoder.background, 8);
+            drawTextCentered({position.x + margin + 6, position.y + margin}, std::to_string(encoderId + 1).c_str(), colors.encoder.background, 8);
         }
 
         if (value != NULL)
@@ -178,7 +178,7 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        if (id == encoderId)
+        if (encoderActive && id == encoderId)
         {
             value->set(value->get() + (direction / (float)value->props->stepCount));
         }
@@ -186,17 +186,17 @@ public:
 
     void onGroupChanged(int8_t index) override
     {
-        int8_t shouldDrawId = -1;
+        int8_t shouldActivate = false;
         if (group == index || group == -1)
         {
-            shouldDrawId = encoderId + 1;
+            shouldActivate = true;
         }
-        if (shouldDrawId != drawId)
+        if (shouldActivate != encoderActive)
         {
-            drawId = shouldDrawId;
+            encoderActive = shouldActivate;
             renderNext();
         }
-        printf("current group: %d inccoming group: %d drawId: %d\n", group, index, drawId);
+        // printf("current group: %d inccoming group: %d drawId: %d\n", group, index, drawId);
     }
 };
 
