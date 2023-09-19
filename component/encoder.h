@@ -53,7 +53,7 @@ protected:
     {
         int val = (value->get() * value->props->stepCount) + value->props->stepStart;
         int x = draw.textCentered({area.xCenter, area.y + valueMarginTop}, std::to_string(val).c_str(),
-                                  colors.value, 20, {APP_FONT_BOLD});
+                                  colors.value, 20, {font.bold});
 
         if (value->props->unit != NULL)
         {
@@ -90,9 +90,9 @@ protected:
 
         int val = (value->get() * value->props->stepCount) + value->props->stepStart;
         draw.textRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
-                       colors.value, 20, {APP_FONT_BOLD});
+                       colors.value, 20, {font.bold});
         draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props->stepCount - val).c_str(),
-                  colors.value, 20, {APP_FONT_BOLD});
+                  colors.value, 20, {font.bold});
 
         drawCenteredBar();
     }
