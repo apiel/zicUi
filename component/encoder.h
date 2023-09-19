@@ -136,6 +136,17 @@ protected:
         }
     }
 
+    void set(ValueProps props)
+    {
+        value = hostValue(props);
+        if (value != NULL)
+        {
+            value->onUpdate([](float, void *data)
+                            { ((ComponentEncoder *)data)->renderNext(); },
+                            this);
+        }
+    }
+
 public:
     int8_t encoderId = -1;
     const int margin = styles.margin;
@@ -162,17 +173,6 @@ public:
         else if (strcmp(key, "ENCODER_ID") == 0)
         {
             encoderId = atoi(value);
-        }
-    }
-
-    void set(ValueProps props)
-    {
-        value = hostValue(props);
-        if (value != NULL)
-        {
-            value->onUpdate([](float, void *data)
-                            { ((ComponentEncoder *)data)->renderNext(); },
-                            this);
         }
     }
 

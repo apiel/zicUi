@@ -159,9 +159,6 @@ public:
                 density->set(y);
             }
         }
-
-        // y change spray / or density
-        // Second point change x the grain size, y the spray / or density
     }
 
     void onMotionRelease(Motion &motion)

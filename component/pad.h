@@ -50,21 +50,6 @@ protected:
         }
     }
 
-public:
-    int pointerSize = 4;
-    Value *valueX = NULL;
-    Value *valueY = NULL;
-    bool holdValue = true;
-    float releaseX = 0.0f;
-    float releaseY = 0.0f;
-
-    const int margin = styles.margin;
-
-    ComponentPad(Point position, Size size)
-        : Component(position, size)
-    {
-    }
-
     void setValueX(ValueProps value)
     {
         valueX = hostValue(value);
@@ -87,6 +72,21 @@ public:
                              { ((ComponentPad *)data)->renderNext(); },
                              this);
         }
+    }
+
+public:
+    int pointerSize = 4;
+    Value *valueX = NULL;
+    Value *valueY = NULL;
+    bool holdValue = true;
+    float releaseX = 0.0f;
+    float releaseY = 0.0f;
+
+    const int margin = styles.margin;
+
+    ComponentPad(Point position, Size size)
+        : Component(position, size)
+    {
     }
 
     void config(char *key, char *value)
