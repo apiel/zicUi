@@ -15,7 +15,7 @@ class ViewMain : public View
 protected:
     // TODO add multiple screen/view/page
     std::vector<Component *> components;
-    int8_t lastEncoderRootIndex = -1;
+    int8_t lastGroup = -100;
 
     static ViewMain *instance;
 
@@ -42,13 +42,12 @@ public:
 
     void renderComponents()
     {
-        bool encoderRootIndexChanged = encoderRootIndex != lastEncoderRootIndex;
-        if (encoderRootIndexChanged)
+        if (group != lastGroup)
         {
-            lastEncoderRootIndex = encoderRootIndex;
+            lastGroup = group;
             for (auto &component : components)
             {
-                component->onEncoderRootIndexChanged(encoderRootIndex, encoderCount);
+                component->onGroupChanged(group);
             }
         }
         for (auto &component : components)
@@ -77,7 +76,7 @@ public:
     {
         for (auto &component : components)
         {
-            component->onEncoder(id + encoderRootIndex, direction);
+            component->onEncoder(id, direction);
         }
     }
 

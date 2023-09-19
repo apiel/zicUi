@@ -11,16 +11,16 @@ bool needToDraw = false;
 
 // TODO make this configurable 
 uint8_t encoderCount = 4;
-uint8_t encoderRootIndex = 0;
+int8_t group = 0;
 
-void setEncoderRootIndex(uint8_t index)
+void setGroup(int8_t index)
 {
-    encoderRootIndex = index;
+    group = index;
 }
 
-void resetEncoderRootIndex()
+void resetGroup()
 {
-    encoderRootIndex = 0;
+    group = 0;
 }
 
 #endif

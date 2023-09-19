@@ -14,7 +14,7 @@ public:
     Point position;
     const Size size;
     bool needRendering = true;
-    uint8_t encoderRootIndex = 0;
+    int8_t group = -1;
 
     Component(Point position, Size size)
         : position(position), size(size)
@@ -51,8 +51,7 @@ public:
         {
             if (motion.isStarting())
             {
-                // printf("Motion Starting, set encoderRootIndex %d\n", encoderRootIndex);
-                setEncoderRootIndex(encoderRootIndex);
+                setGroup(group);
             }
             onMotion(motion);
         }
@@ -64,7 +63,7 @@ public:
 
     virtual void handleMotionRelease(Motion &motion)
     {
-        resetEncoderRootIndex();
+        resetGroup();
         onMotionRelease(motion);
     }
 
@@ -77,9 +76,9 @@ public:
     }
     virtual void baseConfig(char *key, char *value)
     {
-        if (strcmp(key, "ENCODER_ROOT_INDEX") == 0)
+        if (strcmp(key, "GROUP") == 0)
         {
-            encoderRootIndex = atoi(value);
+            group = atoi(value);
         }
         else
         {
@@ -87,7 +86,7 @@ public:
         }
     }
 
-    virtual void onEncoderRootIndexChanged(uint8_t index, uint8_t encoderCount)
+    virtual void onGroupChanged(int8_t index)
     {
     }
 };

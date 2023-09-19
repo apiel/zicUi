@@ -171,19 +171,19 @@ public:
         }
     }
 
-    void onEncoderRootIndexChanged(uint8_t index, uint8_t encoderCount)
+    void onGroupChanged(int8_t index) override
     {
         int8_t shouldDrawId = -1;
-        if (encoderId >= index  && encoderId <  index + encoderCount)
+        if (group == index || group == -1)
         {
-            shouldDrawId = (encoderId % encoderCount) + 1;
+            shouldDrawId = encoderId + 1;
         }
         if (shouldDrawId != drawId)
         {
             drawId = shouldDrawId;
             renderNext();
         }
-        // printf("%d onEncoderRootIndexChanged %d %d => %d %d\n", encoderId, index, encoderCount, encoderId % encoderCount, drawId);
+        printf("current group: %d inccoming group: %d drawId: %d\n", group, index, drawId);
     }
 };
 
