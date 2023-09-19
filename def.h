@@ -7,6 +7,10 @@
 #include "helpers/range.h"
 #include "helpers/rangeFloat.h"
 
+#ifndef DEFAULT_FONT_SIZE
+#define DEFAULT_FONT_SIZE 16
+#endif
+
 #ifndef APP_FONT
 // #define APP_FONT "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf"
 // #define APP_FONT "/usr/share/fonts/truetype/freefont/FreeSans.ttf"
@@ -29,10 +33,6 @@
 // #define APP_FONT_ITALIC "/usr/share/fonts/truetype/freefont/FreeMonoOblique.ttf"
 // #define APP_FONT_ITALIC "/usr/share/fonts/truetype/roboto/unhinted/RobotoCondensed-Italic.ttf"
 #define APP_FONT_ITALIC "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Italic.ttf"
-#endif
-
-#ifndef APP_DEFAULT_FONT_SIZE
-#define APP_DEFAULT_FONT_SIZE 16
 #endif
 
 #define SCREEN_W 800
@@ -70,30 +70,30 @@ struct CoreColors
     SDL_Color overlay = {0xd1, 0xe3, 0xff, 0x1e};    // #d1e3ff1e
 } coreColors;
 
-struct Colors
-{
-    CoreColors core = coreColors;
-    struct Encoder
-    {
-        SDL_Color background = coreColors.foreground2;
-        SDL_Color id = coreColors.foreground3;
-        SDL_Color title = coreColors.textDark;
-        SDL_Color value = coreColors.text;
-    } encoder;
-    struct Pad
-    {
-        SDL_Color background = coreColors.foreground;
-        SDL_Color value = coreColors.text;
-    } pad;
+// struct Colors
+// {
+//     CoreColors core = coreColors;
+//     struct Encoder
+//     {
+//         SDL_Color background = coreColors.foreground2;
+//         SDL_Color id = coreColors.foreground3;
+//         SDL_Color title = coreColors.textDark;
+//         SDL_Color value = coreColors.text;
+//     } encoder;
+//     struct Pad
+//     {
+//         SDL_Color background = coreColors.foreground;
+//         SDL_Color value = coreColors.text;
+//     } pad;
 
-    struct granular
-    {
-        SDL_Color background = coreColors.foreground;
-        SDL_Color info = coreColors.foreground2;
-        SDL_Color samples = coreColors.textDark;
-        SDL_Color start = coreColors.overlay;
-    } granular;
-} colors;
+//     struct granular
+//     {
+//         SDL_Color background = coreColors.foreground;
+//         SDL_Color info = coreColors.foreground2;
+//         SDL_Color samples = coreColors.textDark;
+//         SDL_Color start = coreColors.overlay;
+//     } granular;
+// } colors;
 
 struct Styles
 {

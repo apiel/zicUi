@@ -8,6 +8,14 @@
 class ComponentGranular : public Component
 {
 protected:
+    struct Colors
+    {
+        SDL_Color background = coreColors.foreground;
+        SDL_Color info = coreColors.foreground2;
+        SDL_Color samples = coreColors.textDark;
+        SDL_Color start = coreColors.overlay;
+    } colors;
+
     AudioPlugin &plugin;
     Value *browser = hostValue({"Granular", "BROWSER"});
     float lastBrowser = -1.0f;
@@ -36,7 +44,7 @@ protected:
             textureSampleWaveform = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, textureSize.w, textureSize.h);
             SDL_SetRenderTarget(renderer, textureSampleWaveform);
 
-            draw.filledRect({0, 0}, {textureSize.w, textureSize.h}, colors.granular.background);
+            draw.filledRect({0, 0}, {textureSize.w, textureSize.h}, colors.background);
 
             uint64_t *samplesCount = (uint64_t *)plugin.data(0);
             float *bufferSamples = (float *)plugin.data(1);
@@ -46,10 +54,10 @@ protected:
                 int x = margin + (i * textureSize.w / *samplesCount);
                 int y1 = margin + (h - (int)(bufferSamples[i] * h));
                 int y2 = margin + (h + (int)(bufferSamples[i] * h));
-                draw.line({x, y1}, {x, y2}, colors.granular.samples);
+                draw.line({x, y1}, {x, y2}, colors.samples);
             }
 
-            draw.text({10, 5}, browser->string(), colors.granular.info, 12);
+            draw.text({10, 5}, browser->string(), colors.info, 12);
             SDL_SetRenderTarget(renderer, texture);
         }
         SDL_Rect rect = {position.x + margin, position.y + margin, textureSize.w, textureSize.h};
@@ -65,7 +73,7 @@ protected:
         {
             w -= (x + w) - (position.x + textureSize.w);
         }
-        draw.filledRect({x, position.y + margin}, {w, textureSize.h}, colors.granular.start);
+        draw.filledRect({x, position.y + margin}, {w, textureSize.h}, colors.start);
     }
 
     void renderInfo()
@@ -73,7 +81,7 @@ protected:
         char info[256];
         snprintf(info, sizeof(info), "Start %d%% Size %d%% Spray %d%% Density %d",
                  (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), (int)(lastDensity * density->props->stepCount + density->props->stepStart));
-        draw.text({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.granular.info, 12);
+        draw.text({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.info, 12);
     }
 
     void render()

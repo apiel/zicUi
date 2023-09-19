@@ -7,20 +7,27 @@
 class ComponentPad : public Component
 {
 protected:
+    struct Colors
+    {
+        SDL_Color background = coreColors.foreground;
+        SDL_Color value = coreColors.text;
+        SDL_Color title = coreColors.textDark;
+    } colors;
+
     int drawValue(const char *c, Value *value, Point position)
     {
         int x = position.x;
-        x = draw.text({x, position.y}, c, colors.encoder.title, 12);
+        x = draw.text({x, position.y}, c, colors.title, 12);
         int val = value->get() * value->props->stepCount;
         if (value->props->type == VALUE_CENTERED)
         {
-            x = draw.text({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
+            x = draw.text({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.value, 12, {APP_FONT_BOLD});
         }
-        x = draw.text({x + 3, position.y}, value->label(), colors.encoder.title, 12);
-        x = draw.text({x + 3, position.y}, std::to_string(val).c_str(), colors.encoder.value, 12, {APP_FONT_BOLD});
+        x = draw.text({x + 3, position.y}, value->label(), colors.title, 12);
+        x = draw.text({x + 3, position.y}, std::to_string(val).c_str(), colors.value, 12, {APP_FONT_BOLD});
         if (value->props->unit != NULL)
         {
-            x = draw.text({x + 2, position.y}, value->props->unit, colors.encoder.title, 10);
+            x = draw.text({x + 2, position.y}, value->props->unit, colors.title, 10);
         }
         return x;
     }
@@ -30,7 +37,7 @@ protected:
         draw.filledRect(
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
-            colors.pad.background);
+            colors.background);
 
         if (valueX != NULL && valueY != NULL)
         {
@@ -45,7 +52,7 @@ protected:
                 {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->get()),
                  position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * (1.0 - valueY->get()))},
                 {pointerSize, pointerSize},
-                colors.pad.value);
+                colors.value);
         }
     }
 
