@@ -47,8 +47,8 @@ struct Styles
 
 struct DrawTextOptions
 {
-    const char *fontPath = styles.font.regular;
-    int maxWidth = styles.screen.w;
+    const char *fontPath = NULL; // = styles.font.regular;
+    int maxWidth = -1;           // = styles.screen.w;
 };
 
 class DrawInterface
@@ -57,6 +57,13 @@ public:
     virtual void render() = 0;
     virtual void triggerRender() = 0;
     virtual void next() = 0;
+
+    DrawTextOptions getDefaultTextOptions(DrawTextOptions options)
+    {
+        return {
+            options.fontPath == NULL ? styles.font.regular : options.fontPath,
+            options.maxWidth == -1 ? styles.screen.w : options.maxWidth};
+    }
 
     virtual int textCentered(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {}) = 0;
     virtual int text(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {}) = 0;

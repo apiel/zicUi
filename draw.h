@@ -92,6 +92,7 @@ public:
 
     int textCentered(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
+        options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - (surface->w * 0.5);
         textToRenderer({x, position.y}, surface, options.maxWidth);
@@ -103,6 +104,7 @@ public:
 
     int text(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
+        options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         textToRenderer(position, surface, options.maxWidth);
         int xEnd = position.x + surface->w;
@@ -113,6 +115,7 @@ public:
 
     int textRight(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
+        options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - surface->w;
         textToRenderer({x, position.y}, surface, options.maxWidth);
