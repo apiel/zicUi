@@ -5,8 +5,7 @@
 #include <vector>
 #include <stdexcept>
 
-// FIXME
-#include "../zicHost/plugin.h"
+#include "plugins/valueInterface.h"
 
 std::vector<Plugin> *plugins = NULL;
 
@@ -55,31 +54,16 @@ AudioPlugin &getPlugin(const char *name)
     throw std::runtime_error("Could not find plugin");
 }
 
-struct ValueProps
+class Value : public ValueInterface
 {
-    const char *pluginName;
-    const char *key;
-};
-
-class Value
-{
-protected:
-    int index = -1;
-
 public:
-    AudioPlugin::ValueProps *props;
-    AudioPlugin &plugin;
-    const char *valueKey;
-
     Value(AudioPlugin &plugin, int index)
-        : plugin(plugin), index(index)
+        : ValueInterface(plugin, index)
     {
-        valueKey = plugin.getValueKey(index);
-        props = plugin.getValueProps(index);
     }
 
     Value(AudioPlugin &plugin, const char *key)
-        : plugin(plugin), valueKey(key)
+        : ValueInterface(plugin, index)
     {
         for (int i = 0; i < plugin.getValueCount(); i++)
         {
