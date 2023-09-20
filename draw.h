@@ -90,7 +90,7 @@ public:
         needToRender = true;
     }
 
-    int textCentered(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
+    int textCentered(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - (surface->w * 0.5);
@@ -101,7 +101,7 @@ public:
         return xEnd;
     }
 
-    int text(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
+    int text(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         textToRenderer(position, surface, options.maxWidth);
@@ -111,7 +111,7 @@ public:
         return xEnd;
     }
 
-    int textRight(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
+    int textRight(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - surface->w;

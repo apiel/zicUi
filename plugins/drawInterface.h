@@ -29,7 +29,6 @@ struct Styles
     const int margin = 1;
     struct Font
     {
-        uint32_t defaultSize = 16;
         const char *regular = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Regular.ttf";
         const char *bold = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Bold.ttf";
         const char *italic = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Italic.ttf";
@@ -59,9 +58,10 @@ public:
     virtual void triggerRender() = 0;
     virtual void next() = 0;
 
-    virtual int textCentered(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {}) = 0;
-    virtual int text(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {}) = 0;
-    virtual int textRight(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {}) = 0;
+    virtual int textCentered(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {}) = 0;
+    virtual int text(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {}) = 0;
+    virtual int textRight(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {}) = 0;
+
     virtual void clear(Color color = styles.colors.background) = 0;
     virtual void filledRect(Point position, Size size, Color color) = 0;
     virtual void rect(Point position, Size size, Color color) = 0;
