@@ -2,6 +2,7 @@
 #define _UI_COMPONENT_PAD_H_
 
 #include "../component.h"
+#include "../styles.h"
 
 class ComponentPad : public Component
 {

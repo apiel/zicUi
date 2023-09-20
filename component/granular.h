@@ -3,6 +3,7 @@
 
 #include "../component.h"
 #include "../host.h"
+#include "../styles.h"
 
 class ComponentGranular : public Component
 {

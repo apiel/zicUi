@@ -52,20 +52,10 @@ protected:
         SDL_DestroyTexture(texture);
     }
 
-    static Draw *instance;
-
-    Draw()
-    {
-    }
-
 public:
-    static Draw &get()
+    Draw(Styles styles)
+    : DrawInterface(styles)
     {
-        if (!instance)
-        {
-            instance = new Draw();
-        }
-        return *instance;
     }
 
     void render()
@@ -124,8 +114,9 @@ public:
         return x;
     }
 
-    void clear(Color color = styles.colors.background)
+    void clear()
     {
+        Color color = styles.colors.background;
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderClear(renderer);
     }
@@ -150,7 +141,5 @@ public:
         SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);
     }
 };
-
-Draw *Draw::instance = NULL;
 
 #endif

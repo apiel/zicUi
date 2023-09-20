@@ -3,6 +3,7 @@
 
 #include "../component.h"
 #include "../host.h"
+#include "../styles.h"
 
 class ComponentEncoder : public Component
 {

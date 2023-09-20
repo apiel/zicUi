@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "styles.h"
 #include "view.h"
 #include "draw.h"
 #include "state.h"
@@ -12,7 +13,7 @@
 class ViewMain : public View
 {
 protected:
-    Draw& draw = Draw::get();
+    Draw draw;
     // TODO add multiple screen/view/page
     std::vector<Component *> components;
     int8_t lastGroup = -100;
@@ -20,6 +21,7 @@ protected:
     static ViewMain *instance;
 
     ViewMain()
+    : draw(styles)
     {
     }
 

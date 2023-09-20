@@ -7,6 +7,7 @@
 #include "viewMain.h"
 #include "host.h"
 #include "config.h"
+#include "styles.h"
 
 int main()
 {
