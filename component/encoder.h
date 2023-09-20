@@ -2,8 +2,7 @@
 #define _UI_COMPONENT_ENCODER_H_
 
 #include "../component.h"
-#include "../host.h"
-#include "../plugins/valueInterface.h"
+#include <string>
 
 class ComponentEncoder : public Component
 {
@@ -162,8 +161,9 @@ protected:
 public:
     // margin left 15
     // margin right 10
-    ComponentEncoder(Point position, Size size, Draw &draw)
-        : Component(position, size, draw),
+    ComponentEncoder(Point position, Size size, Draw &draw,
+                     AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
+        : Component(position, size, draw, getPlugin, hostValue),
           colors({styles.colors.foreground2, styles.colors.foreground3, styles.colors.textDark, styles.colors.text}),
           margin(styles.margin),
           area({position.x + 15, 0, position.y, size.w - (15 + 10), size.h})

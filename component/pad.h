@@ -2,7 +2,7 @@
 #define _UI_COMPONENT_PAD_H_
 
 #include "../component.h"
-#include "../plugins/valueInterface.h"
+#include <string>
 
 class ComponentPad : public Component
 {
@@ -89,8 +89,9 @@ protected:
     const int margin;
 
 public:
-    ComponentPad(Point position, Size size, Draw &draw)
-        : Component(position, size, draw),
+    ComponentPad(Point position, Size size, Draw &draw,
+                 AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
+        : Component(position, size, draw, getPlugin, hostValue),
           colors({styles.colors.foreground, styles.colors.text, styles.colors.textDark}),
           margin(styles.margin)
     {

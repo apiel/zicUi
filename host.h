@@ -106,7 +106,7 @@ void loadHostValues()
     }
 }
 
-Value *hostValue(ValueProps props)
+ValueInterface *hostValue(ValueProps props)
 {
     if (props.pluginName == NULL || props.key == NULL)
     {
@@ -119,7 +119,7 @@ Value *hostValue(ValueProps props)
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
         }
     }
-    for (Value *value : hostValues)
+    for (ValueInterface *value : hostValues)
     {
         if (strcmp(value->valueKey, props.key) == 0 && strcmp(value->plugin.name(), props.pluginName) == 0)
         {

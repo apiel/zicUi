@@ -9,6 +9,7 @@
 #include "state.h"
 #include "component.h"
 #include "component/components.h"
+#include "host.h"
 
 class ViewMain : public View
 {
@@ -87,15 +88,15 @@ public:
     {
         if (strcmp(name, "Pad") == 0)
         {
-            components.push_back(new ComponentPad(position, size, draw));
+            components.push_back(new ComponentPad(position, size, draw, getPlugin, hostValue));
         }
         else if (strcmp(name, "Encoder") == 0)
         {
-            components.push_back(new ComponentEncoder(position, size, draw));
+            components.push_back(new ComponentEncoder(position, size, draw, getPlugin, hostValue));
         }
         else if (strcmp(name, "Granular") == 0)
         {
-            components.push_back(new ComponentGranular(position, size, draw));
+            components.push_back(new ComponentGranular(position, size, draw, getPlugin, hostValue));
         }
         else
         {
