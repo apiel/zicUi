@@ -1,9 +1,14 @@
 #ifndef _UI_DRAW_H_
 #define _UI_DRAW_H_
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+
 #include "def.h"
 #include "state.h"
 #include "plugins/drawInterface.h"
+
+#define PIXEL_FORMAT SDL_PIXELFORMAT_RGBA8888
 
 class Draw : public DrawInterface
 {

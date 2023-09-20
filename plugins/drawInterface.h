@@ -21,6 +21,8 @@ typedef struct Color
     Uint8 a;
 } Color;
 
+// FIXME
+// TODO pass this as props
 struct Styles
 {
     Size screen = {800, 480};

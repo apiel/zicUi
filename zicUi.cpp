@@ -1,4 +1,5 @@
 #include "def.h"
+#include "draw.h"
 #include "state.h"
 #include "event.h"
 #include "viewMain.h"
