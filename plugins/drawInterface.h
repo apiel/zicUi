@@ -47,8 +47,8 @@ struct Styles
 
 struct DrawTextOptions
 {
-    const char *fontPath = NULL; // = styles.font.regular;
-    int maxWidth = -1;           // = styles.screen.w;
+    const char *fontPath = NULL;
+    int maxWidth = -1;
 };
 
 class DrawInterface
