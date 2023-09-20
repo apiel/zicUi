@@ -103,9 +103,12 @@ public:
     {
         if (lastBrowser != browser->get())
         {
-            SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Sample browser position changed, clear textureSampleWaveform.");
-            SDL_DestroyTexture(textureSampleWaveform);
-            textureSampleWaveform = NULL;
+            if (textureSampleWaveform != NULL)
+            {
+                SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Sample browser position changed, clear textureSampleWaveform.");
+                SDL_DestroyTexture(textureSampleWaveform);
+                textureSampleWaveform = NULL;
+            }
             needRendering = true;
         }
         if (lastStart != start->get() || lastGrainSize != grainSize->get() || lastSpray != spray->get() || lastDensity != density->get())
