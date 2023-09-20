@@ -1,7 +1,7 @@
 #ifndef _OSC_INTERFACE_H_
 #define _OSC_INTERFACE_H_
 
-#include "interface.h"
+#include "controllerInterface.h"
 
 #include <lo/lo.h>
 #include <vector>
@@ -18,7 +18,7 @@ void oscError(int num, const char *msg, const char *path)
 int midiOscHandler(const char *path, const char *types, lo_arg **argv, int argc, lo_message data, void *user_data);
 int encoderOscHandler(const char *path, const char *types, lo_arg **argv, int argc, lo_message data, void *user_data);
 
-class OscInterface : public Interface
+class OscInterface : public ControllerInterface
 {
 protected:
     void start(const char *port)
@@ -39,7 +39,7 @@ protected:
     }
 
 public:
-    OscInterface(Props &props) : Interface(props)
+    OscInterface(Props &props) : ControllerInterface(props)
     {
         // printf("OSC server props : %d %d\n", props.midi, props.encoder);
         start("8888");

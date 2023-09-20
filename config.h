@@ -25,7 +25,7 @@ void assignKeyValue(char *key, char *value)
 {
     if (strcmp(key, "PLUGIN_INTERFACE") == 0)
     {
-        loadPluginInterface(value);
+        loadPluginController(value);
     }
     else if (lastPluginInstance && lastPluginInstance->config(key, value))
     {

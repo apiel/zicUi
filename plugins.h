@@ -2,12 +2,12 @@
 #define _PLUGINS_H_
 
 #include "viewMain.h"
-#include "plugins/interface.h"
+#include "plugins/controllerInterface.h"
 #include "host.h"
 
 #include <dlfcn.h>
 
-Interface *lastPluginInstance = NULL;
+ControllerInterface *lastPluginInstance = NULL;
 
 void encoderHandler(int id, int8_t direction)
 {
@@ -20,7 +20,7 @@ void midiHandler(std::vector<unsigned char> *message)
     midiHost(message);
 }
 
-void loadPluginInterface(const char *path)
+void loadPluginController(const char *path)
 {
     void *handle = dlopen(path, RTLD_LAZY);
 
@@ -31,7 +31,7 @@ void loadPluginInterface(const char *path)
     }
 
     dlerror();
-    void *allocator = (Interface *)dlsym(handle, "allocator");
+    void *allocator = (ControllerInterface *)dlsym(handle, "allocator");
     const char *dlsym_error = dlerror();
     if (dlsym_error)
     {
@@ -40,8 +40,8 @@ void loadPluginInterface(const char *path)
         return;
     }
 
-    Interface::Props props = {midiHandler, encoderHandler};
-    lastPluginInstance = ((Interface * (*)(Interface::Props & props)) allocator)(props);
+    ControllerInterface::Props props = {midiHandler, encoderHandler};
+    lastPluginInstance = ((ControllerInterface * (*)(ControllerInterface::Props & props)) allocator)(props);
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "plugin interface loaded: %s\n", path);
 }
 

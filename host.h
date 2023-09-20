@@ -63,11 +63,13 @@ struct ValueProps
 
 class Value
 {
+protected:
+    int index = -1;
+
 public:
+    AudioPlugin::ValueProps *props;
     AudioPlugin &plugin;
     const char *valueKey;
-    int index = -1;
-    AudioPlugin::ValueProps *props;
 
     Value(AudioPlugin &plugin, int index)
         : plugin(plugin), index(index)

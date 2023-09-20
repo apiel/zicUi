@@ -7,7 +7,7 @@
 #endif
 
 #ifndef PLUGIN_PROPS
-#define PLUGIN_PROPS Interface::Props
+#define PLUGIN_PROPS ControllerInterface::Props
 #endif
 
 #include PLUGIN_INCLUDE 

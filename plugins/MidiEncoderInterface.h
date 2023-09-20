@@ -5,13 +5,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "interface.h"
+#include "controllerInterface.h"
 
 void midiHandler(double timeStamp, std::vector<unsigned char> *message, void *userData);
 
 // For the moment everything is hardcoded, might want to make this more configurable...
 
-class MidiEncoderInterface : public Interface
+class MidiEncoderInterface : public ControllerInterface
 {
 protected:
     RtMidiIn midi;
@@ -52,7 +52,7 @@ public:
         uint8_t encoderId = -1;
     } encoders[127];
 
-    MidiEncoderInterface(Props &props) : Interface(props)
+    MidiEncoderInterface(Props &props) : ControllerInterface(props)
     {
         midi.setCallback(midiHandler, this);
         midi.ignoreTypes(false, false, false);

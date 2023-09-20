@@ -1,11 +1,11 @@
-#ifndef _INTERFACE_H_
-#define _INTERFACE_H_
+#ifndef _CONTROLLER_INTERFACE_H_
+#define _CONTROLLER_INTERFACE_H_
 
 #include <stdint.h>
 #include <unistd.h>
 #include <vector>
 
-class Interface
+class ControllerInterface
 {
 public:
     void (*midi)(std::vector<unsigned char> *message) = NULL;
@@ -16,7 +16,7 @@ public:
         void (*midi)(std::vector<unsigned char> *message) = NULL;
         void (*encoder)(int id, int8_t direction) = NULL;
     };
-    Interface(Props &props)
+    ControllerInterface(Props &props)
         : midi(props.midi), encoder(props.encoder)
     {
     }
