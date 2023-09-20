@@ -1,7 +1,14 @@
 #ifndef _IN_RECT_H_
 #define _IN_RECT_H_
 
-#include "../def.h"
+#include "../draw.h"
+
+
+struct Rect
+{
+    Point position;
+    Size size;
+};
 
 bool inRect(Rect rect, Point point)
 {
