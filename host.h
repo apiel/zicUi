@@ -62,26 +62,6 @@ public:
     {
     }
 
-    Value(AudioPlugin &plugin, const char *key)
-        : ValueInterface(plugin, index)
-    {
-        for (int i = 0; i < plugin.getValueCount(); i++)
-        {
-            if (strcmp(plugin.getValueKey(i), key) == 0)
-            {
-                index = i;
-                break;
-            }
-        }
-        // if index is still -1 should we throw?
-        props = plugin.getValueProps(index);
-    }
-
-    Value(ValueProps props)
-        : Value(getPlugin(props.pluginName), props.key)
-    {
-    }
-
     float get()
     {
         return plugin.getValue(index);
