@@ -3,19 +3,10 @@
 
 #include "../component.h"
 #include "../host.h"
-#include "../styles.h"
 
 class ComponentGranular : public Component
 {
 protected:
-    struct Colors
-    {
-        Color background = styles.colors.foreground;
-        Color info = styles.colors.foreground2;
-        Color samples = styles.colors.textDark;
-        Color start = styles.colors.overlay;
-    } colors;
-
     AudioPlugin &plugin;
     Value *browser = hostValue({"Granular", "BROWSER"});
     float lastBrowser = -1.0f;
@@ -91,11 +82,22 @@ protected:
         renderStartRange();
     }
 
-public:
-    const int margin = styles.margin;
+    struct Colors
+    {
+        Color background;
+        Color info;
+        Color samples;
+        Color start;
+    } colors;
 
+    const int margin;
+
+public:
     ComponentGranular(Point position, Size size, Draw &draw)
-        : Component(position, size, draw), plugin(getPlugin("Granular"))
+        : Component(position, size, draw),
+          colors({styles.colors.foreground, styles.colors.foreground2, styles.colors.textDark, styles.colors.overlay}),
+          margin(styles.margin),
+          plugin(getPlugin("Granular"))
     {
         textureSize = {size.w - 2 * margin, size.h - 2 * margin};
     }

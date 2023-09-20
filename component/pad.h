@@ -2,17 +2,16 @@
 #define _UI_COMPONENT_PAD_H_
 
 #include "../component.h"
-#include "../styles.h"
 
 class ComponentPad : public Component
 {
 protected:
-    struct Colors
-    {
-        Color background = styles.colors.foreground;
-        Color value = styles.colors.text;
-        Color title = styles.colors.textDark;
-    } colors;
+    const int pointerSize = 4;
+    Value *valueX = NULL;
+    Value *valueY = NULL;
+    bool holdValue = true;
+    float releaseX = 0.0f;
+    float releaseY = 0.0f;
 
     int drawValue(const char *c, Value *value, Point position)
     {
@@ -79,19 +78,20 @@ protected:
                              this);
         }
     }
+    struct Colors
+    {
+        Color background;
+        Color value;
+        Color title;
+    } colors;
+
+    const int margin;
 
 public:
-    int pointerSize = 4;
-    Value *valueX = NULL;
-    Value *valueY = NULL;
-    bool holdValue = true;
-    float releaseX = 0.0f;
-    float releaseY = 0.0f;
-
-    const int margin = styles.margin;
-
     ComponentPad(Point position, Size size, Draw &draw)
-        : Component(position, size, draw)
+        : Component(position, size, draw),
+          colors({styles.colors.foreground, styles.colors.text, styles.colors.textDark}),
+          margin(styles.margin)
     {
     }
 

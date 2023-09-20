@@ -3,19 +3,10 @@
 
 #include "../component.h"
 #include "../host.h"
-#include "../styles.h"
 
 class ComponentEncoder : public Component
 {
 protected:
-    struct Colors
-    {
-        Color background = styles.colors.foreground2;
-        Color id = styles.colors.foreground3;
-        Color title = styles.colors.textDark;
-        Color value = styles.colors.text;
-    } colors;
-
     const char *name = NULL;
 
     struct DrawArea
@@ -30,6 +21,9 @@ protected:
     const int valueMarginTop = 15;
 
     bool encoderActive = false;
+    int8_t encoderId = -1;
+
+    Value *value = NULL;
 
     void drawLabel()
     {
@@ -154,16 +148,24 @@ protected:
         }
     }
 
+    struct Colors
+    {
+        Color background;
+        Color id;
+        Color title;
+        Color value;
+    } colors;
+
+    const int margin;
+
 public:
-    int8_t encoderId = -1;
-    const int margin = styles.margin;
-
-    Value *value = NULL;
-
     // margin left 15
     // margin right 10
     ComponentEncoder(Point position, Size size, Draw &draw)
-        : Component(position, size, draw), area({position.x + 15, 0, position.y, size.w - (15 + 10), size.h})
+        : Component(position, size, draw),
+          colors({styles.colors.foreground2, styles.colors.foreground3, styles.colors.textDark, styles.colors.text}),
+          margin(styles.margin),
+          area({position.x + 15, 0, position.y, size.w - (15 + 10), size.h})
     {
         area.xCenter = (int)(area.x + (area.w * 0.5));
     }

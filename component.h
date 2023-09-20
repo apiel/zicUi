@@ -8,6 +8,7 @@ class Component
 {
 protected:
     Draw &draw;
+    Styles &styles;
     virtual void render() = 0;
 
 public:
@@ -17,7 +18,7 @@ public:
     int8_t group = -1;
 
     Component(Point position, Size size, Draw &draw)
-        : draw(draw), position(position), size(size)
+        : draw(draw), styles(draw.styles), position(position), size(size)
     {
     }
 
