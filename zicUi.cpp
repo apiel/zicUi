@@ -1,4 +1,6 @@
-#include "def.h"
+// TODO make it configurable
+#define ENCODER_COUNT 8
+
 #include "draw.h"
 #include "state.h"
 #include "event.h"

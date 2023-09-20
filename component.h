@@ -2,7 +2,6 @@
 #define _UI_COMPONENT_H_
 
 #include "draw.h"
-#include "def.h"
 #include "motion.h"
 
 class Component

@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "def.h"
 #include "state.h"
 #include "plugins/drawInterface.h"
 

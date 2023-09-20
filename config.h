@@ -1,7 +1,6 @@
 #ifndef _UI_CONFIG_H_
 #define _UI_CONFIG_H_
 
-#include "def.h"
 #include "fs.h"
 #include "viewMain.h"
 #include "plugins.h"

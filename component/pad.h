@@ -1,7 +1,6 @@
 #ifndef _UI_COMPONENT_PAD_H_
 #define _UI_COMPONENT_PAD_H_
 
-#include "../def.h"
 #include "../component.h"
 
 class ComponentPad : public Component

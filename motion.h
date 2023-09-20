@@ -1,7 +1,6 @@
 #ifndef _UI_MOTION_H_
 #define _UI_MOTION_H_
 
-#include "def.h"
 #include "helpers/inRect.h"
 
 // Touch and mouse motion

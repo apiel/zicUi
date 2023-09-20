@@ -1,7 +1,6 @@
 #ifndef _UI_COMPONENT_ENCODER_H_
 #define _UI_COMPONENT_ENCODER_H_
 
-#include "../def.h"
 #include "../component.h"
 #include "../host.h"
 

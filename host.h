@@ -1,7 +1,6 @@
 #ifndef _HOST_H_
 #define _HOST_H_
 
-#include "def.h"
 #include <dlfcn.h>
 #include <vector>
 #include <stdexcept>

@@ -1,7 +1,6 @@
 #ifndef _PLUGINS_H_
 #define _PLUGINS_H_
 
-#include "def.h"
 #include "viewMain.h"
 #include "plugins/interface.h"
 #include "host.h"

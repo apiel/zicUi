@@ -1,7 +1,6 @@
 #ifndef _UI_COMPONENT_GRANULAR_H_
 #define _UI_COMPONENT_GRANULAR_H_
 
-#include "../def.h"
 #include "../component.h"
 #include "../host.h"
 

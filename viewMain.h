@@ -5,7 +5,6 @@
 
 #include "view.h"
 #include "draw.h"
-#include "def.h"
 #include "state.h"
 #include "component.h"
 #include "component/components.h"

@@ -1,7 +1,6 @@
 #ifndef _UI_VIEW_H_
 #define _UI_VIEW_H_
 
-#include "def.h"
 #include "motion.h"
 
 class View
