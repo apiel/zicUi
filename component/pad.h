@@ -21,10 +21,10 @@ protected:
         int val = value->get() * value->props->stepCount;
         if (value->props->type == VALUE_CENTERED)
         {
-            x = draw.text({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.value, 12, {font.bold});
+            x = draw.text({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.value, 12, {styles.font.bold});
         }
         x = draw.text({x + 3, position.y}, value->label(), colors.title, 12);
-        x = draw.text({x + 3, position.y}, std::to_string(val).c_str(), colors.value, 12, {font.bold});
+        x = draw.text({x + 3, position.y}, std::to_string(val).c_str(), colors.value, 12, {styles.font.bold});
         if (value->props->unit != NULL)
         {
             x = draw.text({x + 2, position.y}, value->props->unit, colors.title, 10);

@@ -29,18 +29,17 @@ struct Rect
     Size size;
 };
 
-struct Font
-{
-    uint32_t defaultSize = 16;
-    const char *regular = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Regular.ttf";
-    const char *bold = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Bold.ttf";
-    const char *italic = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Italic.ttf";
-} font;
-
 struct Styles
 {
     Size screen = {800, 480};
     const int margin = 1;
+    struct Font
+    {
+        uint32_t defaultSize = 16;
+        const char *regular = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Regular.ttf";
+        const char *bold = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Bold.ttf";
+        const char *italic = "/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Italic.ttf";
+    } font;
     struct Colors
     {
         SDL_Color background = {0x21, 0x25, 0x2b, 255};  // #21252b
