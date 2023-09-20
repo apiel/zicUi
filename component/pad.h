@@ -2,18 +2,19 @@
 #define _UI_COMPONENT_PAD_H_
 
 #include "../component.h"
+#include "../plugins/valueInterface.h"
 
 class ComponentPad : public Component
 {
 protected:
     const int pointerSize = 4;
-    Value *valueX = NULL;
-    Value *valueY = NULL;
+    ValueInterface *valueX = NULL;
+    ValueInterface *valueY = NULL;
     bool holdValue = true;
     float releaseX = 0.0f;
     float releaseY = 0.0f;
 
-    int drawValue(const char *c, Value *value, Point position)
+    int drawValue(const char *c, ValueInterface *value, Point position)
     {
         int x = position.x;
         x = draw.text({x, position.y}, c, colors.title, 12);

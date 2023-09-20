@@ -3,20 +3,21 @@
 
 #include "../component.h"
 #include "../host.h"
+#include "../plugins/valueInterface.h"
 
 class ComponentGranular : public Component
 {
 protected:
     AudioPlugin &plugin;
-    Value *browser = hostValue({"Granular", "BROWSER"});
+    ValueInterface *browser = hostValue({"Granular", "BROWSER"});
     float lastBrowser = -1.0f;
-    Value *start = hostValue({"Granular", "START"});
+    ValueInterface *start = hostValue({"Granular", "START"});
     float lastStart = -1.0f;
-    Value *grainSize = hostValue({"Granular", "GRAIN_SIZE"});
+    ValueInterface *grainSize = hostValue({"Granular", "GRAIN_SIZE"});
     float lastGrainSize = -1.0f;
-    Value *spray = hostValue({"Granular", "SPRAY"});
+    ValueInterface *spray = hostValue({"Granular", "SPRAY"});
     float lastSpray = -1.0f;
-    Value *density = hostValue({"Granular", "DENSITY"});
+    ValueInterface *density = hostValue({"Granular", "DENSITY"});
     float lastDensity = -1.0f;
 
     Motion *motion1 = NULL;

@@ -3,6 +3,7 @@
 
 #include "../component.h"
 #include "../host.h"
+#include "../plugins/valueInterface.h"
 
 class ComponentEncoder : public Component
 {
@@ -23,7 +24,7 @@ protected:
     bool encoderActive = false;
     int8_t encoderId = -1;
 
-    Value *value = NULL;
+    ValueInterface *value = NULL;
 
     void drawLabel()
     {
