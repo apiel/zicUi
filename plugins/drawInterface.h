@@ -1,10 +1,6 @@
 #ifndef _UI_DRAW_INTERFACE_H_
 #define _UI_DRAW_INTERFACE_H_
 
-// to be removed...
-#include "../def.h"
-
-
 struct Size
 {
     int w;
