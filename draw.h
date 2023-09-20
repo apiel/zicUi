@@ -117,7 +117,7 @@ public:
         return x;
     }
 
-    void clear(SDL_Color color = coreColors.background)
+    void clear(SDL_Color color = styles.colors.background)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderClear(renderer);

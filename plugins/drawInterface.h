@@ -20,7 +20,7 @@ public:
     virtual int textCentered(Point position, const char *text, SDL_Color color, uint32_t size = font.defaultSize, DrawTextOptions options = {}) = 0;
     virtual int text(Point position, const char *text, SDL_Color color, uint32_t size = font.defaultSize, DrawTextOptions options = {}) = 0;
     virtual int textRight(Point position, const char *text, SDL_Color color, uint32_t size = font.defaultSize, DrawTextOptions options = {}) = 0;
-    virtual void clear(SDL_Color color = coreColors.background) = 0;
+    virtual void clear(SDL_Color color = styles.colors.background) = 0;
     virtual void filledRect(Point position, Size size, SDL_Color color) = 0;
     virtual void rect(Point position, Size size, SDL_Color color) = 0;
     virtual void line(Point start, Point end, SDL_Color color) = 0;

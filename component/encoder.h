@@ -10,10 +10,10 @@ class ComponentEncoder : public Component
 protected:
     struct Colors
     {
-        SDL_Color background = coreColors.foreground2;
-        SDL_Color id = coreColors.foreground3;
-        SDL_Color title = coreColors.textDark;
-        SDL_Color value = coreColors.text;
+        SDL_Color background = styles.colors.foreground2;
+        SDL_Color id = styles.colors.foreground3;
+        SDL_Color title = styles.colors.textDark;
+        SDL_Color value = styles.colors.text;
     } colors;
 
     const char *name = NULL;
