@@ -10,7 +10,7 @@ class Draw : public DrawInterface
 protected:
     bool needToRender = false;
 
-    SDL_Surface *getTextSurface(const char *text, SDL_Color color, uint32_t size, const char *fontPath)
+    SDL_Surface *getTextSurface(const char *text, Color color, uint32_t size, const char *fontPath)
     {
         TTF_Font *font = TTF_OpenFont(fontPath, size);
         if (font == NULL)
@@ -18,7 +18,7 @@ protected:
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to open font\n");
             return 0;
         }
-        SDL_Surface *surface = TTF_RenderText_Solid(font, text, color);
+        SDL_Surface *surface = TTF_RenderText_Solid(font, text, {color.r, color.g, color.b, color.a});
         if (surface == NULL)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to render text\n");
@@ -86,7 +86,7 @@ public:
         needToRender = true;
     }
 
-    int textCentered(Point position, const char *text, SDL_Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
+    int textCentered(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - (surface->w * 0.5);
@@ -97,7 +97,7 @@ public:
         return xEnd;
     }
 
-    int text(Point position, const char *text, SDL_Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
+    int text(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         textToRenderer(position, surface, options.maxWidth);
@@ -107,7 +107,7 @@ public:
         return xEnd;
     }
 
-    int textRight(Point position, const char *text, SDL_Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
+    int textRight(Point position, const char *text, Color color, uint32_t size = styles.font.defaultSize, DrawTextOptions options = {})
     {
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - surface->w;
@@ -117,27 +117,27 @@ public:
         return x;
     }
 
-    void clear(SDL_Color color = styles.colors.background)
+    void clear(Color color = styles.colors.background)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderClear(renderer);
     }
 
-    void filledRect(Point position, Size size, SDL_Color color)
+    void filledRect(Point position, Size size, Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_Rect rect = {position.x, position.y, size.w, size.h};
         SDL_RenderFillRect(renderer, &rect);
     }
 
-    void rect(Point position, Size size, SDL_Color color)
+    void rect(Point position, Size size, Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_Rect rect = {position.x, position.y, size.w, size.h};
         SDL_RenderDrawRect(renderer, &rect);
     }
 
-    void line(Point start, Point end, SDL_Color color)
+    void line(Point start, Point end, Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);

@@ -9,9 +9,9 @@ class ComponentPad : public Component
 protected:
     struct Colors
     {
-        SDL_Color background = styles.colors.foreground;
-        SDL_Color value = styles.colors.text;
-        SDL_Color title = styles.colors.textDark;
+        Color background = styles.colors.foreground;
+        Color value = styles.colors.text;
+        Color title = styles.colors.textDark;
     } colors;
 
     int drawValue(const char *c, Value *value, Point position)

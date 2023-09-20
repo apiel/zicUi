@@ -10,10 +10,10 @@ class ComponentGranular : public Component
 protected:
     struct Colors
     {
-        SDL_Color background = styles.colors.foreground;
-        SDL_Color info = styles.colors.foreground2;
-        SDL_Color samples = styles.colors.textDark;
-        SDL_Color start = styles.colors.overlay;
+        Color background = styles.colors.foreground;
+        Color info = styles.colors.foreground2;
+        Color samples = styles.colors.textDark;
+        Color start = styles.colors.overlay;
     } colors;
 
     AudioPlugin &plugin;
