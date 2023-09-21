@@ -1,30 +1,21 @@
 #ifndef _UI_COMPONENT_H_
 #define _UI_COMPONENT_H_
 
-#include "draw.h"
-#include "motion.h"
+#include "../draw.h"
+#include "../motion.h"
 
-#include "plugins/valueInterface.h"
+#include "valueInterface.h"
+#include "componentInterface.h"
 
-class Component
+class Component: public ComponentInterface
 {
 protected:
-    Draw &draw;
-    Styles &styles;
     virtual void render() = 0;
 
-    AudioPlugin &(*getPlugin)(const char *name);
-    ValueInterface *(*hostValue)(ValueProps props);
-
 public:
-    Point position;
-    const Size size;
-    bool needRendering = true;
-    int8_t group = -1;
-
     Component(Point position, Size size, Draw &draw,
               AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
-        : draw(draw), styles(draw.styles), getPlugin(getPlugin), hostValue(hostValue), position(position), size(size)
+        : ComponentInterface(position, size, draw, getPlugin, hostValue)
     {
     }
 

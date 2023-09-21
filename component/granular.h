@@ -1,7 +1,7 @@
 #ifndef _UI_COMPONENT_GRANULAR_H_
 #define _UI_COMPONENT_GRANULAR_H_
 
-#include "../component.h"
+#include "../plugins/component.h"
 #include <string>
 
 class ComponentGranular : public Component

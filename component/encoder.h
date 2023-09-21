@@ -1,7 +1,7 @@
 #ifndef _UI_COMPONENT_ENCODER_H_
 #define _UI_COMPONENT_ENCODER_H_
 
-#include "../component.h"
+#include "../plugins/component.h"
 #include <string>
 
 class ComponentEncoder : public Component

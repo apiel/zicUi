@@ -7,7 +7,7 @@
 #include "view.h"
 #include "draw.h"
 #include "state.h"
-#include "component.h"
+#include "plugins/componentInterface.h"
 #include "component/components.h"
 #include "host.h"
 
@@ -16,7 +16,7 @@ class ViewMain : public View
 protected:
     Draw draw;
     // TODO add multiple screen/view/page
-    std::vector<Component *> components;
+    std::vector<ComponentInterface *> components;
     int8_t lastGroup = -100;
 
     static ViewMain *instance;
