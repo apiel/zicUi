@@ -9,14 +9,9 @@ SDL_Texture* texture = NULL;
 uint8_t encoderCount = 4;
 int8_t group = 0;
 
-void setGroup(int8_t index)
+void setGroup(int8_t index = 0)
 {
     group = index;
-}
-
-void resetGroup()
-{
-    group = 0;
 }
 
 #endif

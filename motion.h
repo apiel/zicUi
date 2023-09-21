@@ -2,16 +2,12 @@
 #define _UI_MOTION_H_
 
 #include "helpers/inRect.h"
+#include "plugins/motionInterface.h"
 
 // Touch and mouse motion
-class Motion
+class Motion: public MotionInterface
 {
 public:
-    int id = -1;
-    Point position = {0, 0};
-    Point origin = {0, 0};
-    unsigned long counter = 0;
-
     void setId(int id)
     {
         this->id = id;

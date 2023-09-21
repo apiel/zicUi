@@ -19,8 +19,8 @@ protected:
     ValueInterface *density = hostValue({"Granular", "DENSITY"});
     float lastDensity = -1.0f;
 
-    Motion *motion1 = NULL;
-    Motion *motion2 = NULL;
+    MotionInterface *motion1 = NULL;
+    MotionInterface *motion2 = NULL;
 
     Size textureSize;
     SDL_Texture *textureSampleWaveform = NULL;
@@ -127,7 +127,7 @@ public:
 
     float startOrigin = 0.0;
     float sizeOrigin = 0.0;
-    void onMotion(Motion &motion)
+    void onMotion(MotionInterface &motion)
     {
         if (motion1 == NULL)
         {
@@ -175,7 +175,7 @@ public:
         }
     }
 
-    void onMotionRelease(Motion &motion)
+    void onMotionRelease(MotionInterface &motion)
     {
         Component::onMotionRelease(motion);
         if (motion1 == &motion)

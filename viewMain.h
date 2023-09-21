@@ -62,7 +62,7 @@ public:
         draw.triggerRender();
     }
 
-    void onMotion(Motion &motion)
+    void onMotion(MotionInterface &motion)
     {
         for (auto &component : components)
         {
@@ -70,7 +70,7 @@ public:
         }
     }
 
-    void onMotionRelease(Motion &motion)
+    void onMotionRelease(MotionInterface &motion)
     {
         for (auto &component : components)
         {

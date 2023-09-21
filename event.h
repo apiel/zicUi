@@ -10,6 +10,10 @@
 #define MAX_SCREEN_MOTION 5
 #endif
 
+#ifndef ENCODER_COUNT
+#define ENCODER_COUNT 8
+#endif
+
 class EventHandler
 {
 protected:
@@ -24,7 +28,7 @@ protected:
     static EventHandler *instance;
     EventHandler() {}
 
-    Motion *getMotion(int id)
+    MotionInterface *getMotion(int id)
     {
         for (int i = 0; i < MAX_SCREEN_MOTION; ++i)
         {
@@ -36,9 +40,9 @@ protected:
         return NULL;
     }
 
-    Motion *getOldestMotion()
+    MotionInterface *getOldestMotion()
     {
-        Motion *oldest = &motions[0];
+        MotionInterface *oldest = &motions[0];
         for (int i = 1; i < MAX_SCREEN_MOTION; ++i)
         {
             if (motions[i].id < oldest->id)
@@ -62,7 +66,7 @@ protected:
 #endif
 #endif
 
-        Motion *motion = getMotion(id);
+        MotionInterface *motion = getMotion(id);
         if (motion)
         {
             motion->move(x, y);
@@ -77,7 +81,7 @@ protected:
             return;
         }
 
-        Motion *motion = getMotion(id);
+        MotionInterface *motion = getMotion(id);
         if (motion)
         {
             motion->move(x, y);
@@ -93,7 +97,7 @@ protected:
             return;
         }
 
-        Motion *motion = getOldestMotion();
+        MotionInterface *motion = getOldestMotion();
         motion->init(id, x, y);
         viewMain.onMotion(*motion);
     }
