@@ -1,5 +1,5 @@
 all:
-	make clean_so OscInterface MidiEncoderInterface\
+	make clean_so OscController MidiEncoderController\
 		clean_o
 
 clean:
@@ -15,8 +15,8 @@ compile:
 	g++ -c -o $(LIBNAME).o plugin.cpp -fPIC -DPLUGIN_NAME=$(LIBNAME) -DPLUGIN_INCLUDE=\"$(LIBNAME).h\" $(EXTRA)
 	g++ -shared -o build/libzic_$(LIBNAME).so $(LIBNAME).o $(EXTRA)
 
-OscInterface:
-	make compile LIBNAME=OscInterface EXTRA="$(shell pkg-config --cflags --libs liblo)"
+OscController:
+	make compile LIBNAME=OscController EXTRA="$(shell pkg-config --cflags --libs liblo)"
 
-MidiEncoderInterface:
-	make compile LIBNAME=MidiEncoderInterface EXTRA="$(shell pkg-config --cflags --libs rtmidi)"
+MidiEncoderController:
+	make compile LIBNAME=MidiEncoderController EXTRA="$(shell pkg-config --cflags --libs rtmidi)"

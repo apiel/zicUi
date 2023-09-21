@@ -1,9 +1,9 @@
 #ifndef PLUGIN_NAME
-#define PLUGIN_NAME OscInterface
+#define PLUGIN_NAME OscController
 #endif
 
 #ifndef PLUGIN_INCLUDE
-#define PLUGIN_INCLUDE "OscInterface.h" 
+#define PLUGIN_INCLUDE "OscController.h" 
 #endif
 
 #ifndef PLUGIN_PROPS

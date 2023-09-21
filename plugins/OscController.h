@@ -1,5 +1,5 @@
-#ifndef _OSC_INTERFACE_H_
-#define _OSC_INTERFACE_H_
+#ifndef _OSC_CONTROLLER_H_
+#define _OSC_CONTROLLER_H_
 
 #include "controllerInterface.h"
 
@@ -18,7 +18,7 @@ void oscError(int num, const char *msg, const char *path)
 int midiOscHandler(const char *path, const char *types, lo_arg **argv, int argc, lo_message data, void *user_data);
 int encoderOscHandler(const char *path, const char *types, lo_arg **argv, int argc, lo_message data, void *user_data);
 
-class OscInterface : public ControllerInterface
+class OscController : public ControllerInterface
 {
 protected:
     void start(const char *port)
@@ -39,7 +39,7 @@ protected:
     }
 
 public:
-    OscInterface(Props &props) : ControllerInterface(props)
+    OscController(Props &props) : ControllerInterface(props)
     {
         // printf("OSC server props : %d %d\n", props.midi, props.encoder);
         start("8888");
@@ -54,7 +54,7 @@ int midiOscHandler(const char *path, const char *types, lo_arg **argv, int argc,
         msg.push_back(argv[i]->c);
     }
 
-    OscInterface *plugin = (OscInterface *)user_data;
+    OscController *plugin = (OscController *)user_data;
     plugin->midi(&msg);
 
     return 0;
@@ -62,7 +62,7 @@ int midiOscHandler(const char *path, const char *types, lo_arg **argv, int argc,
 
 int encoderOscHandler(const char *path, const char *types, lo_arg **argv, int argc, lo_message data, void *user_data)
 {
-    OscInterface *plugin = (OscInterface *)user_data;
+    OscController *plugin = (OscController *)user_data;
     plugin->encoder(argv[0]->i, argv[1]->i);
 
     return 0;

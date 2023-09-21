@@ -1,5 +1,5 @@
-#ifndef _OSC_INTERFACE_H_
-#define _OSC_INTERFACE_H_
+#ifndef _MIDI_ENCODER_CONTROLLER_H_
+#define _MIDI_ENCODER_CONTROLLER_H_
 
 #include <RtMidi.h>
 #include <stdio.h>
@@ -11,7 +11,7 @@ void midiHandler(double timeStamp, std::vector<unsigned char> *message, void *us
 
 // For the moment everything is hardcoded, might want to make this more configurable...
 
-class MidiEncoderInterface : public ControllerInterface
+class MidiEncoderController : public ControllerInterface
 {
 protected:
     RtMidiIn midi;
@@ -52,7 +52,7 @@ public:
         uint8_t encoderId = -1;
     } encoders[127];
 
-    MidiEncoderInterface(Props &props) : ControllerInterface(props)
+    MidiEncoderController(Props &props) : ControllerInterface(props)
     {
         midi.setCallback(midiHandler, this);
         midi.ignoreTypes(false, false, false);
@@ -90,7 +90,7 @@ public:
 
 void midiHandler(double timeStamp, std::vector<unsigned char> *message, void *userData)
 {
-    MidiEncoderInterface *plugin = (MidiEncoderInterface *)userData;
+    MidiEncoderController *plugin = (MidiEncoderController *)userData;
 
     int8_t direction = 1;
     if (message->at(2) < plugin->encoders[message->at(1)].value || message->at(2) == 0)
