@@ -2,7 +2,7 @@
 
 all:
 	make clean_so OscController MidiEncoderController\
-		PadComponent EncoderComponent\
+		PadComponent EncoderComponent GranularComponent\
 		clean_o
 
 clean:
