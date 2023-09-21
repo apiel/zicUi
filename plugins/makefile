@@ -1,3 +1,5 @@
+
+
 all:
 	make clean_so OscController MidiEncoderController\
 		clean_o
@@ -20,3 +22,5 @@ OscController:
 
 MidiEncoderController:
 	make compile LIBNAME=MidiEncoderController EXTRA="$(shell pkg-config --cflags --libs rtmidi)"
+
+

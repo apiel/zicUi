@@ -9,9 +9,9 @@
 #include "state.h"
 #include "plugins/componentInterface.h"
 #include "host.h"
-#include "plugins/padComponent.h"
-#include "plugins/encoderComponent.h"
-#include "plugins/granularComponent.h"
+#include "plugins/PadComponent.h"
+#include "plugins/EncoderComponent.h"
+#include "plugins/GranularComponent.h"
 
 class ViewMain : public View
 {
