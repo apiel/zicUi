@@ -23,7 +23,7 @@ protected:
     MotionInterface *motion2 = NULL;
 
     Size textureSize;
-    SDL_Texture *textureSampleWaveform = NULL;
+    void *textureSampleWaveform = NULL;
 
     // FIXME
     // TODO This how to handle texture
@@ -32,8 +32,7 @@ protected:
         if (textureSampleWaveform == NULL)
         {
             lastBrowser = browser->get();
-            textureSampleWaveform = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, textureSize.w, textureSize.h);
-            SDL_SetRenderTarget(renderer, textureSampleWaveform);
+            textureSampleWaveform = draw.getTexture(textureSize);
 
             draw.filledRect({0, 0}, {textureSize.w, textureSize.h}, colors.background);
 
@@ -52,7 +51,7 @@ protected:
             SDL_SetRenderTarget(renderer, texture);
         }
         SDL_Rect rect = {position.x + margin, position.y + margin, textureSize.w, textureSize.h};
-        SDL_RenderCopy(renderer, textureSampleWaveform, NULL, &rect);
+        SDL_RenderCopy(renderer, (SDL_Texture *)textureSampleWaveform, NULL, &rect);
         SDL_RenderPresent(renderer);
     }
 
@@ -108,7 +107,7 @@ public:
         {
             if (textureSampleWaveform != NULL)
             {
-                SDL_DestroyTexture(textureSampleWaveform);
+                draw.destroyTexture(textureSampleWaveform);
                 textureSampleWaveform = NULL;
             }
             needRendering = true;

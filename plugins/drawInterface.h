@@ -62,7 +62,8 @@ class DrawInterface
 {
 public:
     Styles styles;
-    DrawInterface(Styles styles) : styles(styles) {
+    DrawInterface(Styles styles) : styles(styles)
+    {
     }
 
     virtual void render() = 0;
@@ -84,6 +85,8 @@ public:
     virtual void filledRect(Point position, Size size, Color color) = 0;
     virtual void rect(Point position, Size size, Color color) = 0;
     virtual void line(Point start, Point end, Color color) = 0;
+    virtual void *getTexture(Size size) = 0;
+    virtual void destroyTexture(void *texture) = 0;
 };
 
 #endif

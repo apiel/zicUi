@@ -16,7 +16,6 @@
 class ViewMain : public View
 {
 protected:
-    Draw draw;
     // TODO add multiple screen/view/page
     std::vector<ComponentInterface *> components;
     int8_t lastGroup = -100;
@@ -29,6 +28,8 @@ protected:
     }
 
 public:
+    Draw draw;
+
     static ViewMain &get()
     {
         if (!instance)

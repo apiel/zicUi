@@ -54,7 +54,7 @@ protected:
 
 public:
     Draw(Styles styles)
-    : DrawInterface(styles)
+        : DrawInterface(styles)
     {
     }
 
@@ -139,6 +139,18 @@ public:
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);
+    }
+
+    void *getTexture(Size size)
+    {
+        SDL_Texture *texture = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, size.w, size.h);
+        SDL_SetRenderTarget(renderer, texture);
+        return texture;
+    }
+
+    void destroyTexture(void *texture)
+    {
+        SDL_DestroyTexture((SDL_Texture *)texture);
     }
 };
 

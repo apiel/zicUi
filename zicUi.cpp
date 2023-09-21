@@ -53,15 +53,14 @@ int main()
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    texture = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, styles.screen.w, styles.screen.h);
-    SDL_SetRenderTarget(renderer, texture);
+    ViewMain &viewMain = ViewMain::get();
+    texture = (SDL_Texture*)viewMain.draw.getTexture(styles.screen);
 
     if (!loadHost())
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
     }
 
-    ViewMain &viewMain = ViewMain::get();
     viewMain.render();
 
     EventHandler &event = EventHandler::get();
