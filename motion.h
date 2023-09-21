@@ -7,20 +7,10 @@
 class Motion
 {
 public:
-    int id;
-    Point position;
-    Point origin;
+    int id = -1;
+    Point position = {0, 0};
+    Point origin = {0, 0};
     unsigned long counter = 0;
-
-    Motion() : id(-1), position({0, 0}), origin({0, 0})
-    {
-    }
-
-    Motion(int id, int x, int y)
-        : id(id), position({x, y}), origin({x, y})
-    {
-    }
-
 
     void setId(int id)
     {

@@ -3,8 +3,7 @@
 
 #include "drawInterface.h"
 #include "valueInterface.h"
-
-#include "../motion.h"
+#include "motionInterface.h"
 
 class ComponentInterface
 {

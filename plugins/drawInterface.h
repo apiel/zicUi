@@ -16,6 +16,12 @@ struct Point
     int y;
 };
 
+struct Rect
+{
+    Point position;
+    Size size;
+};
+
 typedef struct Color
 {
     uint8_t r;

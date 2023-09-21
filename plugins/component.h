@@ -1,9 +1,8 @@
 #ifndef _UI_COMPONENT_H_
 #define _UI_COMPONENT_H_
 
-#include "../draw.h"
-#include "../motion.h"
-
+#include "drawInterface.h"
+#include "motionInterface.h"
 #include "valueInterface.h"
 #include "componentInterface.h"
 

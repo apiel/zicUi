@@ -3,13 +3,6 @@
 
 #include "../draw.h"
 
-
-struct Rect
-{
-    Point position;
-    Size size;
-};
-
 bool inRect(Rect rect, Point point)
 {
     return (point.x >= rect.position.x &&
