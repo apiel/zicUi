@@ -32,7 +32,7 @@ protected:
         if (textureSampleWaveform == NULL)
         {
             lastBrowser = browser->get();
-            textureSampleWaveform = draw.getTexture(textureSize);
+            textureSampleWaveform = draw.setTextureRenderer(textureSize);
 
             draw.filledRect({0, 0}, {textureSize.w, textureSize.h}, colors.background);
 
@@ -48,11 +48,9 @@ protected:
             }
 
             draw.text({10, 5}, browser->string(), colors.info, 12);
-            SDL_SetRenderTarget(renderer, texture);
+            draw.setMainRenderer();
         }
-        SDL_Rect rect = {position.x + margin, position.y + margin, textureSize.w, textureSize.h};
-        SDL_RenderCopy(renderer, (SDL_Texture *)textureSampleWaveform, NULL, &rect);
-        SDL_RenderPresent(renderer);
+        draw.applyTexture(textureSampleWaveform, {{position.x + margin, position.y + margin}, textureSize});
     }
 
     void renderStartRange()

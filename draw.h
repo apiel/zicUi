@@ -141,16 +141,28 @@ public:
         SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);
     }
 
-    void *getTexture(Size size)
+    void *setTextureRenderer(Size size)
     {
         SDL_Texture *texture = SDL_CreateTexture(renderer, PIXEL_FORMAT, SDL_TEXTUREACCESS_TARGET, size.w, size.h);
         SDL_SetRenderTarget(renderer, texture);
         return texture;
     }
 
+    void setMainRenderer()
+    {
+        SDL_SetRenderTarget(renderer, texture);
+    }
+
     void destroyTexture(void *texture)
     {
         SDL_DestroyTexture((SDL_Texture *)texture);
+    }
+
+    void applyTexture(void *texture, Rect dest)
+    {
+        SDL_Rect rect = {dest.position.x, dest.position.y, dest.size.w, dest.size.h};
+        SDL_RenderCopy(renderer, (SDL_Texture *)texture, NULL, &rect);
+        SDL_RenderPresent(renderer);
     }
 };
 
