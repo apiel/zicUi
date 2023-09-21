@@ -4,7 +4,7 @@
 #include "../plugins/component.h"
 #include <string>
 
-class ComponentPad : public Component
+class PadComponent : public Component
 {
 protected:
     const int pointerSize = 4;
@@ -63,7 +63,7 @@ protected:
         if (valueX != NULL)
         {
             valueX->onUpdate([](float, void *data)
-                             { ((ComponentPad *)data)->renderNext(); },
+                             { ((PadComponent *)data)->renderNext(); },
                              this);
         }
     }
@@ -75,7 +75,7 @@ protected:
         if (valueY != NULL)
         {
             valueY->onUpdate([](float, void *data)
-                             { ((ComponentPad *)data)->renderNext(); },
+                             { ((PadComponent *)data)->renderNext(); },
                              this);
         }
     }
@@ -89,7 +89,7 @@ protected:
     const int margin;
 
 public:
-    ComponentPad(Point position, Size size, Draw &draw,
+    PadComponent(Point position, Size size, Draw &draw,
                  AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
         : Component(position, size, draw, getPlugin, hostValue),
           colors({styles.colors.foreground, styles.colors.text, styles.colors.textDark}),

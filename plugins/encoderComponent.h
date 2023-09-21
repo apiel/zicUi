@@ -4,7 +4,7 @@
 #include "../plugins/component.h"
 #include <string>
 
-class ComponentEncoder : public Component
+class EncoderComponent : public Component
 {
 protected:
     const char *name = NULL;
@@ -143,7 +143,7 @@ protected:
         if (value != NULL)
         {
             value->onUpdate([](float, void *data)
-                            { ((ComponentEncoder *)data)->renderNext(); },
+                            { ((EncoderComponent *)data)->renderNext(); },
                             this);
         }
     }
@@ -161,7 +161,7 @@ protected:
 public:
     // margin left 15
     // margin right 10
-    ComponentEncoder(Point position, Size size, Draw &draw,
+    EncoderComponent(Point position, Size size, Draw &draw,
                      AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
         : Component(position, size, draw, getPlugin, hostValue),
           colors({styles.colors.foreground2, styles.colors.foreground3, styles.colors.textDark, styles.colors.text}),

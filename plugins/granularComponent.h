@@ -4,7 +4,7 @@
 #include "../plugins/component.h"
 #include <string>
 
-class ComponentGranular : public Component
+class GranularComponent : public Component
 {
 protected:
     AudioPlugin &plugin;
@@ -93,7 +93,7 @@ protected:
     const int margin;
 
 public:
-    ComponentGranular(Point position, Size size, Draw &draw,
+    GranularComponent(Point position, Size size, Draw &draw,
                       AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
         : Component(position, size, draw, getPlugin, hostValue),
           colors({styles.colors.foreground, styles.colors.foreground2, styles.colors.textDark, styles.colors.overlay}),

@@ -90,15 +90,15 @@ public:
     {
         if (strcmp(name, "Pad") == 0)
         {
-            components.push_back(new ComponentPad(position, size, draw, getPlugin, hostValue));
+            components.push_back(new PadComponent(position, size, draw, getPlugin, hostValue));
         }
         else if (strcmp(name, "Encoder") == 0)
         {
-            components.push_back(new ComponentEncoder(position, size, draw, getPlugin, hostValue));
+            components.push_back(new EncoderComponent(position, size, draw, getPlugin, hostValue));
         }
         else if (strcmp(name, "Granular") == 0)
         {
-            components.push_back(new ComponentGranular(position, size, draw, getPlugin, hostValue));
+            components.push_back(new GranularComponent(position, size, draw, getPlugin, hostValue));
         }
         else
         {
