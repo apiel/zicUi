@@ -94,6 +94,11 @@ public:
     {
     }
 
+    const char *getName()
+    {
+        return "Pad";
+    }
+
     void config(char *key, char *value)
     {
         if (strcmp(key, "VALUE_X") == 0)

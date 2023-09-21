@@ -53,6 +53,7 @@ public:
     virtual void config(char *key, char *value) = 0;
     virtual void baseConfig(char *key, char *value) = 0;
     virtual void onGroupChanged(int8_t index) = 0;
+    virtual const char *getName() = 0;
 };
 
 #endif

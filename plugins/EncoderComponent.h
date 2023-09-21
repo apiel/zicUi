@@ -170,6 +170,11 @@ public:
         area.xCenter = (int)(area.x + (area.w * 0.5));
     }
 
+    const char *getName()
+    {
+        return "Encoder";
+    }
+
     void config(char *key, char *value)
     {
         if (strcmp(key, "VALUE") == 0)
