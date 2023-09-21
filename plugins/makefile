@@ -23,4 +23,5 @@ OscController:
 MidiEncoderController:
 	make compile LIBNAME=MidiEncoderController EXTRA="$(shell pkg-config --cflags --libs rtmidi)"
 
-
+PadComponent:
+	make compile LIBNAME=PadComponent PLUGIN_PROPS="ComponentInterface::Props"

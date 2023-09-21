@@ -88,17 +88,18 @@ public:
 
     void addComponent(const char *name, Point position, Size size)
     {
+        ComponentInterface::Props props = {position, size, draw, getPlugin, hostValue};
         if (strcmp(name, "Pad") == 0)
         {
-            components.push_back(new PadComponent(position, size, draw, getPlugin, hostValue));
+            components.push_back(new PadComponent(props));
         }
         else if (strcmp(name, "Encoder") == 0)
         {
-            components.push_back(new EncoderComponent(position, size, draw, getPlugin, hostValue));
+            components.push_back(new EncoderComponent(props));
         }
         else if (strcmp(name, "Granular") == 0)
         {
-            components.push_back(new GranularComponent(position, size, draw, getPlugin, hostValue));
+            components.push_back(new GranularComponent(props));
         }
         else
         {

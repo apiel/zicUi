@@ -161,9 +161,8 @@ protected:
 public:
     // margin left 15
     // margin right 10
-    EncoderComponent(Point position, Size size, Draw &draw,
-                     AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
-        : Component(position, size, draw, getPlugin, hostValue),
+    EncoderComponent(ComponentInterface::Props &props)
+        : Component(props),
           colors({styles.colors.foreground2, styles.colors.foreground3, styles.colors.textDark, styles.colors.text}),
           margin(styles.margin),
           area({position.x + 15, 0, position.y, size.w - (15 + 10), size.h})

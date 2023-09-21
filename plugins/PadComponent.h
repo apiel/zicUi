@@ -89,9 +89,8 @@ protected:
     const int margin;
 
 public:
-    PadComponent(Point position, Size size, Draw &draw,
-                 AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
-        : Component(position, size, draw, getPlugin, hostValue),
+    PadComponent(ComponentInterface::Props &props)
+        : Component(props),
           colors({styles.colors.foreground, styles.colors.text, styles.colors.textDark}),
           margin(styles.margin)
     {

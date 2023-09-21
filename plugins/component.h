@@ -12,9 +12,8 @@ protected:
     virtual void render() = 0;
 
 public:
-    Component(Point position, Size size, Draw &draw,
-              AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
-        : ComponentInterface(position, size, draw, getPlugin, hostValue)
+    Component(ComponentInterface::Props &props)
+        : ComponentInterface(props)
     {
     }
 

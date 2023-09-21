@@ -93,9 +93,8 @@ protected:
     const int margin;
 
 public:
-    GranularComponent(Point position, Size size, Draw &draw,
-                      AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
-        : Component(position, size, draw, getPlugin, hostValue),
+    GranularComponent(ComponentInterface::Props &props)
+        : Component(props),
           colors({styles.colors.foreground, styles.colors.foreground2, styles.colors.textDark, styles.colors.overlay}),
           margin(styles.margin),
           plugin(getPlugin("Granular"))

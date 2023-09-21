@@ -21,9 +21,22 @@ public:
     bool needRendering = true;
     int8_t group = -1;
 
-    ComponentInterface(Point position, Size size, DrawInterface &draw,
-                       AudioPlugin &(*getPlugin)(const char *name), ValueInterface *(*hostValue)(ValueProps props))
-        : draw(draw), styles(draw.styles), getPlugin(getPlugin), hostValue(hostValue), position(position), size(size)
+    struct Props
+    {
+        Point position;
+        Size size;
+        DrawInterface &draw;
+        AudioPlugin &(*getPlugin)(const char *name);
+        ValueInterface *(*hostValue)(ValueProps props);
+    };
+
+    ComponentInterface(Props &props)
+        : draw(props.draw),
+          styles(props.draw.styles),
+          getPlugin(props.getPlugin),
+          hostValue(props.hostValue),
+          position(props.position),
+          size(props.size)
     {
     }
 
