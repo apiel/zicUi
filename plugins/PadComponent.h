@@ -59,7 +59,6 @@ protected:
     void setValueX(ValueProps value)
     {
         valueX = hostValue(value);
-        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad X value: %s %s", value.pluginName, value.key);
         if (valueX != NULL)
         {
             valueX->onUpdate([](float, void *data)
@@ -71,7 +70,6 @@ protected:
     void setValueY(ValueProps value)
     {
         valueY = hostValue(value);
-        SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Pad Y value: %s %s", value.pluginName, value.key);
         if (valueY != NULL)
         {
             valueY->onUpdate([](float, void *data)
@@ -124,7 +122,7 @@ public:
         }
     }
 
-    void onMotion(Motion &motion)
+    void onMotion(MotionInterface &motion)
     {
         if (valueX == NULL || valueY == NULL)
         {
@@ -143,7 +141,7 @@ public:
         }
     }
 
-    void onMotionRelease(Motion &motion)
+    void onMotionRelease(MotionInterface &motion)
     {
         Component::onMotionRelease(motion);
         if (holdValue == false && valueX != NULL && valueY != NULL && (valueX->get() != releaseX || valueY->get() != releaseY))

@@ -6,6 +6,8 @@
 #include "valueInterface.h"
 #include "componentInterface.h"
 
+#include <stdlib.h>
+
 class Component: public ComponentInterface
 {
 protected:
@@ -32,11 +34,11 @@ public:
         needRendering = true;
     }
 
-    virtual void onMotion(Motion &motion)
+    virtual void onMotion(MotionInterface &motion)
     {
     }
 
-    virtual void handleMotion(Motion &motion)
+    virtual void handleMotion(MotionInterface &motion)
     {
         if (!motion.originIn({position, size}))
         {
@@ -53,11 +55,11 @@ public:
         }
     }
 
-    virtual void onMotionRelease(Motion &motion)
+    virtual void onMotionRelease(MotionInterface &motion)
     {
     }
 
-    virtual void handleMotionRelease(Motion &motion)
+    virtual void handleMotionRelease(MotionInterface &motion)
     {
         resetGroup();
         onMotionRelease(motion);

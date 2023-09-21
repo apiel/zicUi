@@ -42,10 +42,10 @@ public:
 
     virtual void triggerRenderer() = 0;
     virtual void renderNext() = 0;
-    virtual void onMotion(Motion &motion) = 0;
-    virtual void handleMotion(Motion &motion) = 0;
-    virtual void onMotionRelease(Motion &motion) = 0;
-    virtual void handleMotionRelease(Motion &motion) = 0;
+    virtual void onMotion(MotionInterface &motion) = 0;
+    virtual void handleMotion(MotionInterface &motion) = 0;
+    virtual void onMotionRelease(MotionInterface &motion) = 0;
+    virtual void handleMotionRelease(MotionInterface &motion) = 0;
     virtual void onEncoder(int id, int8_t direction) = 0;
     virtual void config(char *key, char *value) = 0;
     virtual void baseConfig(char *key, char *value) = 0;
