@@ -61,7 +61,7 @@ public:
 
     virtual void handleMotionRelease(MotionInterface &motion)
     {
-        setGroup();
+        setGroup(-1);
         onMotionRelease(motion);
     }
 

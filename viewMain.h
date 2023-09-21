@@ -88,7 +88,7 @@ public:
 
     void addComponent(const char *name, Point position, Size size)
     {
-        ComponentInterface::Props props = {position, size, draw, getPlugin, hostValue};
+        ComponentInterface::Props props = {position, size, draw, getPlugin, hostValue, setGroup};
         if (strcmp(name, "Pad") == 0)
         {
             components.push_back(new PadComponent(props));

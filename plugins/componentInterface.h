@@ -14,6 +14,7 @@ protected:
 
     AudioPlugin &(*getPlugin)(const char *name);
     ValueInterface *(*hostValue)(ValueProps props);
+    void (*setGroup)(int8_t index);
 
 public:
     Point position;
@@ -28,6 +29,7 @@ public:
         DrawInterface &draw;
         AudioPlugin &(*getPlugin)(const char *name);
         ValueInterface *(*hostValue)(ValueProps props);
+        void (*setGroup)(int8_t index);
     };
 
     ComponentInterface(Props &props)
@@ -35,6 +37,7 @@ public:
           styles(props.draw.styles),
           getPlugin(props.getPlugin),
           hostValue(props.hostValue),
+          setGroup(props.setGroup),
           position(props.position),
           size(props.size)
     {
