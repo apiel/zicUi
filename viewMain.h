@@ -8,8 +8,10 @@
 #include "draw.h"
 #include "state.h"
 #include "plugins/componentInterface.h"
-#include "component/components.h"
 #include "host.h"
+#include "plugins/padComponent.h"
+#include "plugins/encoderComponent.h"
+#include "plugins/granularComponent.h"
 
 class ViewMain : public View
 {
