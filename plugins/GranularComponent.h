@@ -108,7 +108,6 @@ public:
         {
             if (textureSampleWaveform != NULL)
             {
-                SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Sample browser position changed, clear textureSampleWaveform.");
                 SDL_DestroyTexture(textureSampleWaveform);
                 textureSampleWaveform = NULL;
             }
