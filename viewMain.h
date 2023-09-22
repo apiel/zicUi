@@ -30,15 +30,15 @@ protected:
 
     struct Plugin
     {
-        char *name;
-        ComponentInterface *(*allocator)(ComponentInterface &props);
+        char name[64];
+        ComponentInterface *(*allocator)(ComponentInterface::Props &props);
     };
     std::vector<Plugin> plugins;
 
     void loadPlugin(char *value)
     {
         Plugin plugin;
-        plugin.name = strtok(value, " ");
+        strcpy(plugin.name, strtok(value, " "));
         char *path = strtok(NULL, " ");
 
         void *handle = dlopen(path, RTLD_LAZY);
@@ -50,7 +50,7 @@ protected:
         }
 
         dlerror();
-        plugin.allocator = (ComponentInterface *(*)(ComponentInterface &props))dlsym(handle, "allocator");
+        plugin.allocator = (ComponentInterface * (*)(ComponentInterface::Props & props)) dlsym(handle, "allocator");
         const char *dlsym_error = dlerror();
         if (dlsym_error)
         {
@@ -58,6 +58,27 @@ protected:
             dlclose(handle);
             return;
         }
+        plugins.push_back(plugin);
+    }
+
+    void addComponent(const char *name, Point position, Size size)
+    {
+        ComponentInterface::Props props = {position, size, draw, getPlugin, hostValue, setGroup};
+
+        for (auto &plugin : plugins)
+        {
+            if (strcmp(plugin.name, name) == 0)
+            {
+                ComponentInterface *component = plugin.allocator(props);
+                components.push_back(component);
+                return;
+            }
+        }
+        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Unknown component: %s", name);
+        // for (auto &plugin : plugins)
+        // {
+        //     printf("plugin differ: %s vs %s\n", plugin.name, name);
+        // }
     }
 
 public:
@@ -117,27 +138,6 @@ public:
         for (auto &component : components)
         {
             component->onEncoder(id, direction);
-        }
-    }
-
-    void addComponent(const char *name, Point position, Size size)
-    {
-        ComponentInterface::Props props = {position, size, draw, getPlugin, hostValue, setGroup};
-        if (strcmp(name, "Pad") == 0)
-        {
-            components.push_back(new PadComponent(props));
-        }
-        else if (strcmp(name, "Encoder") == 0)
-        {
-            components.push_back(new EncoderComponent(props));
-        }
-        else if (strcmp(name, "Granular") == 0)
-        {
-            components.push_back(new GranularComponent(props));
-        }
-        else
-        {
-            SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Unknown component: %s", name);
         }
     }
 
