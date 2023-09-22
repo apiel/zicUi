@@ -108,19 +108,26 @@ public:
         }
     }
 
-    void config(char *key, char *value)
+    bool config(char *key, char *value)
     {
-        if (strcmp(key, "COMPONENT") == 0)
+        if (strcmp(key, "PLUGIN_COMPONENT") == 0)
+        {
+            printf("PLUGIN_COMPONENT.......: %s\n", value);
+            return true;
+        }
+        else if (strcmp(key, "COMPONENT") == 0)
         {
             char * name = strtok(value, " ");
             Point position = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
             Size size = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
             addComponent(name, position, size); 
+            return true;
         }
         else if (components.size() > 0)
         {
-            components.back()->baseConfig(key, value);
+            return components.back()->baseConfig(key, value);
         }
+        return false;
     }
 
     void config(const char *key, const char *value)

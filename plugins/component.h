@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-class Component: public ComponentInterface
+class Component : public ComponentInterface
 {
 protected:
     virtual void render() = 0;
@@ -69,19 +69,18 @@ public:
     {
     }
 
-    virtual void config(char *key, char *value)
+    virtual bool config(char *key, char *value)
     {
+        return false;
     }
-    virtual void baseConfig(char *key, char *value)
+    virtual bool baseConfig(char *key, char *value)
     {
         if (strcmp(key, "GROUP") == 0)
         {
             group = atoi(value);
+            return true;
         }
-        else
-        {
-            config(key, value);
-        }
+        return config(key, value);
     }
 
     virtual void onGroupChanged(int8_t index)

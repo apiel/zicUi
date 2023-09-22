@@ -170,7 +170,7 @@ public:
         area.xCenter = (int)(area.x + (area.w * 0.5));
     }
 
-    void config(char *key, char *value)
+    bool config(char *key, char *value)
     {
         if (strcmp(key, "VALUE") == 0)
         {
@@ -178,11 +178,14 @@ public:
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
             set({pluginName, keyValue});
+            return true;
         }
         else if (strcmp(key, "ENCODER_ID") == 0)
         {
             encoderId = atoi(value);
+            return true;
         }
+        return false;
     }
 
     void onEncoder(int id, int8_t direction)

@@ -94,32 +94,38 @@ public:
     {
     }
 
-    void config(char *key, char *value)
+    bool config(char *key, char *value)
     {
         if (strcmp(key, "VALUE_X") == 0)
         {
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
             setValueX({pluginName, keyValue});
+            return true;
         }
         else if (strcmp(key, "VALUE_Y") == 0)
         {
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
             setValueY({pluginName, keyValue});
+            return true;
         }
         else if (strcmp(key, "HOLD_VALUE") == 0)
         {
             holdValue = strcmp(value, "true") == 0;
+            return true;
         }
         else if (strcmp(key, "RELEASE_X") == 0)
         {
             releaseX = atof(value);
+            return true;
         }
         else if (strcmp(key, "RELEASE_Y") == 0)
         {
             releaseY = atof(value);
+            return true;
         }
+        return false;
     }
 
     void onMotion(MotionInterface &motion)
