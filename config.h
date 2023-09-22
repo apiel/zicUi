@@ -23,7 +23,7 @@ char *trimChar(char *str, char c = '\n')
 
 void assignKeyValue(char *key, char *value)
 {
-    if (strcmp(key, "PLUGIN_INTERFACE") == 0)
+    if (strcmp(key, "PLUGIN_CONTROLLER") == 0)
     {
         loadPluginController(value);
     }

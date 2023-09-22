@@ -99,11 +99,6 @@ public:
         textureSize = {size.w - 2 * margin, size.h - 2 * margin};
     }
 
-    const char *getName()
-    {
-        return "Granular";
-    }
-
     virtual void triggerRenderer() override
     {
         if (lastBrowser != browser->get())
