@@ -31,7 +31,7 @@ void loadPluginController(const char *path)
     }
 
     dlerror();
-    void *allocator = (ControllerInterface *)dlsym(handle, "allocator");
+    void *allocator = dlsym(handle, "allocator");
     const char *dlsym_error = dlerror();
     if (dlsym_error)
     {

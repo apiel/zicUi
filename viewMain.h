@@ -2,6 +2,7 @@
 #define _VIEW_MAIN_H
 
 #include <vector>
+#include <dlfcn.h>
 
 #include "styles.h"
 #include "view.h"
@@ -23,8 +24,40 @@ protected:
     static ViewMain *instance;
 
     ViewMain()
-    : draw(styles)
+        : draw(styles)
     {
+    }
+
+    struct Plugin
+    {
+        char *name;
+        ComponentInterface *(*allocator)(ComponentInterface &props);
+    };
+    std::vector<Plugin> plugins;
+
+    void loadPlugin(char *value)
+    {
+        Plugin plugin;
+        plugin.name = strtok(value, " ");
+        char *path = strtok(NULL, " ");
+
+        void *handle = dlopen(path, RTLD_LAZY);
+
+        if (!handle)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Cannot open library: %s\n", dlerror());
+            return;
+        }
+
+        dlerror();
+        plugin.allocator = (ComponentInterface *(*)(ComponentInterface &props))dlsym(handle, "allocator");
+        const char *dlsym_error = dlerror();
+        if (dlsym_error)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Cannot load symbol: %s\n", dlsym_error);
+            dlclose(handle);
+            return;
+        }
     }
 
 public:
@@ -112,15 +145,15 @@ public:
     {
         if (strcmp(key, "PLUGIN_COMPONENT") == 0)
         {
-            printf("PLUGIN_COMPONENT.......: %s\n", value);
+            loadPlugin(value);
             return true;
         }
         else if (strcmp(key, "COMPONENT") == 0)
         {
-            char * name = strtok(value, " ");
+            char *name = strtok(value, " ");
             Point position = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
             Size size = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
-            addComponent(name, position, size); 
+            addComponent(name, position, size);
             return true;
         }
         else if (components.size() > 0)
