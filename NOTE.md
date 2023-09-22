@@ -1,7 +1,5 @@
 # TODO
 
-- TODO components should be library to load
-
 - TODO page of components list
 
 - TODO centralized event handler
