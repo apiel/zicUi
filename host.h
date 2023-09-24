@@ -54,20 +54,6 @@ AudioPlugin &getPlugin(const char *name)
     throw std::runtime_error("Could not find plugin");
 }
 
-ValueInterface *hostValue(const char *pluginName, const char *key)
-{
-    if (!plugins)
-    {
-        if (!loadHost())
-        {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
-        }
-    }
-
-    AudioPlugin &audioPlugin = getPlugin(pluginName);
-    return audioPlugin.getValue(key); // should we throw if NULL?
-}
-
 bool loadHost()
 {
     if (plugins)

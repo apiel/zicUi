@@ -8,15 +8,15 @@ class GranularComponent : public Component
 {
 protected:
     AudioPlugin &plugin;
-    ValueInterface *browser = hostValue("Granular", "BROWSER");
+    ValueInterface *browser = getPlugin("Granular").getValue("BROWSER");
     float lastBrowser = -1.0f;
-    ValueInterface *start = hostValue("Granular", "START");
+    ValueInterface *start = getPlugin("Granular").getValue("START");
     float lastStart = -1.0f;
-    ValueInterface *grainSize = hostValue("Granular", "GRAIN_SIZE");
+    ValueInterface *grainSize = getPlugin("Granular").getValue("GRAIN_SIZE");
     float lastGrainSize = -1.0f;
-    ValueInterface *spray = hostValue("Granular", "SPRAY");
+    ValueInterface *spray = getPlugin("Granular").getValue("SPRAY");
     float lastSpray = -1.0f;
-    ValueInterface *density = hostValue("Granular", "DENSITY");
+    ValueInterface *density = getPlugin("Granular").getValue("DENSITY");
     float lastDensity = -1.0f;
 
     MotionInterface *motion1 = NULL;

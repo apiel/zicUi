@@ -139,7 +139,7 @@ protected:
 
     void set(const char *pluginName, const char *key)
     {
-        value = hostValue(pluginName, key);
+        value = getPlugin(pluginName).getValue(key);
         if (value != NULL)
         {
             value->onUpdate([](float, void *data)

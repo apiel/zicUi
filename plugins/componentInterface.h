@@ -13,7 +13,6 @@ protected:
     virtual void render() = 0;
 
     AudioPlugin &(*getPlugin)(const char *name);
-    ValueInterface *(*hostValue)(const char *pluginName, const char *key);
     void (*setGroup)(int8_t index);
 
 public:
@@ -28,7 +27,6 @@ public:
         Size size;
         DrawInterface &draw;
         AudioPlugin &(*getPlugin)(const char *name);
-        ValueInterface *(*hostValue)(const char *pluginName, const char *key);
         void (*setGroup)(int8_t index);
     };
 
@@ -36,7 +34,6 @@ public:
         : draw(props.draw),
           styles(props.draw.styles),
           getPlugin(props.getPlugin),
-          hostValue(props.hostValue),
           setGroup(props.setGroup),
           position(props.position),
           size(props.size)

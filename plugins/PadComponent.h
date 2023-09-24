@@ -58,7 +58,7 @@ protected:
 
     void setValueX(const char *pluginName, const char *key)
     {
-        valueX = hostValue(pluginName, key);
+        valueX = getPlugin(pluginName).getValue(key);
         if (valueX != NULL)
         {
             valueX->onUpdate([](float, void *data)
@@ -69,7 +69,7 @@ protected:
 
     void setValueY(const char *pluginName, const char *key)
     {
-        valueY = hostValue(pluginName, key);
+        valueY = getPlugin(pluginName).getValue(key);
         if (valueY != NULL)
         {
             valueY->onUpdate([](float, void *data)

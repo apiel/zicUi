@@ -60,7 +60,7 @@ protected:
 
     void addComponent(const char *name, Point position, Size size)
     {
-        ComponentInterface::Props props = {position, size, draw, getPlugin, hostValue, setGroup};
+        ComponentInterface::Props props = {position, size, draw, getPlugin, setGroup};
 
         for (auto &plugin : plugins)
         {
