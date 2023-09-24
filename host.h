@@ -7,10 +7,6 @@
 
 #include "plugins/valueInterface.h"
 
-// // FIXME
-// #include "../zicHost/plugin.h"
-// #include "../zicHost/plugins/valueInterface.h"
-
 std::vector<Plugin> *plugins = NULL;
 
 std::vector<Plugin> *(*initHost)() = NULL;
