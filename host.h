@@ -7,9 +7,9 @@
 
 #include "plugins/valueInterface.h"
 
-std::vector<Plugin> *plugins = NULL;
+AudioPluginHandlerInterface* audioPluginHandler = NULL;
 
-std::vector<Plugin> *(*initHost)() = NULL;
+AudioPluginHandlerInterface*(*initHost)() = NULL;
 int (*mainLoopHost)() = NULL;
 void (*midiHost)(std::vector<unsigned char> *message) = [](std::vector<unsigned char> *message) {};
 
@@ -35,28 +35,19 @@ void *linkHost(void *handle, const char *name)
 
 AudioPlugin &getPlugin(const char *name)
 {
-    if (!plugins)
+    if (!audioPluginHandler)
     {
         if (!loadHost())
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
         }
     }
-
-    for (Plugin &plugin : *plugins)
-    {
-        if (strcmp(plugin.instance->name(), name) == 0)
-        {
-            return *plugin.instance;
-        }
-    }
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not find plugin: %s\n", name);
-    throw std::runtime_error("Could not find plugin");
+    return audioPluginHandler->getPlugin(name);
 }
 
 bool loadHost()
 {
-    if (plugins)
+    if (audioPluginHandler)
     {
         SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Host already loaded\n");
         return true;
@@ -75,7 +66,7 @@ bool loadHost()
 
     dlerror(); // clear previous error
 
-    initHost = (std::vector<Plugin> * (*)(void)) linkHost(handle, "init");
+    initHost = (AudioPluginHandlerInterface* (*)(void)) linkHost(handle, "init");
     if (!initHost)
     {
         return false;
@@ -94,8 +85,8 @@ bool loadHost()
     }
 
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Initializing host\n");
-    plugins = initHost();
-    if (!plugins)
+    audioPluginHandler = initHost();
+    if (!audioPluginHandler)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing host\n");
         return false;
