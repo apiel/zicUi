@@ -45,13 +45,13 @@ protected:
 
     void drawValue()
     {
-        int val = (value->get() * value->props->stepCount) + value->props->stepStart;
+        int val = (value->get() * value->props().stepCount) + value->props().stepStart;
         int x = draw.textCentered({area.xCenter, area.y + valueMarginTop}, std::to_string(val).c_str(),
                                   colors.value, 20, {styles.font.bold});
 
-        if (value->props->unit != NULL)
+        if (value->props().unit != NULL)
         {
-            draw.text({x + 2, area.y + valueMarginTop + 8}, value->props->unit, colors.title, 10);
+            draw.text({x + 2, area.y + valueMarginTop + 8}, value->props().unit, colors.title, 10);
         }
     }
 
@@ -82,10 +82,10 @@ protected:
     {
         draw.textCentered({area.xCenter, area.y}, value->label(), colors.title, 12);
 
-        int val = (value->get() * value->props->stepCount) + value->props->stepStart;
+        int val = (value->get() * value->props().stepCount) + value->props().stepStart;
         draw.textRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
                        colors.value, 20, {styles.font.bold});
-        draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props->stepCount - val).c_str(),
+        draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props().stepCount - val).c_str(),
                   colors.value, 20, {styles.font.bold});
 
         drawCenteredBar();
@@ -95,7 +95,7 @@ protected:
     {
         draw.text({area.x, area.y + 5}, value->string(), colors.value, 12, {.maxWidth = area.w});
         char valueStr[20];
-        sprintf(valueStr, "%d / %d", (int)((value->get() * value->props->stepCount) + 1), value->props->stepCount + 1);
+        sprintf(valueStr, "%d / %d", (int)((value->get() * value->props().stepCount) + 1), value->props().stepCount + 1);
         draw.textRight({area.x + area.w, area.y + 25}, valueStr, colors.title, 10);
         drawBar();
     }
@@ -118,15 +118,15 @@ protected:
 
         if (value != NULL)
         {
-            if (value->props->type == VALUE_CENTERED)
+            if (value->props().type == VALUE_CENTERED)
             {
                 drawCenteredEncoder();
             }
-            else if (value->props->type == VALUE_CENTERED_ONE_SIDED)
+            else if (value->props().type == VALUE_CENTERED_ONE_SIDED)
             {
                 drawCenteredEncoderOneSided();
             }
-            else if (value->props->type == VALUE_STRING)
+            else if (value->props().type == VALUE_STRING)
             {
                 drawStringEncoder();
             }
@@ -192,7 +192,7 @@ public:
     {
         if (encoderActive && id == encoderId)
         {
-            value->set(value->get() + (direction / (float)value->props->stepCount));
+            value->set(value->get() + (direction / (float)value->props().stepCount));
         }
     }
 

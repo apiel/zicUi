@@ -7,6 +7,10 @@
 
 #include "plugins/valueInterface.h"
 
+// // FIXME
+// #include "../zicHost/plugin.h"
+// #include "../zicHost/plugins/valueInterface.h"
+
 std::vector<Plugin> *plugins = NULL;
 
 std::vector<Plugin> *(*initHost)() = NULL;
@@ -56,40 +60,58 @@ AudioPlugin &getPlugin(const char *name)
 
 class Value : public ValueInterface
 {
+protected:
+    ValueInterface* val;
+
+    // int index = -1;
+    // AudioPlugin::ValueProps *props;
+    // const char *valueKey;
+
+
 public:
+    AudioPlugin &plugin;
+
     Value(AudioPlugin &plugin, int index)
-        : ValueInterface(plugin, index)
+    : val(plugin.getValue(index))
+    , plugin(plugin)
     {
+        // valueKey = plugin.getValueKey(index);
+        // val = plugin.getValue(index);
+    }
+
+    ValueInterface::Props& props()
+    {
+        return val->props();
     }
 
     float get()
     {
-        return plugin.getValue(index);
+        return val->get();
     }
 
     char *string()
     {
-        return plugin.getValueString(index);
+        return val->string();
     }
 
     void set(float value)
     {
-        plugin.setValue(index, value);
+        val->set(value);
     }
 
     const char *key()
     {
-        return plugin.getValueKey(index);
+        return val->key();
     }
 
     const char *label()
     {
-        return plugin.getValueLabel(index);
+        return val->label();
     }
 
     void onUpdate(void (*callback)(float, void *data), void *data)
     {
-        plugin.setValueWatcher(index, callback, data);
+        val->onUpdate(callback, data);
     }
 };
 
@@ -119,9 +141,9 @@ ValueInterface *hostValue(ValueProps props)
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
         }
     }
-    for (ValueInterface *value : hostValues)
+    for (Value *value : hostValues)
     {
-        if (strcmp(value->valueKey, props.key) == 0 && strcmp(value->plugin.name(), props.pluginName) == 0)
+        if (strcmp(value->key(), props.key) == 0 && strcmp(value->plugin.name(), props.pluginName) == 0)
         {
             return value;
         }
