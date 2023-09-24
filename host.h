@@ -65,17 +65,7 @@ ValueInterface *hostValue(const char *pluginName, const char *key)
     }
 
     AudioPlugin &audioPlugin = getPlugin(pluginName);
-    for (int i = 0; i < audioPlugin.getValueCount(); i++)
-    {
-        ValueInterface *value = audioPlugin.getValue(i);
-        if (strcmp(value->key(), key) == 0)
-        {
-            return value;
-        }
-    }
-
-    // should we throw?
-    return NULL;
+    return audioPlugin.getValue(key); // should we throw if NULL?
 }
 
 bool loadHost()
