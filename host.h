@@ -58,64 +58,13 @@ AudioPlugin &getPlugin(const char *name)
     throw std::runtime_error("Could not find plugin");
 }
 
-class Value : public ValueInterface
+struct ValuePlugin
 {
-protected:
-    ValueInterface* val;
-
-    // int index = -1;
-    // AudioPlugin::ValueProps *props;
-    // const char *valueKey;
-
-
-public:
     AudioPlugin &plugin;
-
-    Value(AudioPlugin &plugin, int index)
-    : val(plugin.getValue(index))
-    , plugin(plugin)
-    {
-        // valueKey = plugin.getValueKey(index);
-        // val = plugin.getValue(index);
-    }
-
-    ValueInterface::Props& props()
-    {
-        return val->props();
-    }
-
-    float get()
-    {
-        return val->get();
-    }
-
-    char *string()
-    {
-        return val->string();
-    }
-
-    void set(float value)
-    {
-        val->set(value);
-    }
-
-    const char *key()
-    {
-        return val->key();
-    }
-
-    const char *label()
-    {
-        return val->label();
-    }
-
-    void onUpdate(void (*callback)(float, void *data), void *data)
-    {
-        val->onUpdate(callback, data);
-    }
+    ValueInterface *val;
 };
 
-std::vector<Value *> hostValues;
+std::vector<ValuePlugin> hostValues;
 void loadHostValues()
 {
     for (Plugin &plugin : *plugins)
@@ -123,7 +72,7 @@ void loadHostValues()
         AudioPlugin &audioPlugin = *plugin.instance;
         for (int i = 0; i < audioPlugin.getValueCount(); i++)
         {
-            hostValues.push_back(new Value(audioPlugin, i));
+            hostValues.push_back({audioPlugin, audioPlugin.getValue(i)});
         }
     }
 }
@@ -141,11 +90,11 @@ ValueInterface *hostValue(ValueProps props)
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
         }
     }
-    for (Value *value : hostValues)
+    for (ValuePlugin valuePlugin : hostValues)
     {
-        if (strcmp(value->key(), props.key) == 0 && strcmp(value->plugin.name(), props.pluginName) == 0)
+        if (strcmp(valuePlugin.val->key(), props.key) == 0 && strcmp(valuePlugin.plugin.name(), props.pluginName) == 0)
         {
-            return value;
+            return valuePlugin.val;
         }
     }
     return NULL;
