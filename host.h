@@ -54,31 +54,8 @@ AudioPlugin &getPlugin(const char *name)
     throw std::runtime_error("Could not find plugin");
 }
 
-struct ValuePlugin
+ValueInterface *hostValue(const char *pluginName, const char *key)
 {
-    AudioPlugin &plugin;
-    ValueInterface *val;
-};
-
-// std::vector<ValuePlugin> hostValues;
-// void loadHostValues()
-// {
-//     for (Plugin &plugin : *plugins)
-//     {
-//         AudioPlugin &audioPlugin = *plugin.instance;
-//         for (int i = 0; i < audioPlugin.getValueCount(); i++)
-//         {
-//             hostValues.push_back({audioPlugin, audioPlugin.getValue(i)});
-//         }
-//     }
-// }
-
-ValueInterface *hostValue(ValueProps props)
-{
-    if (props.pluginName == NULL || props.key == NULL)
-    {
-        return NULL;
-    }
     if (!plugins)
     {
         if (!loadHost())
@@ -86,23 +63,18 @@ ValueInterface *hostValue(ValueProps props)
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
         }
     }
-    // for (ValuePlugin valuePlugin : hostValues)
-    // {
-    //     if (strcmp(valuePlugin.val->key(), props.key) == 0 && strcmp(valuePlugin.plugin.name(), props.pluginName) == 0)
-    //     {
-    //         return valuePlugin.val;
-    //     }
-    // }
-    AudioPlugin &audioPlugin = getPlugin(props.pluginName);
+
+    AudioPlugin &audioPlugin = getPlugin(pluginName);
     for (int i = 0; i < audioPlugin.getValueCount(); i++)
     {
         ValueInterface *value = audioPlugin.getValue(i);
-        if (strcmp(value->key(), props.key) == 0)
+        if (strcmp(value->key(), key) == 0)
         {
             return value;
         }
     }
 
+    // should we throw?
     return NULL;
 }
 
@@ -152,7 +124,6 @@ bool loadHost()
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Error initializing host\n");
         return false;
     }
-    // loadHostValues();
 
     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Starting host in SDL thread\n");
     SDL_Thread *thread = SDL_CreateThread(hostThread, "host", NULL);

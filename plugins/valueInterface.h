@@ -5,10 +5,4 @@
 #include "../../zicHost/plugin.h"
 #include "../../zicHost/plugins/valueInterface.h"
 
-struct ValueProps
-{
-    const char *pluginName;
-    const char *key;
-};
-
 #endif

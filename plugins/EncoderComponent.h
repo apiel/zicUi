@@ -137,9 +137,9 @@ protected:
         }
     }
 
-    void set(ValueProps props)
+    void set(const char *pluginName, const char *key)
     {
-        value = hostValue(props);
+        value = hostValue(pluginName, key);
         if (value != NULL)
         {
             value->onUpdate([](float, void *data)
@@ -177,7 +177,7 @@ public:
             printf("value: %s\n", value);
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
-            set({pluginName, keyValue});
+            set(pluginName, keyValue);
             return true;
         }
         else if (strcmp(key, "ENCODER_ID") == 0)

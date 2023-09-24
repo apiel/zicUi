@@ -56,9 +56,9 @@ protected:
         }
     }
 
-    void setValueX(ValueProps value)
+    void setValueX(const char *pluginName, const char *key)
     {
-        valueX = hostValue(value);
+        valueX = hostValue(pluginName, key);
         if (valueX != NULL)
         {
             valueX->onUpdate([](float, void *data)
@@ -67,9 +67,9 @@ protected:
         }
     }
 
-    void setValueY(ValueProps value)
+    void setValueY(const char *pluginName, const char *key)
     {
-        valueY = hostValue(value);
+        valueY = hostValue(pluginName, key);
         if (valueY != NULL)
         {
             valueY->onUpdate([](float, void *data)
@@ -100,14 +100,14 @@ public:
         {
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
-            setValueX({pluginName, keyValue});
+            setValueX(pluginName, keyValue);
             return true;
         }
         else if (strcmp(key, "VALUE_Y") == 0)
         {
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
-            setValueY({pluginName, keyValue});
+            setValueY(pluginName, keyValue);
             return true;
         }
         else if (strcmp(key, "HOLD_VALUE") == 0)

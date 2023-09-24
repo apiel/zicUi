@@ -13,7 +13,7 @@ protected:
     virtual void render() = 0;
 
     AudioPlugin &(*getPlugin)(const char *name);
-    ValueInterface *(*hostValue)(ValueProps props);
+    ValueInterface *(*hostValue)(const char *pluginName, const char *key);
     void (*setGroup)(int8_t index);
 
 public:
@@ -28,7 +28,7 @@ public:
         Size size;
         DrawInterface &draw;
         AudioPlugin &(*getPlugin)(const char *name);
-        ValueInterface *(*hostValue)(ValueProps props);
+        ValueInterface *(*hostValue)(const char *pluginName, const char *key);
         void (*setGroup)(int8_t index);
     };
 
