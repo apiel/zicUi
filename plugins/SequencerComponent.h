@@ -11,14 +11,15 @@ protected:
     ValueInterface *selectedStep = getPlugin("Sequencer").getValue("SELECTED_STEP");
     ValueInterface *pattern = getPlugin("Sequencer").getValue("PATTERN");
 
+    Point stepPosition;
     Size stepSize;
-    int stepMarginTop = 10;
+    int stepMarginTop = 15;
 
     void renderStep(uint8_t index)
     {
         draw.filledRect(
-            {position.x + margin + (index * (stepSize.w + margin)), position.y + stepMarginTop},
-            {stepSize.w, stepSize.h},
+            {stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y},
+            stepSize,
             index % 4 == 0 ? colors.stepBackground : colors.stepBackground2);
     }
 
@@ -54,8 +55,12 @@ public:
           plugin(getPlugin("Sequencer"))
     {
         stepSize = {
-            (((props.size.w - 2 * margin) / selectedStep->props().stepCount) - margin),
+            (((props.size.w) / selectedStep->props().stepCount) - margin),
             props.size.h - (stepMarginTop + margin * 2)};
+
+        stepPosition = {
+            position.x + margin + (int)((size.w - ((stepSize.w + margin) * selectedStep->props().stepCount)) * 0.5),
+            position.y + stepMarginTop};
     }
 };
 
