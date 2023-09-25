@@ -25,8 +25,6 @@ protected:
     Size textureSize;
     void *textureSampleWaveform = NULL;
 
-    // FIXME
-    // TODO This how to handle texture
     void renderSampleWaveform()
     {
         if (textureSampleWaveform == NULL)
