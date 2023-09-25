@@ -17,10 +17,12 @@ protected:
 
     void renderStep(uint8_t index)
     {
-        draw.filledRect(
-            {stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y},
-            stepSize,
-            index % 4 == 0 ? colors.stepBackground : colors.stepBackground2);
+        Color color = colors.stepBackground;
+        if (index % 4 != 0)
+        {
+            color.a = 150;
+        }
+        draw.filledRect({stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y}, stepSize, color);
     }
 
     void render()
@@ -40,7 +42,6 @@ protected:
     {
         Color background;
         Color stepBackground;
-        Color stepBackground2;
     } colors;
 
     const int margin;
@@ -49,8 +50,7 @@ public:
     SequencerComponent(ComponentInterface::Props &props)
         : Component(props),
           colors({styles.colors.foreground,
-                  styles.colors.foreground2,
-                  {styles.colors.foreground2.r, styles.colors.foreground2.g, styles.colors.foreground2.b, 150}}),
+                  styles.colors.foreground2}),
           margin(styles.margin),
           plugin(getPlugin("Sequencer"))
     {
