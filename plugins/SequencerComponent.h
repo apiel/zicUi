@@ -23,16 +23,21 @@ protected:
     void renderStep(uint8_t index)
     {
         Color color = colors.stepBackground;
-        if (index % 4 != 0)
+                if (steps[index].enabled)
+        {
+            color = colors.stepEnabled;
+        }
+        else if (index % 4 != 0)
         {
             color.a = 150;
         }
+
         draw.filledRect({stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y}, stepSize, color);
-        if (steps[index].enabled)
-        {
-            draw.filledRect({stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y}, 
-            {stepSize.w, (int)(stepSize.h * 0.33f)}, colors.stepEnabled);
-        }
+        // if (steps[index].enabled)
+        // {
+        //     draw.filledRect({stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y}, 
+        //     {stepSize.w, (int)(stepSize.h * 0.33f)}, colors.stepEnabled);
+        // }
     }
 
     void render()
