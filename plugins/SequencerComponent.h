@@ -37,6 +37,12 @@ protected:
         int x = stepPosition.x + (index * (stepSize.w + margin));
         draw.filledRect({x, stepPosition.y}, stepSize, color);
 
+        int sel = selectedStep->get() * selectedStep->props().stepCount;
+        if (index == sel)
+        {
+            draw.filledRect({x, stepPosition.y - 3}, {stepSize.w, 2}, colors.stepBackground);
+        }
+
         if (index == *stepCounter)
         {
             draw.filledRect({x, stepPosition.y - 3}, {stepSize.w, 2}, colors.activePosition);
@@ -107,6 +113,13 @@ public:
             previousStepCounter = *stepCounter;
         }
         Component::triggerRenderer();
+    }
+
+    void onMotion(MotionInterface &motion)
+    {
+
+        int index = (motion.position.x - stepPosition.x) / (stepSize.w + margin);
+        selectedStep->set(index / (float)selectedStep->props().stepCount);
     }
 };
 
