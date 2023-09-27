@@ -1,5 +1,7 @@
 # TODO
 
+- FIXME midi issue if digitone connected but no rotary midi controller
+
 - TODO page of components list
 
 - TODO centralized event handler

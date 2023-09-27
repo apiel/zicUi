@@ -19,6 +19,8 @@ protected:
     int infoMarginRight = 10;
 
     Step *steps;
+    uint8_t *stepCounter;
+    uint8_t previousStepCounter = 0;
 
     void renderStep(uint8_t index)
     {
@@ -32,12 +34,15 @@ protected:
             color.a = 150;
         }
 
-        draw.filledRect({stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y}, stepSize, color);
-        // if (steps[index].enabled)
-        // {
-        //     draw.filledRect({stepPosition.x + (index * (stepSize.w + margin)), stepPosition.y}, 
-        //     {stepSize.w, (int)(stepSize.h * 0.33f)}, colors.stepEnabled);
-        // }
+        int x = stepPosition.x + (index * (stepSize.w + margin));
+        draw.filledRect({x, stepPosition.y}, stepSize, color);
+
+        if (index == *stepCounter)
+        {
+            // int h = stepSize.h * 0.40;
+            // draw.filledRect({x, stepPosition.y + stepSize.h - h}, {stepSize.w, h}, colors.activePosition);
+            draw.filledRect({x, stepPosition.y - 3}, {stepSize.w, 2}, colors.activePosition);
+        }
     }
 
     void render()
@@ -58,6 +63,7 @@ protected:
         Color background;
         Color stepBackground;
         Color stepEnabled;
+        Color activePosition;
     } colors;
 
     const int margin;
@@ -67,7 +73,8 @@ public:
         : Component(props),
           colors({styles.colors.foreground,
                   styles.colors.foreground2,
-                  styles.colors.text}),
+                  styles.colors.text,
+                  styles.colors.on}),
           margin(styles.margin),
           plugin(getPlugin("Sequencer"))
     {
@@ -85,6 +92,18 @@ public:
         }
 
         steps = (Step *)plugin.data(0);
+        stepCounter = (uint8_t *)plugin.data(1);
+    }
+
+    void triggerRenderer() override
+    {
+        if (previousStepCounter != *stepCounter)
+        {
+            needRendering = true;
+            // TODO could only render necessary part
+            previousStepCounter = *stepCounter;
+        }
+        Component::triggerRenderer();
     }
 };
 

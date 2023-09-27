@@ -49,6 +49,7 @@ struct Styles
         Color text;
         Color textDark;
         Color overlay;
+        Color on;
     } colors;
 };
 
