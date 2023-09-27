@@ -11,16 +11,20 @@ class SequencerComponent : public Component
 protected:
     AudioPlugin &plugin;
     ValueInterface *selectedStep = getPlugin("Sequencer").getValue("SELECTED_STEP");
+    ValueInterface *stepEnabled = getPlugin("Sequencer").getValue("STEP_ENABLED");
+    ValueInterface *stepLength = getPlugin("Sequencer").getValue("STEP_LENGTH");
     ValueInterface *pattern = getPlugin("Sequencer").getValue("PATTERN");
 
     Point stepPosition;
     Size stepSize;
-    int stepMarginTop = 15;
-    int infoMarginRight = 10;
+    int stepMarginTop = 18;
 
     Step *steps;
     uint8_t *stepCounter;
     uint8_t previousStepCounter = 0;
+
+    int debounceSelectedStep = 0;
+    float previousSelectedStep = 0.0;
 
     void renderStep(uint8_t index)
     {
@@ -65,6 +69,15 @@ protected:
         {
             renderStep(i);
         }
+
+        char info[100];
+        int stepIndex = selectedStep->get() * selectedStep->props().stepCount + 1;
+        int len = stepLength->get() * selectedStep->props().stepCount;
+        snprintf(info, 100, "Step: %d/%d %s %f len: %d", 
+            stepIndex, selectedStep->props().stepCount,
+            stepEnabled->string(), stepEnabled->get(),
+            len);
+        draw.text({stepPosition.x, position.y}, info, colors.textInfo, 9);
     }
 
     struct Colors
@@ -73,6 +86,7 @@ protected:
         Color stepBackground;
         Color stepEnabled;
         Color activePosition;
+        Color textInfo;
     } colors;
 
     const int margin;
@@ -83,7 +97,8 @@ public:
           colors({styles.colors.foreground,
                   styles.colors.foreground2,
                   styles.colors.text,
-                  styles.colors.on}),
+                  styles.colors.on,
+                  styles.colors.foreground2}),
           margin(styles.margin),
           plugin(getPlugin("Sequencer"))
     {
@@ -95,22 +110,18 @@ public:
             position.x + margin + (int)((size.w - ((stepSize.w + margin) * selectedStep->props().stepCount)) * 0.5),
             position.y + stepMarginTop};
 
-        if (stepPosition.x > infoMarginRight)
-        {
-            infoMarginRight = stepPosition.x;
-        }
-
         steps = (Step *)plugin.data(0);
         stepCounter = (uint8_t *)plugin.data(1);
     }
 
     void triggerRenderer() override
     {
-        if (previousStepCounter != *stepCounter)
+        if (previousStepCounter != *stepCounter || previousSelectedStep != selectedStep->get())
         {
             needRendering = true;
             // TODO could only render necessary part
             previousStepCounter = *stepCounter;
+            previousSelectedStep = selectedStep->get();
         }
         Component::triggerRenderer();
     }
@@ -119,7 +130,11 @@ public:
     {
 
         int index = (motion.position.x - stepPosition.x) / (stepSize.w + margin);
-        selectedStep->set(index / (float)selectedStep->props().stepCount);
+        if (debounceSelectedStep != index)
+        {
+            debounceSelectedStep = index;
+            selectedStep->set(index / (float)selectedStep->props().stepCount);
+        }
     }
 };
 
