@@ -39,8 +39,6 @@ protected:
 
         if (index == *stepCounter)
         {
-            // int h = stepSize.h * 0.40;
-            // draw.filledRect({x, stepPosition.y + stepSize.h - h}, {stepSize.w, h}, colors.activePosition);
             draw.filledRect({x, stepPosition.y - 3}, {stepSize.w, 2}, colors.activePosition);
         }
     }
