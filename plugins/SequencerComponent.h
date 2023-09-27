@@ -25,7 +25,7 @@ protected:
     void renderStep(uint8_t index)
     {
         Color color = colors.stepBackground;
-                if (steps[index].enabled)
+        if (steps[index].enabled)
         {
             color = colors.stepEnabled;
         }
@@ -40,6 +40,11 @@ protected:
         if (index == *stepCounter)
         {
             draw.filledRect({x, stepPosition.y - 3}, {stepSize.w, 2}, colors.activePosition);
+        }
+        else if (steps[index].counter)
+        {
+            int w = stepSize.w * (steps[index].counter / (float)steps[index].len);
+            draw.filledRect({x + stepSize.w - w, stepPosition.y - 3}, {w, 2}, colors.activePosition);
         }
     }
 
