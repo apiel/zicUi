@@ -8,6 +8,7 @@ class EncoderComponent : public Component
 {
 protected:
     const char *name = NULL;
+    uint8_t type = 0;
 
     struct DrawArea
     {
@@ -71,32 +72,41 @@ protected:
         draw.line({x, y - 1}, {x2, y - 1}, colors.value);
     }
 
-    void drawCenteredEncoderOneSided()
-    {
-        drawLabel();
-        drawValue();
-        drawCenteredBar();
-    }
-
     void drawCenteredEncoder()
     {
-        draw.textCentered({area.xCenter, area.y}, value->label(), colors.title, 12);
+        if (type == 1)
+        {
+            draw.textCentered({area.xCenter, area.y}, value->label(), colors.title, 12);
 
-        int val = (value->get() * value->props().stepCount) + value->props().stepStart;
-        draw.textRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
-                       colors.value, 20, {styles.font.bold});
-        draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props().stepCount - val).c_str(),
-                  colors.value, 20, {styles.font.bold});
+            int val = (value->get() * value->props().stepCount) + value->props().stepStart;
+            draw.textRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
+                           colors.value, 20, {styles.font.bold});
+            draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props().stepCount - val).c_str(),
+                      colors.value, 20, {styles.font.bold});
+        }
+        else
+        {
+            drawLabel();
+            drawValue();
+        }
 
         drawCenteredBar();
     }
 
     void drawStringEncoder()
     {
-        draw.text({area.x, area.y + 5}, value->string(), colors.value, 12, {.maxWidth = area.w});
-        char valueStr[20];
-        sprintf(valueStr, "%d / %d", (int)((value->get() * value->props().stepCount) + 1), value->props().stepCount + 1);
-        draw.textRight({area.x + area.w, area.y + 25}, valueStr, colors.title, 10);
+        if (type == 1)
+        {
+            draw.text({area.x, area.y + 5}, value->string(), colors.value, 12, {.maxWidth = area.w});
+            char valueStr[20];
+            sprintf(valueStr, "%d / %d", (int)((value->get() * value->props().stepCount) + 1), value->props().stepCount + 1);
+            draw.textRight({area.x + area.w, area.y + 25}, valueStr, colors.title, 10);
+        }
+        else
+        {
+            drawLabel();
+            draw.text({area.x, area.y + 18}, value->string(), colors.value, 12, {.maxWidth = area.w});
+        }
         drawBar();
     }
 
@@ -121,10 +131,6 @@ protected:
             if (value->props().type == VALUE_CENTERED)
             {
                 drawCenteredEncoder();
-            }
-            else if (value->props().type == VALUE_CENTERED_ONE_SIDED)
-            {
-                drawCenteredEncoderOneSided();
             }
             else if (value->props().type == VALUE_STRING)
             {
@@ -183,6 +189,22 @@ public:
         else if (strcmp(key, "ENCODER_ID") == 0)
         {
             encoderId = atoi(value);
+            return true;
+        }
+        else if (strcmp(key, "TYPE") == 0)
+        {
+            if (strcmp(value, "BROWSE") == 0)
+            {
+                type = 1;
+            }
+            else if (strcmp(value, "TWO_SIDED") == 0)
+            {
+                type = 1;
+            }
+            else
+            {
+                type = atoi(value);
+            }
             return true;
         }
         return false;
