@@ -13,6 +13,8 @@ protected:
     ValueInterface *selectedStep = getPlugin("Sequencer").getValue("SELECTED_STEP");
     ValueInterface *stepEnabled = getPlugin("Sequencer").getValue("STEP_ENABLED");
     ValueInterface *stepLength = getPlugin("Sequencer").getValue("STEP_LENGTH");
+    ValueInterface *stepVelocity = getPlugin("Sequencer").getValue("STEP_VELOCITY");
+    ValueInterface *stepNote = getPlugin("Sequencer").getValue("STEP_NOTE");
     ValueInterface *pattern = getPlugin("Sequencer").getValue("PATTERN");
 
     Point stepPosition;
@@ -73,10 +75,12 @@ protected:
         char info[100];
         int stepIndex = selectedStep->get() * selectedStep->props().stepCount + 1;
         int len = stepLength->get() * selectedStep->props().stepCount;
-        snprintf(info, 100, "Step: %d/%d %s %f len: %d", 
-            stepIndex, selectedStep->props().stepCount,
-            stepEnabled->string(), stepEnabled->get(),
-            len);
+        snprintf(info, 100, "Step: %.2d/%d  %-3s  len: %2d velocity: %3d%%  %s",
+                 stepIndex, selectedStep->props().stepCount,
+                 stepEnabled->string(),
+                 len,
+                 (int)(stepVelocity->get() * 100),
+                 stepNote->string());
         draw.text({stepPosition.x, position.y}, info, colors.textInfo, 9);
     }
 
