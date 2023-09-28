@@ -72,16 +72,20 @@ protected:
             renderStep(i);
         }
 
-        char info[100];
+        char info[16];
         int stepIndex = selectedStep->get() * selectedStep->props().stepCount + 1;
         int len = stepLength->get() * selectedStep->props().stepCount;
-        snprintf(info, 100, "Step: %.2d/%d  %-3s  len: %2d velocity: %3d%%  %s",
-                 stepIndex, selectedStep->props().stepCount,
-                 stepEnabled->string(),
-                 len,
-                 (int)(stepVelocity->get() * 100),
-                 stepNote->string());
+        snprintf(info, 16, "Step: %.2d/%d", stepIndex, selectedStep->props().stepCount);
         draw.text({stepPosition.x, position.y}, info, colors.textInfo, 9);
+
+        draw.text({stepPosition.x + 50, position.y}, stepEnabled->string(), colors.textInfo, 9);
+        draw.text({stepPosition.x + 70, position.y}, stepNote->string(), colors.textInfo, 9);
+
+        snprintf(info, 16, "len: %2d", len);
+        draw.text({stepPosition.x + 90, position.y}, info, colors.textInfo, 9);
+
+        snprintf(info, 16, "velocity: %3d%%", (int)(stepVelocity->get() * 100));
+        draw.text({stepPosition.x + 120, position.y}, info, colors.textInfo, 9);
     }
 
     struct Colors
