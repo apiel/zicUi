@@ -70,6 +70,7 @@ protected:
         for (int i = 0; i < selectedStep->props().stepCount; i++)
         {
             renderStep(i);
+            // printf("step %d, note %d, enabled %d, len %d\n", i, steps[i].note, steps[i].enabled, steps[i].len);
         }
 
         char info[16];
