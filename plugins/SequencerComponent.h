@@ -15,6 +15,7 @@ protected:
     ValueInterface *stepLength = getPlugin("Sequencer").getValue("STEP_LENGTH");
     ValueInterface *stepVelocity = getPlugin("Sequencer").getValue("STEP_VELOCITY");
     ValueInterface *stepNote = getPlugin("Sequencer").getValue("STEP_NOTE");
+    ValueInterface *stepCondition = getPlugin("Sequencer").getValue("STEP_CONDITION");
     ValueInterface *pattern = getPlugin("Sequencer").getValue("PATTERN");
 
     Point stepPosition;
@@ -43,7 +44,7 @@ protected:
         int x = stepPosition.x + (index * (stepSize.w + margin));
         draw.filledRect({x, stepPosition.y}, stepSize, color);
 
-        int sel = selectedStep->get() * selectedStep->props().stepCount;
+        int sel = selectedStep->get() * stepCount;
         if (index == sel)
         {
             draw.filledRect({x, stepPosition.y - 3}, {stepSize.w, 2}, colors.stepBackground);
@@ -67,26 +68,33 @@ protected:
             {size.w - 2 * margin, size.h - 2 * margin},
             colors.background);
 
-        for (int i = 0; i < selectedStep->props().stepCount; i++)
+        for (int i = 0; i < stepCount; i++)
         {
             renderStep(i);
             // printf("step %d, note %d, enabled %d, len %d\n", i, steps[i].note, steps[i].enabled, steps[i].len);
         }
 
-        char info[16];
-        int stepIndex = selectedStep->get() * selectedStep->props().stepCount + 1;
-        int len = stepLength->get() * selectedStep->props().stepCount;
-        snprintf(info, 16, "Step: %.2d/%d", stepIndex, selectedStep->props().stepCount);
+        char info[24];
+        int stepIndex = selectedStep->get() * stepCount + 1;
+        if (stepIndex > stepCount)
+        {
+            stepIndex = stepCount;
+        }
+        int len = stepLength->get() * stepCount;
+        snprintf(info, 24, "Step: %.2d/%d", stepIndex, stepCount);
         draw.text({stepPosition.x, position.y}, info, colors.textInfo, 9);
 
         draw.text({stepPosition.x + 50, position.y}, stepEnabled->string(), colors.textInfo, 9);
         draw.text({stepPosition.x + 70, position.y}, stepNote->string(), colors.textInfo, 9);
 
-        snprintf(info, 16, "len: %2d", len);
+        snprintf(info, 24, "len: %2d", len);
         draw.text({stepPosition.x + 90, position.y}, info, colors.textInfo, 9);
 
-        snprintf(info, 16, "velocity: %3d%%", (int)(stepVelocity->get() * 100));
+        snprintf(info, 24, "velocity: %3d%%", (int)(stepVelocity->get() * 100));
         draw.text({stepPosition.x + 120, position.y}, info, colors.textInfo, 9);
+
+        snprintf(info, 24, "condition: %s", stepCondition->string());
+        draw.text({stepPosition.x + 180, position.y}, info, colors.textInfo, 9);
     }
 
     struct Colors
@@ -100,6 +108,8 @@ protected:
 
     const int margin;
 
+    uint8_t stepCount;
+
 public:
     SequencerComponent(ComponentInterface::Props &props)
         : Component(props),
@@ -111,12 +121,14 @@ public:
           margin(styles.margin),
           plugin(getPlugin("Sequencer"))
     {
+        stepCount = selectedStep->props().stepCount + 1;
+
         stepSize = {
-            (((props.size.w) / selectedStep->props().stepCount) - margin),
+            (int)(((props.size.w) / (float)stepCount) - margin),
             props.size.h - (stepMarginTop + margin * 2)};
 
         stepPosition = {
-            position.x + margin + (int)((size.w - ((stepSize.w + margin) * selectedStep->props().stepCount)) * 0.5),
+            position.x + margin + (int)((size.w - ((stepSize.w + margin) * stepCount)) * 0.5),
             position.y + stepMarginTop};
 
         steps = (Step *)plugin.data(0);
@@ -142,7 +154,7 @@ public:
         if (debounceSelectedStep != index)
         {
             debounceSelectedStep = index;
-            selectedStep->set(index / (float)selectedStep->props().stepCount);
+            selectedStep->set(index / (float)stepCount);
         }
     }
 };
