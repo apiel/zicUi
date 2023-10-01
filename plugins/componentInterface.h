@@ -5,6 +5,8 @@
 #include "valueInterface.h"
 #include "motionInterface.h"
 
+#include <vector>
+
 class ComponentInterface
 {
 protected:
@@ -16,6 +18,7 @@ protected:
     void (*setGroup)(int8_t index);
 
 public:
+    std::vector<ValueInterface *> values;
     Point position;
     const Size size;
     bool needRendering = true;
@@ -50,6 +53,7 @@ public:
     virtual bool config(char *key, char *value) = 0;
     virtual bool baseConfig(char *key, char *value) = 0;
     virtual void onGroupChanged(int8_t index) = 0;
+    virtual void onUpdate(ValueInterface *value) = 0;
 };
 
 #endif

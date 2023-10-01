@@ -145,13 +145,7 @@ protected:
 
     void set(const char *pluginName, const char *key)
     {
-        value = getPlugin(pluginName).getValue(key);
-        if (value != NULL)
-        {
-            value->onUpdate([](float, void *data)
-                            { ((EncoderComponent *)data)->renderNext(); },
-                            this);
-        }
+        value = val(getPlugin(pluginName).getValue(key));
     }
 
     struct Colors

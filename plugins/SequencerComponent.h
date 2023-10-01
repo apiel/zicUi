@@ -10,13 +10,13 @@ class SequencerComponent : public Component
 {
 protected:
     AudioPlugin &plugin;
-    ValueInterface *selectedStep = getPlugin("Sequencer").getValue("SELECTED_STEP");
-    ValueInterface *stepEnabled = getPlugin("Sequencer").getValue("STEP_ENABLED");
-    ValueInterface *stepLength = getPlugin("Sequencer").getValue("STEP_LENGTH");
-    ValueInterface *stepVelocity = getPlugin("Sequencer").getValue("STEP_VELOCITY");
-    ValueInterface *stepNote = getPlugin("Sequencer").getValue("STEP_NOTE");
-    ValueInterface *stepCondition = getPlugin("Sequencer").getValue("STEP_CONDITION");
-    ValueInterface *pattern = getPlugin("Sequencer").getValue("PATTERN");
+    ValueInterface *selectedStep = val(getPlugin("Sequencer").getValue("SELECTED_STEP"));
+    ValueInterface *stepEnabled = val(getPlugin("Sequencer").getValue("STEP_ENABLED"));
+    ValueInterface *stepLength = val(getPlugin("Sequencer").getValue("STEP_LENGTH"));
+    ValueInterface *stepVelocity = val(getPlugin("Sequencer").getValue("STEP_VELOCITY"));
+    ValueInterface *stepNote = val(getPlugin("Sequencer").getValue("STEP_NOTE"));
+    ValueInterface *stepCondition = val(getPlugin("Sequencer").getValue("STEP_CONDITION"));
+    ValueInterface *pattern = val(getPlugin("Sequencer").getValue("PATTERN"));
 
     Point stepPosition;
     Size stepSize;

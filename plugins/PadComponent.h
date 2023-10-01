@@ -58,24 +58,12 @@ protected:
 
     void setValueX(const char *pluginName, const char *key)
     {
-        valueX = getPlugin(pluginName).getValue(key);
-        if (valueX != NULL)
-        {
-            valueX->onUpdate([](float, void *data)
-                             { ((PadComponent *)data)->renderNext(); },
-                             this);
-        }
+        valueX = val(getPlugin(pluginName).getValue(key));
     }
 
     void setValueY(const char *pluginName, const char *key)
     {
-        valueY = getPlugin(pluginName).getValue(key);
-        if (valueY != NULL)
-        {
-            valueY->onUpdate([](float, void *data)
-                             { ((PadComponent *)data)->renderNext(); },
-                             this);
-        }
+        valueY = val(getPlugin(pluginName).getValue(key));
     }
     struct Colors
     {

@@ -13,6 +13,12 @@ class Component : public ComponentInterface
 protected:
     virtual void render() = 0;
 
+    ValueInterface *val(ValueInterface *value)
+    {
+        values.push_back(value);
+        return value;
+    }
+
 public:
     Component(ComponentInterface::Props &props)
         : ComponentInterface(props)
@@ -32,6 +38,11 @@ public:
     virtual void renderNext()
     {
         needRendering = true;
+    }
+
+    virtual void onUpdate(ValueInterface *value)
+    {
+        renderNext();
     }
 
     virtual void onMotion(MotionInterface &motion)

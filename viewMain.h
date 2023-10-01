@@ -90,6 +90,35 @@ public:
         return *instance;
     }
 
+    void init()
+    {
+        for (auto &component : components)
+        {
+            for (auto *value : component->values)
+            {
+                // TODO could this be optimized by creating mapping values to components?
+                value->onUpdate([](float, void *data)
+                                { ViewMain::get().onUpdate((ValueInterface *)data); },
+                                value);
+            }
+        }
+    }
+
+    // TODO could this be optimized by creating mapping values to components?
+    void onUpdate(ValueInterface *val)
+    {
+        for (auto &component : components)
+        {
+            for (auto *value : component->values)
+            {
+                if (value == val)
+                {
+                    component->onUpdate(value);
+                }
+            }
+        }
+    }
+
     void render()
     {
         draw.clear();
