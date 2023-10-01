@@ -75,19 +75,18 @@ protected:
         }
 
         char info[24];
-        int stepIndex = selectedStep->get() * stepCount + 1;
+        int stepIndex = selectedStep->getAsInt();
         if (stepIndex > stepCount)
         {
             stepIndex = stepCount;
         }
-        int len = stepLength->get() * stepCount;
         snprintf(info, 24, "Step: %.2d/%d", stepIndex, stepCount);
         draw.text({stepPosition.x, position.y}, info, colors.textInfo, 9);
 
         draw.text({stepPosition.x + 50, position.y}, stepEnabled->string(), colors.textInfo, 9);
         draw.text({stepPosition.x + 70, position.y}, stepNote->string(), colors.textInfo, 9);
 
-        snprintf(info, 24, "len: %2d", len);
+        snprintf(info, 24, "len: %2d", stepLength->getAsInt());
         draw.text({stepPosition.x + 90, position.y}, info, colors.textInfo, 9);
 
         snprintf(info, 24, "velocity: %3d%%", (int)(stepVelocity->get() * 100));

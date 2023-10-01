@@ -46,8 +46,7 @@ protected:
 
     void drawValue()
     {
-        int val = (value->get() * value->props().stepCount) + value->props().stepStart;
-        int x = draw.textCentered({area.xCenter, area.y + valueMarginTop}, std::to_string(val).c_str(),
+        int x = draw.textCentered({area.xCenter, area.y + valueMarginTop}, std::to_string(value->getAsInt()).c_str(),
                                   colors.value, 20, {styles.font.bold});
 
         if (value->props().unit != NULL)
@@ -208,7 +207,8 @@ public:
     {
         if (encoderActive && id == encoderId)
         {
-            value->set(value->get() + (direction / (float)value->props().stepCount));
+            // what if / 0 ??
+            value->set(value->get() + (direction / (float)(value->props().stepCount - 1)));
         }
     }
 
