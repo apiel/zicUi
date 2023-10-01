@@ -17,3 +17,7 @@ See also https://www.parallelrealities.co.uk/tutorials/ttf/ttf1.php
 - TODO should we show the grains???
 
 - TODO make style configurable
+
+# PCB
+
+- https://www.kicad.org/
