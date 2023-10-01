@@ -16,33 +16,42 @@ class MidiEncoderController : public ControllerInterface
 protected:
     RtMidiIn midi;
 
-    void load(const char *portName)
+    void list()
     {
-        if (midi.isPortOpen())
-        {
-            midi.closePort();
-        }
-        int port = -1;
-
         unsigned int portCount = midi.getPortCount();
         printf("List midi input devices:\n");
         for (unsigned int i = 0; i < portCount; i++)
         {
-            printf("DEVICE=%s\n", midi.getPortName(i).c_str());
-            if (midi.getPortName(i).find(portName) != std::string::npos)
-            {
-                port = i;
-            }
+            printf("  - DEVICE=%s\n", midi.getPortName(i).c_str());
         }
+    }
 
-        if (port == -1)
+    void load(const char *portName)
+    {
+        if (strcmp(portName, "") == 0)
         {
-            printf("Midi input %s not found\n", portName);
+            printf("Midi input cannot be empty\n");
             return;
         }
 
-        midi.openPort(port);
-        printf("Midi input loaded: %s\n", midi.getPortName(port).c_str());
+        printf("Search for midi input: %s\n", portName);
+
+        unsigned int portCount = midi.getPortCount();
+        for (unsigned int i = 0; i < portCount; i++)
+        {
+            if (midi.getPortName(i).find(portName) != std::string::npos)
+            {
+                if (midi.isPortOpen())
+                {
+                    midi.closePort();
+                }
+                midi.openPort(i);
+                printf("Midi input loaded: %s\n", midi.getPortName(i).c_str());
+                return;
+            }
+        }
+
+        printf("Midi input %s not found\n", portName);
     }
 
 public:
@@ -66,7 +75,7 @@ public:
         encoders[6].encoderId = 6;
         encoders[7].encoderId = 7;
 
-        load("");
+        list();
     }
 
     bool config(char *key, char *value)
