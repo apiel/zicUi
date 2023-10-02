@@ -8,6 +8,8 @@ class EncoderComponent : public Component
 {
 protected:
     const char *name = NULL;
+    const char *label = NULL;
+    char labelBuffer[32];
     uint8_t type = 0;
 
     struct DrawArea
@@ -28,7 +30,7 @@ protected:
 
     void drawLabel()
     {
-        draw.text({area.x, area.y}, value->label(), colors.title, 12);
+        draw.text({area.x, area.y}, label, colors.title, 12);
     }
 
     void drawBar()
@@ -75,7 +77,7 @@ protected:
     {
         if (type == 1)
         {
-            draw.textCentered({area.xCenter, area.y}, value->label(), colors.title, 12);
+            draw.textCentered({area.xCenter, area.y}, label, colors.title, 12);
 
             int val = (value->get() * value->props().stepCount) + value->props().stepStart;
             draw.textRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
@@ -145,6 +147,10 @@ protected:
     void set(const char *pluginName, const char *key)
     {
         value = val(getPlugin(pluginName).getValue(key));
+        if (value != NULL && label == NULL)
+        {
+            label = value->label();
+        }
     }
 
     struct Colors
@@ -198,6 +204,12 @@ public:
             {
                 type = atoi(value);
             }
+            return true;
+        }
+        else if (strcmp(key, "LABEL") == 0)
+        {
+            strcpy(labelBuffer, value);
+            label = labelBuffer;
             return true;
         }
         return false;
