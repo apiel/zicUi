@@ -73,10 +73,6 @@ protected:
             }
         }
         SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Unknown component: %s", name);
-        // for (auto &plugin : plugins)
-        // {
-        //     printf("plugin differ: %s vs %s\n", plugin.name, name);
-        // }
     }
 
 public:
