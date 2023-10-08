@@ -19,16 +19,17 @@ protected:
     };
 
     std::vector<View *> views;
+    int viewIndex = -1;
 
     static UiPlugin *instance;
     AudioPlugin::Props props = {NULL, 0, 0, NULL, 0};
     UiPlugin() : Mapping(props, (char *)"UI")
     {
-        View *v = new View;
-        v->name = (char *)"Main";
-        views.push_back(v);
+        // View *v = new View;
+        // v->name = (char *)"Main";
+        // views.push_back(v);
 
-        setView(0.0f);
+        // setView(0.0f);
     }
 
 public:
@@ -48,18 +49,23 @@ public:
     UiPlugin &setView(float value)
     {
         viewSelector.setFloat(value);
-        uint viewIndex = viewSelector.getAsInt();
+        viewIndex = viewSelector.getAsInt();
 
         viewSelector.setString(views[viewIndex]->name);
 
-        printf("................... Set view to %f => %d > %s\n", viewSelector.get(), viewIndex, viewSelector.string());
+        // printf("................... Set view to %f => %d > %s\n", viewSelector.get(), viewIndex, viewSelector.string());
 
         return *this;
     }
 
+    int getViewCount()
+    {
+        return views.size();
+    }
+
     std::vector<ComponentInterface *> &getView()
     {
-        return views.back()->view;
+        return views[viewIndex]->view;
     }
 
     bool config(char *key, char *value)
@@ -74,13 +80,14 @@ public:
 
             viewSelector.props().stepCount = views.size();
 
+            setView(0.0f);
+
             return true;
         }
 
         if (views.size() > 0 && views.back()->view.size() > 0)
         {
             return views.back()->view.back()->baseConfig(key, value);
-
         }
 
         return false;

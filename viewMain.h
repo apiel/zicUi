@@ -86,8 +86,13 @@ public:
         return *instance;
     }
 
-    void init()
+    bool init()
     {
+        if (!ui.getViewCount())
+        {
+            return false;
+        }
+
         for (auto &component : ui.getView())
         {
             for (auto *value : component->values)
@@ -98,6 +103,7 @@ public:
                                 value);
             }
         }
+        return true;
     }
 
     // TODO could this be optimized by creating mapping values to components?

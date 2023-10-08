@@ -54,8 +54,12 @@ int main()
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     ViewMain &viewMain = ViewMain::get();
-    viewMain.init();
-    texture = (SDL_Texture*)viewMain.draw.setTextureRenderer(styles.screen);
+    if (!viewMain.init())
+    {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "No view were initialized");
+        return 1;
+    }
+    texture = (SDL_Texture *)viewMain.draw.setTextureRenderer(styles.screen);
 
     if (!loadHost())
     {
