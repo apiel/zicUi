@@ -18,13 +18,16 @@ protected:
         std::vector<ComponentInterface *> *view = new std::vector<ComponentInterface *>({});
     };
 
-    std::vector<View> views = {{(char *)"Main", new std::vector<ComponentInterface *>({})}};
-    std::vector<ComponentInterface *> &view = *views[0].view;
+    std::vector<View *> views;
 
     static UiPlugin *instance;
     AudioPlugin::Props props = {NULL, 0, 0, NULL, 0};
     UiPlugin() : Mapping(props, (char *)"UI")
     {
+        View *v = new View;
+        v->name = (char *)"Main";
+        views.push_back(v);
+
         setView(0.0f);
     }
 
@@ -47,7 +50,7 @@ public:
         viewSelector.setFloat(value);
         uint viewIndex = viewSelector.getAsInt();
 
-        viewSelector.setString(views[viewIndex].name);
+        viewSelector.setString(views[viewIndex]->name);
 
         printf("................... Set view to %f => %d > %s\n", viewSelector.get(), viewIndex, viewSelector.string());
 
@@ -56,28 +59,28 @@ public:
 
     std::vector<ComponentInterface *> &getView()
     {
-        return view;
+        return *views.back()->view;
     }
 
     bool config(char *key, char *value)
     {
         if (strcmp(key, "VIEW") == 0)
         {
-            View* v = new View;
+            View *v = new View;
             v->name = new char[strlen(value) + 1];
             strcpy(v->name, value);
 
-            views.push_back(*v);
-            view = *views.back().view;
+            views.push_back(v);
 
             viewSelector.props().stepCount = views.size();
 
             return true;
         }
 
-        if (view.size() > 0)
+        if (views.size() > 0 && views.back()->view->size() > 0)
         {
-            return view.back()->baseConfig(key, value);
+            return views.back()->view->back()->baseConfig(key, value);
+
         }
 
         return false;
@@ -87,8 +90,7 @@ public:
     {
         if (views.size() > 0)
         {
-            view.push_back(component);
-            // views.back().view->push_back(component);
+            views.back()->view->push_back(component);
         }
         else
         {
