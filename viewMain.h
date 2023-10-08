@@ -67,7 +67,7 @@ protected:
             if (strcmp(plugin.name, name) == 0)
             {
                 ComponentInterface *component = plugin.allocator(props);
-                ui.view.push_back(component);
+                ui.addComponent(component);
                 return;
             }
         }
@@ -88,7 +88,7 @@ public:
 
     void init()
     {
-        for (auto &component : ui.view)
+        for (auto &component : ui.getView())
         {
             for (auto *value : component->values)
             {
@@ -103,7 +103,7 @@ public:
     // TODO could this be optimized by creating mapping values to components?
     void onUpdate(ValueInterface *val)
     {
-        for (auto &component : ui.view)
+        for (auto &component : ui.getView())
         {
             for (auto *value : component->values)
             {
@@ -127,12 +127,12 @@ public:
         if (group != lastGroup)
         {
             lastGroup = group;
-            for (auto &component : ui.view)
+            for (auto &component : ui.getView())
             {
                 component->onGroupChanged(group);
             }
         }
-        for (auto &component : ui.view)
+        for (auto &component : ui.getView())
         {
             component->triggerRenderer();
         }
@@ -141,7 +141,7 @@ public:
 
     void onMotion(MotionInterface &motion)
     {
-        for (auto &component : ui.view)
+        for (auto &component : ui.getView())
         {
             component->handleMotion(motion);
         }
@@ -149,7 +149,7 @@ public:
 
     void onMotionRelease(MotionInterface &motion)
     {
-        for (auto &component : ui.view)
+        for (auto &component : ui.getView())
         {
             component->handleMotionRelease(motion);
         }
@@ -157,7 +157,7 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        for (auto &component : ui.view)
+        for (auto &component : ui.getView())
         {
             component->onEncoder(id, direction);
         }

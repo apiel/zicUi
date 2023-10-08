@@ -12,15 +12,24 @@
 class UiPlugin : public Mapping<UiPlugin>
 {
 protected:
+    struct View
+    {
+        char *name;
+        std::vector<ComponentInterface *> *view = new std::vector<ComponentInterface *>({});
+    };
+
+    std::vector<View> views = {{(char *)"Main", new std::vector<ComponentInterface *>({})}};
+    std::vector<ComponentInterface *> &view = *views[0].view;
+
     static UiPlugin *instance;
     AudioPlugin::Props props = {NULL, 0, 0, NULL, 0};
-    UiPlugin() : Mapping(props, (char *)"UI") {}
+    UiPlugin() : Mapping(props, (char *)"UI")
+    {
+        setView(0.0f);
+    }
 
 public:
-    std::vector<std::vector<ComponentInterface *> *> views = {new std::vector<ComponentInterface *>({})};
-    std::vector<ComponentInterface *> &view = *views[0];
-
-    Val<UiPlugin> &viewSelector = val(this, 1.0f, "VIEW", &UiPlugin::setView, {"View"});
+    Val<UiPlugin> &viewSelector = val(this, 1.0f, "VIEW", &UiPlugin::setView, {"View", 1, VALUE_STRING});
 
     static UiPlugin &get()
     {
@@ -35,27 +44,56 @@ public:
 
     UiPlugin &setView(float value)
     {
-        printf("Set view to %f\n", value);
         viewSelector.setFloat(value);
+        uint viewIndex = viewSelector.getAsInt();
+
+        viewSelector.setString(views[viewIndex].name);
+
+        printf("................... Set view to %f => %d > %s\n", viewSelector.get(), viewIndex, viewSelector.string());
+
         return *this;
+    }
+
+    std::vector<ComponentInterface *> &getView()
+    {
+        return view;
     }
 
     bool config(char *key, char *value)
     {
         if (strcmp(key, "VIEW") == 0)
         {
-            if (strcmp(value, "NEXT") == 0)
-            {
-                views.push_back(new std::vector<ComponentInterface *>());
-                view = *views[views.size() - 1];
-                return true;
-            }
+            View* v = new View;
+            v->name = new char[strlen(value) + 1];
+            strcpy(v->name, value);
+
+            views.push_back(*v);
+            view = *views.back().view;
+
+            viewSelector.props().stepCount = views.size();
+
+            return true;
         }
-        else if (view.size() > 0)
+
+        if (view.size() > 0)
         {
             return view.back()->baseConfig(key, value);
         }
+
         return false;
+    }
+
+    void addComponent(ComponentInterface *component)
+    {
+        if (views.size() > 0)
+        {
+            view.push_back(component);
+            // views.back().view->push_back(component);
+        }
+        else
+        {
+            printf("ERROR: No view to add component to. Create first a view to be able to add components.\n");
+        }
     }
 };
 
