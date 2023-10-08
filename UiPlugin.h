@@ -6,6 +6,9 @@
 
 #include <cstdio> // printf
 
+/**
+ * Simulate audio plugin component to be usable within the UI component
+ */
 class UiPlugin : public Mapping<UiPlugin>
 {
 protected:
@@ -14,7 +17,10 @@ protected:
     UiPlugin() : Mapping(props, (char *)"UI") {}
 
 public:
-    Val<UiPlugin> &view = val(this, 1.0f, "VIEW", &UiPlugin::setView, {"View"});
+    std::vector<std::vector<ComponentInterface *>*> views = {new std::vector<ComponentInterface *>({})};
+    std::vector<ComponentInterface *> &view = *views[0];
+
+    Val<UiPlugin> &viewSelector = val(this, 1.0f, "VIEW", &UiPlugin::setView, {"View"});
 
     static UiPlugin &get()
     {
@@ -30,7 +36,7 @@ public:
     UiPlugin &setView(float value)
     {
         printf("Set view to %f\n", value);
-        view.setFloat(value);
+        viewSelector.setFloat(value);
         return *this;
     }
 };

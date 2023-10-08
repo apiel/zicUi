@@ -10,13 +10,12 @@
 #include "state.h"
 #include "plugins/componentInterface.h"
 #include "host.h"
+#include "UiPlugin.h"
 
 class ViewMain : public View
 {
 protected:
-    // TODO add multiple screen/view/page
-    std::vector<std::vector<ComponentInterface *>*> views = {new std::vector<ComponentInterface *>({})};
-    std::vector<ComponentInterface *> &view = *views[0];
+    UiPlugin &ui = UiPlugin::get();
     int8_t lastGroup = -100;
 
     static ViewMain *instance;
@@ -68,7 +67,7 @@ protected:
             if (strcmp(plugin.name, name) == 0)
             {
                 ComponentInterface *component = plugin.allocator(props);
-                view.push_back(component);
+                ui.view.push_back(component);
                 return;
             }
         }
@@ -89,7 +88,7 @@ public:
 
     void init()
     {
-        for (auto &component : view)
+        for (auto &component : ui.view)
         {
             for (auto *value : component->values)
             {
@@ -104,7 +103,7 @@ public:
     // TODO could this be optimized by creating mapping values to components?
     void onUpdate(ValueInterface *val)
     {
-        for (auto &component : view)
+        for (auto &component : ui.view)
         {
             for (auto *value : component->values)
             {
@@ -128,12 +127,12 @@ public:
         if (group != lastGroup)
         {
             lastGroup = group;
-            for (auto &component : view)
+            for (auto &component : ui.view)
             {
                 component->onGroupChanged(group);
             }
         }
-        for (auto &component : view)
+        for (auto &component : ui.view)
         {
             component->triggerRenderer();
         }
@@ -142,7 +141,7 @@ public:
 
     void onMotion(MotionInterface &motion)
     {
-        for (auto &component : view)
+        for (auto &component : ui.view)
         {
             component->handleMotion(motion);
         }
@@ -150,7 +149,7 @@ public:
 
     void onMotionRelease(MotionInterface &motion)
     {
-        for (auto &component : view)
+        for (auto &component : ui.view)
         {
             component->handleMotionRelease(motion);
         }
@@ -158,7 +157,7 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        for (auto &component : view)
+        for (auto &component : ui.view)
         {
             component->onEncoder(id, direction);
         }
@@ -184,14 +183,14 @@ public:
         {
             if (strcmp(value, "NEXT") == 0)
             {
-                views.push_back(new std::vector<ComponentInterface *>());
-                view = *views[views.size() - 1];
+                ui.views.push_back(new std::vector<ComponentInterface *>());
+                ui.view = *ui.views[ui.views.size() - 1];
                 return true;
             }
         }
-        else if (view.size() > 0)
+        else if (ui.view.size() > 0)
         {
-            return view.back()->baseConfig(key, value);
+            return ui.view.back()->baseConfig(key, value);
         }
         return false;
     }
