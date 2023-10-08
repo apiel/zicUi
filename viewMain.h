@@ -5,14 +5,13 @@
 #include <dlfcn.h>
 
 #include "styles.h"
-#include "view.h"
 #include "draw.h"
 #include "state.h"
 #include "plugins/componentInterface.h"
 #include "host.h"
 #include "UiPlugin.h"
 
-class ViewMain : public View
+class ViewMain
 {
 protected:
     UiPlugin &ui = UiPlugin::get();
