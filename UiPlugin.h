@@ -25,11 +25,6 @@ protected:
     AudioPlugin::Props props = {NULL, 0, 0, NULL, 0};
     UiPlugin() : Mapping(props, (char *)"UI")
     {
-        // View *v = new View;
-        // v->name = (char *)"Main";
-        // views.push_back(v);
-
-        // setView(0.0f);
     }
 
 public:
@@ -80,7 +75,8 @@ public:
 
             viewSelector.props().stepCount = views.size();
 
-            setView(0.0f);
+            setView(1.0f); // To set to last
+            // setView(0.0f);
 
             return true;
         }
