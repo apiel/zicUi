@@ -6,6 +6,7 @@
 #include <stdexcept>
 
 #include "plugins/valueInterface.h"
+#include "UiPlugin.h"
 
 AudioPluginHandlerInterface* audioPluginHandler = NULL;
 
@@ -41,6 +42,11 @@ AudioPlugin &getPlugin(const char *name)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
         }
+    }
+    
+    if (strcmp(name, "UI") == 0)
+    {
+        return UiPlugin::get();
     }
     return audioPluginHandler->getPlugin(name);
 }

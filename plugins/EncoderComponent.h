@@ -4,6 +4,8 @@
 #include "../plugins/component.h"
 #include <string>
 
+// TODO use function pointer on encoder initialisation to assign draw function base on type
+
 class EncoderComponent : public Component
 {
 protected:
