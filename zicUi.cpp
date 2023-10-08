@@ -4,7 +4,7 @@
 #include "draw.h"
 #include "state.h"
 #include "event.h"
-#include "viewMain.h"
+#include "viewManager.h"
 #include "host.h"
 #include "config.h"
 #include "styles.h"
@@ -53,20 +53,20 @@ int main()
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    ViewMain &viewMain = ViewMain::get();
-    if (!viewMain.init())
+    ViewManager &viewManager = ViewManager::get();
+    if (!viewManager.init())
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "No view were initialized");
         return 1;
     }
-    texture = (SDL_Texture *)viewMain.draw.setTextureRenderer(styles.screen);
+    texture = (SDL_Texture *)viewManager.draw.setTextureRenderer(styles.screen);
 
     if (!loadHost())
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
     }
 
-    viewMain.render();
+    viewManager.render();
 
     EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
@@ -76,7 +76,7 @@ int main()
         if (now - lastUpdate > 50)
         {
             lastUpdate = now;
-            viewMain.renderComponents();
+            viewManager.renderComponents();
         }
         SDL_Delay(1);
     }

@@ -2,7 +2,7 @@
 #define _UI_EVENT_H_
 
 #include "state.h"
-#include "viewMain.h"
+#include "viewManager.h"
 #include "motion.h"
 
 #ifndef MAX_SCREEN_MOTION
@@ -18,7 +18,7 @@ class EventHandler
 {
 protected:
     Motion motions[MAX_SCREEN_MOTION];
-    ViewMain &viewMain = ViewMain::get();
+    ViewManager &viewManager = ViewManager::get();
     int encoderWidth = styles.screen.w / ENCODER_COUNT;
 
 #if SDL_MINOR_VERSION <= 24
@@ -70,7 +70,7 @@ protected:
         if (motion)
         {
             motion->move(x, y);
-            viewMain.onMotion(*motion);
+            viewManager.onMotion(*motion);
         }
     }
 
@@ -85,7 +85,7 @@ protected:
         if (motion)
         {
             motion->move(x, y);
-            viewMain.onMotionRelease(*motion);
+            viewManager.onMotionRelease(*motion);
             motion->setId(-1);
         }
     }
@@ -99,7 +99,7 @@ protected:
 
         MotionInterface *motion = getOldestMotion();
         motion->init(id, x, y);
-        viewMain.onMotion(*motion);
+        viewManager.onMotion(*motion);
     }
 
     void emulateEncoder(SDL_MouseWheelEvent wheel)
@@ -107,7 +107,7 @@ protected:
 #if SDL_MINOR_VERSION > 24
         uint8_t emulateEncoderId = wheel.mouseX / encoderWidth;
 #endif
-        viewMain.onEncoder(emulateEncoderId, wheel.y);
+        viewManager.onEncoder(emulateEncoderId, wheel.y);
     }
 
 public:

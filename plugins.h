@@ -1,7 +1,7 @@
 #ifndef _PLUGINS_H_
 #define _PLUGINS_H_
 
-#include "viewMain.h"
+#include "viewManager.h"
 #include "plugins/controllerInterface.h"
 #include "host.h"
 
@@ -11,7 +11,7 @@ ControllerInterface *lastPluginInstance = NULL;
 
 void encoderHandler(int id, int8_t direction)
 {
-    ViewMain::get().onEncoder(id, direction);
+    ViewManager::get().onEncoder(id, direction);
 }
 
 void midiHandler(std::vector<unsigned char> *message)

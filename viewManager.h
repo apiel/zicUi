@@ -1,5 +1,5 @@
-#ifndef _VIEW_MAIN_H
-#define _VIEW_MAIN_H
+#ifndef _VIEW_MANAGER_H
+#define _VIEW_MANAGER_H
 
 #include <vector>
 #include <dlfcn.h>
@@ -11,15 +11,15 @@
 #include "host.h"
 #include "UiPlugin.h"
 
-class ViewMain
+class ViewManager
 {
 protected:
     UiPlugin &ui = UiPlugin::get();
     int8_t lastGroup = -100;
 
-    static ViewMain *instance;
+    static ViewManager *instance;
 
-    ViewMain()
+    ViewManager()
         : draw(styles)
     {
     }
@@ -76,11 +76,11 @@ protected:
 public:
     Draw draw;
 
-    static ViewMain &get()
+    static ViewManager &get()
     {
         if (!instance)
         {
-            instance = new ViewMain();
+            instance = new ViewManager();
         }
         return *instance;
     }
@@ -98,7 +98,7 @@ public:
             {
                 // TODO could this be optimized by creating mapping values to components?
                 value->onUpdate([](float, void *data)
-                                { ViewMain::get().onUpdate((ValueInterface *)data); },
+                                { ViewManager::get().onUpdate((ValueInterface *)data); },
                                 value);
             }
         }
@@ -193,6 +193,6 @@ public:
     }
 };
 
-ViewMain *ViewMain::instance = NULL;
+ViewManager *ViewManager::instance = NULL;
 
 #endif

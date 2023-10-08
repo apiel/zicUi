@@ -2,7 +2,7 @@
 #define _UI_CONFIG_H_
 
 #include "fs.h"
-#include "viewMain.h"
+#include "viewManager.h"
 #include "plugins.h"
 
 #define CONFIG_FILE "./config.ui.cfg"
@@ -33,7 +33,7 @@ void assignKeyValue(char *key, char *value)
     }
     else
     {
-        ViewMain::get().config(key, value);
+        ViewManager::get().config(key, value);
     }
 }
 
