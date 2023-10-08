@@ -15,7 +15,7 @@ protected:
     struct View
     {
         char *name;
-        std::vector<ComponentInterface *> *view = new std::vector<ComponentInterface *>({});
+        std::vector<ComponentInterface *> view = {};
     };
 
     std::vector<View *> views;
@@ -59,7 +59,7 @@ public:
 
     std::vector<ComponentInterface *> &getView()
     {
-        return *views.back()->view;
+        return views.back()->view;
     }
 
     bool config(char *key, char *value)
@@ -77,9 +77,9 @@ public:
             return true;
         }
 
-        if (views.size() > 0 && views.back()->view->size() > 0)
+        if (views.size() > 0 && views.back()->view.size() > 0)
         {
-            return views.back()->view->back()->baseConfig(key, value);
+            return views.back()->view.back()->baseConfig(key, value);
 
         }
 
@@ -90,7 +90,7 @@ public:
     {
         if (views.size() > 0)
         {
-            views.back()->view->push_back(component);
+            views.back()->view.push_back(component);
         }
         else
         {
