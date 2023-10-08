@@ -17,7 +17,7 @@ protected:
     UiPlugin() : Mapping(props, (char *)"UI") {}
 
 public:
-    std::vector<std::vector<ComponentInterface *>*> views = {new std::vector<ComponentInterface *>({})};
+    std::vector<std::vector<ComponentInterface *> *> views = {new std::vector<ComponentInterface *>({})};
     std::vector<ComponentInterface *> &view = *views[0];
 
     Val<UiPlugin> &viewSelector = val(this, 1.0f, "VIEW", &UiPlugin::setView, {"View"});
@@ -39,8 +39,26 @@ public:
         viewSelector.setFloat(value);
         return *this;
     }
+
+    bool config(char *key, char *value)
+    {
+        if (strcmp(key, "VIEW") == 0)
+        {
+            if (strcmp(value, "NEXT") == 0)
+            {
+                views.push_back(new std::vector<ComponentInterface *>());
+                view = *views[views.size() - 1];
+                return true;
+            }
+        }
+        else if (view.size() > 0)
+        {
+            return view.back()->baseConfig(key, value);
+        }
+        return false;
+    }
 };
 
-UiPlugin* UiPlugin::instance = NULL;
+UiPlugin *UiPlugin::instance = NULL;
 
 #endif

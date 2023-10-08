@@ -163,7 +163,6 @@ public:
         }
     }
 
-
     bool config(char *key, char *value)
     {
         if (strcmp(key, "PLUGIN_COMPONENT") == 0)
@@ -171,7 +170,7 @@ public:
             loadPlugin(value);
             return true;
         }
-        else if (strcmp(key, "COMPONENT") == 0)
+        if (strcmp(key, "COMPONENT") == 0)
         {
             char *name = strtok(value, " ");
             Point position = {atoi(strtok(NULL, " ")), atoi(strtok(NULL, " "))};
@@ -179,20 +178,7 @@ public:
             addComponent(name, position, size);
             return true;
         }
-        else if (strcmp(key, "VIEW") == 0)
-        {
-            if (strcmp(value, "NEXT") == 0)
-            {
-                ui.views.push_back(new std::vector<ComponentInterface *>());
-                ui.view = *ui.views[ui.views.size() - 1];
-                return true;
-            }
-        }
-        else if (ui.view.size() > 0)
-        {
-            return ui.view.back()->baseConfig(key, value);
-        }
-        return false;
+        return ui.config(key, value);
     }
 
     void config(const char *key, const char *value)
