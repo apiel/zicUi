@@ -3,6 +3,7 @@
 
 // #include "plugins/valueInterface.h"
 #include "../zicHost/plugins/mapping.h"
+#include "plugins/componentInterface.h"
 
 #include <cstdio> // printf
 

@@ -102,6 +102,10 @@ public:
                                 value);
             }
         }
+
+        ui.viewSelector.onUpdate([](float, void *data)
+                                 { ViewManager::get().render(true); },
+                                 NULL);
         return true;
     }
 
@@ -120,10 +124,17 @@ public:
         }
     }
 
-    void render()
+    void render(bool forceReRender = false)
     {
         draw.clear();
         draw.next();
+        if (forceReRender)
+        {
+            for (auto &component : ui.getView())
+            {
+                component->renderNext();
+            }
+        }
         renderComponents();
     }
 
