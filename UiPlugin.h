@@ -115,6 +115,18 @@ public:
             }
         }
     }
+
+    void initActiveComponents(void (*callback)(float, void *data))
+    {
+        for (auto &component : getView())
+        {
+            component->renderNext();
+            for (auto *value : component->values)
+            {
+                value->onUpdate(callback, value);
+            }
+        }
+    }
 };
 
 UiPlugin *UiPlugin::instance = NULL;

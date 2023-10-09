@@ -111,17 +111,7 @@ public:
         draw.next();
 
         ui.clearOnUpdate();
-        for (auto &component : ui.getView())
-        {
-            component->renderNext();
-            for (auto *value : component->values)
-            {
-                // TODO could this be optimized by creating mapping values to components?
-                value->onUpdate([](float, void *data)
-                                { ViewManager::get().onUpdate((ValueInterface *)data); },
-                                value);
-            }
-        }
+        ui.initActiveComponents([](float, void *data) { ViewManager::get().onUpdate((ValueInterface *)data); });
 
         ui.viewSelector.onUpdate([](float, void *data)
                                  { ViewManager::get().render(); },
