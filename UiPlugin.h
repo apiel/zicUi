@@ -101,6 +101,20 @@ public:
             printf("ERROR: No view to add component to. Create first a view to be able to add components.\n");
         }
     }
+
+    void clearOnUpdate()
+    {
+        for (auto &view : views)
+        {
+            for (auto &component : view->view)
+            {
+                for (auto *value : component->values)
+                {
+                    value->onUpdate([](float, void *data) {}, NULL);
+                }
+            }
+        }
+    }
 };
 
 UiPlugin *UiPlugin::instance = NULL;

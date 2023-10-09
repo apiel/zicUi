@@ -85,30 +85,6 @@ public:
         return *instance;
     }
 
-    bool init()
-    {
-        if (!ui.getViewCount())
-        {
-            return false;
-        }
-
-        for (auto &component : ui.getView())
-        {
-            for (auto *value : component->values)
-            {
-                // TODO could this be optimized by creating mapping values to components?
-                value->onUpdate([](float, void *data)
-                                { ViewManager::get().onUpdate((ValueInterface *)data); },
-                                value);
-            }
-        }
-
-        ui.viewSelector.onUpdate([](float, void *data)
-                                 { ViewManager::get().render(true); },
-                                 NULL);
-        return true;
-    }
-
     // TODO could this be optimized by creating mapping values to components?
     void onUpdate(ValueInterface *val)
     {
@@ -124,18 +100,36 @@ public:
         }
     }
 
-    void render(bool forceReRender = false)
+    bool render(bool forceReRender = false)
     {
+        if (!ui.getViewCount())
+        {
+            return false;
+        }
+
         draw.clear();
         draw.next();
-        if (forceReRender)
+
+        ui.clearOnUpdate();
+        for (auto &component : ui.getView())
         {
-            for (auto &component : ui.getView())
+            component->renderNext();
+            for (auto *value : component->values)
             {
-                component->renderNext();
+                // TODO could this be optimized by creating mapping values to components?
+                value->onUpdate([](float, void *data)
+                                { ViewManager::get().onUpdate((ValueInterface *)data); },
+                                value);
             }
         }
+
+        ui.viewSelector.onUpdate([](float, void *data)
+                                 { ViewManager::get().render(); },
+                                 NULL);
+
         renderComponents();
+
+        return true;
     }
 
     void renderComponents()

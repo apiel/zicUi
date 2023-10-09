@@ -54,11 +54,6 @@ int main()
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     ViewManager &viewManager = ViewManager::get();
-    if (!viewManager.init())
-    {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "No view were initialized");
-        return 1;
-    }
     texture = (SDL_Texture *)viewManager.draw.setTextureRenderer(styles.screen);
 
     if (!loadHost())
@@ -66,7 +61,11 @@ int main()
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not load host");
     }
 
-    viewManager.render();
+    if (!viewManager.render())
+    {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "No view were initialized to be rendered.");
+        return 1;
+    }
 
     EventHandler &event = EventHandler::get();
     unsigned long lastUpdate = SDL_GetTicks();
