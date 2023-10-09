@@ -1,8 +1,14 @@
 # TODO
 
-- TODO better component to select view
+- FIXME view encoder not fully working
+
+- TODO better component to select view -> just create a button that can set a specific value (int and float)
+
+- TODO encoder responsive for small size
 
 - TODO optimized onUpdate value...?
+
+- TODO keyboard?
 
 - TODO componentValue option rotate 90°
 

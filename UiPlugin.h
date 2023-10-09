@@ -76,8 +76,8 @@ public:
 
             viewSelector.props().stepCount = views.size();
 
-            setView(1.0f); // To set to last
-            // setView(0.0f);
+            // setView(1.0f); // To set to last
+            setView(0.0f);
 
             return true;
         }
