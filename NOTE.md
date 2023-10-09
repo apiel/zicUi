@@ -1,6 +1,6 @@
 # TODO
 
-- TODO page of components list
+- TODO better component to select view
 
 - TODO optimized onUpdate value...?
 
