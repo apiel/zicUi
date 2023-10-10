@@ -1,10 +1,16 @@
 # TODO
 
-- FIXME view encoder not fully working
-
 - TODO better component to select view -> just create a button that can set a specific value (int and float)
 
 - TODO encoder responsive for small size
+- TODO use function pointer on encoder initialisation to assign draw function base on type
+
+- TODO list of value, e.g.:
+                file1.wav
+                file2.wav
+              > file3.wav
+                file4.wav
+                file5.wav
 
 - TODO optimized onUpdate value...?
 

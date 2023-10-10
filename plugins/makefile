@@ -2,7 +2,7 @@
 
 all:
 	make clean_so OscController MidiEncoderController\
-		PadComponent EncoderComponent GranularComponent SequencerComponent\
+		PadComponent EncoderComponent GranularComponent SequencerComponent ButtonComponent\
 		clean_o
 
 clean:
@@ -35,3 +35,6 @@ GranularComponent:
 
 SequencerComponent:
 	make compile LIBNAME=SequencerComponent EXTRA="-DPLUGIN_PROPS=ComponentInterface::Props"
+
+ButtonComponent:
+	make compile LIBNAME=ButtonComponent EXTRA="-DPLUGIN_PROPS=ComponentInterface::Props"

@@ -187,12 +187,14 @@ public:
             set(pluginName, keyValue);
             return true;
         }
-        else if (strcmp(key, "ENCODER_ID") == 0)
+
+        if (strcmp(key, "ENCODER_ID") == 0)
         {
             encoderId = atoi(value);
             return true;
         }
-        else if (strcmp(key, "TYPE") == 0)
+
+        if (strcmp(key, "TYPE") == 0)
         {
             if (strcmp(value, "BROWSE") == 0)
             {
@@ -208,12 +210,14 @@ public:
             }
             return true;
         }
-        else if (strcmp(key, "LABEL") == 0)
+        
+        if (strcmp(key, "LABEL") == 0)
         {
             strcpy(labelBuffer, value);
             label = labelBuffer;
             return true;
         }
+        
         return false;
     }
 

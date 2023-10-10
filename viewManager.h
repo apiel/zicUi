@@ -73,6 +73,15 @@ protected:
         SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Unknown component: %s", name);
     }
 
+    void changeGroup()
+    {
+        lastGroup = group;
+        for (auto &component : ui.getView())
+        {
+            component->onGroupChanged(group);
+        }
+    }
+
 public:
     Draw draw;
 
@@ -110,7 +119,7 @@ public:
         draw.clear();
         draw.next();
 
-        lastGroup = -100;
+        changeGroup();
         ui.clearOnUpdate();
         ui.initActiveComponents([](float, void *data)
                                 { ViewManager::get().onUpdate((ValueInterface *)data); });
@@ -128,11 +137,7 @@ public:
     {
         if (group != lastGroup)
         {
-            lastGroup = group;
-            for (auto &component : ui.getView())
-            {
-                component->onGroupChanged(group);
-            }
+            changeGroup();
         }
         for (auto &component : ui.getView())
         {
