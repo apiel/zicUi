@@ -81,10 +81,10 @@ protected:
         {
             draw.textCentered({area.xCenter, area.y}, label, colors.title, 12);
 
-            int val = (value->get() * value->props().stepCount) + value->props().stepStart;
+            int val = value->getAsInt();
             draw.textRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
                            colors.value, 20, {styles.font.bold});
-            draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props().stepCount - val).c_str(),
+            draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props().stepCount - val - 1).c_str(),
                       colors.value, 20, {styles.font.bold});
         }
         else
