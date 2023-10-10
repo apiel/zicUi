@@ -2,6 +2,8 @@
 
 - TODO button PRESSED_INT_VALUE
 
+- TODO slider
+
 - TODO encoder responsive for small size
 - TODO use function pointer on encoder initialisation to assign draw function base on type
 
@@ -16,7 +18,7 @@
 
 - TODO keyboard?
 
-- TODO componentValue option rotate 90°
+- TODO componentEncoder option rotate 90°
 
 ```cpp
 float rotationAngle = 90.0f;
