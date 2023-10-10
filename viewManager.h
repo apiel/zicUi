@@ -110,8 +110,10 @@ public:
         draw.clear();
         draw.next();
 
+        lastGroup = -100;
         ui.clearOnUpdate();
-        ui.initActiveComponents([](float, void *data) { ViewManager::get().onUpdate((ValueInterface *)data); });
+        ui.initActiveComponents([](float, void *data)
+                                { ViewManager::get().onUpdate((ValueInterface *)data); });
 
         ui.viewSelector.onUpdate([](float, void *data)
                                  { ViewManager::get().render(); },
