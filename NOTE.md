@@ -1,6 +1,6 @@
 # TODO
 
-- TODO better component to select view -> just create a button that can set a specific value (int and float)
+- TODO button PRESSED_INT_VALUE
 
 - TODO encoder responsive for small size
 - TODO use function pointer on encoder initialisation to assign draw function base on type

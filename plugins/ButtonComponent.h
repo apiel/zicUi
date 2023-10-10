@@ -7,18 +7,21 @@
 class ButtonComponent : public Component
 {
 protected:
-    const char *label = NULL;
+    char *label = NULL;
     ValueInterface *value = NULL;
 
-int fontSize = 12;
+    int fontSize = 12;
     Point labelPosition;
+
+    bool isPressed = false;
+    float pressedValue = 0.0f;
 
     void render()
     {
         draw.filledRect(
             {position.x + margin, position.y + margin},
             {size.w - 2 * margin, size.h - 2 * margin},
-            colors.background);
+            isPressed ? colors.pressedBackground : colors.background);
 
         draw.textCentered(labelPosition, label, colors.title, fontSize);
     }
@@ -28,13 +31,14 @@ int fontSize = 12;
         value = val(getPlugin(pluginName).getValue(key));
         if (value != NULL && label == NULL)
         {
-            label = value->label();
+            label = (char *)value->label();
         }
     }
 
     struct Colors
     {
         Color background;
+        Color pressedBackground;
         Color title;
     } colors;
 
@@ -43,9 +47,9 @@ int fontSize = 12;
 public:
     ButtonComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground2, styles.colors.text}),
+          colors({styles.colors.foreground2, styles.colors.foreground3, styles.colors.text}),
           margin(styles.margin),
-          labelPosition({ (int)(position.x + size.w * 0.5f), (int)(position.y + size.h * 0.5f - (fontSize * 0.5f)) })
+          labelPosition({(int)(position.x + size.w * 0.5f), (int)(position.y + size.h * 0.5f - (fontSize * 0.5f))})
     {
     }
 
@@ -60,18 +64,40 @@ public:
             return true;
         }
 
+        if (strcmp(key, "LABEL") == 0)
+        {
+            // maybe we check that the current point is not pointing to value->label()
+            // and free the label, but why should we assign multiple time a label...
+            label = new char[strlen(value) + 1];
+            strcpy(label, value);
+            return true;
+        }
+
+        if (strcmp(key, "PRESSED_VALUE") == 0)
+        {
+            pressedValue = atof(value);
+            return true;
+        }
+
+        // TODO PRESSED_INT_VALUE 
+
         return false;
     }
 
-    // void onMotion(MotionInterface &motion)
-    // {
-    //     // could draw button pressed
-    // }
+    void onMotion(MotionInterface &motion)
+    {
+        isPressed = true;
+        renderNext();
+    }
 
     void onMotionRelease(MotionInterface &motion)
     {
-        Component::onMotionRelease(motion);
-        printf("onMotionRelease btn\n");
+        if (motion.originIn({position, size}))
+        {
+            isPressed = false;
+            renderNext();
+            value->set(pressedValue);
+        }
     }
 };
 
