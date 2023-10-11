@@ -210,14 +210,14 @@ public:
             }
             return true;
         }
-        
+
         if (strcmp(key, "LABEL") == 0)
         {
             strcpy(labelBuffer, value);
             label = labelBuffer;
             return true;
         }
-        
+
         return false;
     }
 
@@ -226,7 +226,8 @@ public:
         if (encoderActive && id == encoderId)
         {
             // what if / 0 ??
-            value->set(value->get() + (direction / (float)(value->props().stepCount - 1)));
+            // value->set(value->get() + (direction / (float)(value->props().stepCount - 1)));
+            value->set(value->get() + (direction / (float)(value->props().stepCount)));
         }
     }
 
