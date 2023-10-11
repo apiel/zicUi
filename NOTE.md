@@ -1,5 +1,7 @@
 # TODO
 
+- FIXME encoder string doesnt work properly, see view...
+
 - TODO button PRESSED_INT_VALUE
 
 - TODO slider
