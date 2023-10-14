@@ -1,5 +1,7 @@
 # TODO
 
+- FIXME float value incrementation....
+
 - FIXME encoder string doesnt work properly, see view...
 
 - TODO button PRESSED_INT_VALUE
