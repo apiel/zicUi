@@ -108,6 +108,7 @@ public:
             }
             needRendering = true;
         }
+        // FIXME this might not anymore be necessary
         if (lastStart != start->get() || lastGrainSize != grainSize->get() || lastSpray != spray->get() || lastDensity != density->get())
         {
             lastStart = start->get();

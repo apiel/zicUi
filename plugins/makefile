@@ -33,6 +33,9 @@ EncoderComponent:
 GranularComponent:
 	make compile LIBNAME=GranularComponent EXTRA="-DPLUGIN_PROPS=ComponentInterface::Props"
 
+WaveComponent:
+	make compile LIBNAME=WaveComponent EXTRA="-DPLUGIN_PROPS=ComponentInterface::Props"
+
 SequencerComponent:
 	make compile LIBNAME=SequencerComponent EXTRA="-DPLUGIN_PROPS=ComponentInterface::Props"
 
