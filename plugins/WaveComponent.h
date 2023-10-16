@@ -111,6 +111,11 @@ public:
     {
         // What if encoder need multiple groups?
         // TODO make it configurable with a vector of groups
+        // OR
+        // maybe it would be easier to show the envelop from the last changed value
+        // this could be handled directly on the audio plugin side
+        // therefor this would allow to have as much envelop as we want
+        // and not have to deal with groups
         showAmp = index == 1;
         showFreq = index == 2;
         needRendering = true;
