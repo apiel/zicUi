@@ -23,21 +23,21 @@ protected:
 
     void render()
     {
-        printf("Rendering wave\n");
         draw.filledRect(wavePosition, size, colors.background);
 
         uint64_t samplesCount = 1000;
         float *bufferSamples = (float *)plugin.data(1);
 
         int h = waveSize.h * 0.5f;
-        for (int xIndex = 0; xIndex < waveSize.w; xIndex++)
+        float yRatio = samplesCount / waveSize.w;
+        for (int xIndex = 0; xIndex < waveSize.w - 1; xIndex++)
         {
             int x = wavePosition.x + xIndex;
-            int i = xIndex * samplesCount / waveSize.w;
+            int i = xIndex * yRatio;
             int y1 = wavePosition.y + (h - (int)(bufferSamples[i] * h));
-            int y2 = wavePosition.y + (h + (int)(bufferSamples[i] * h));
-            draw.line({x, y1}, {x, y2}, colors.samples);
-            // draw.line({x, y1}, {x, y1}, colors.samples);
+            int i2 = (xIndex + 1) * yRatio;
+            int y2 = wavePosition.y + (h - (int)(bufferSamples[i2] * h));
+            draw.line({x, y1}, {x + 1, y2}, colors.samples);
         }
 
         std::vector<Data> *dataAmp = (std::vector<Data> *)plugin.data(2);
@@ -80,14 +80,14 @@ protected:
 public:
     WaveComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground, styles.colors.textDark, styles.colors.foreground2, styles.colors.foreground3}),
+          colors({styles.colors.foreground, styles.colors.text, styles.colors.foreground2, styles.colors.foreground3}),
           margin(styles.margin),
           plugin(getPlugin("Kick23"))
     {
         waveSize = {size.w - 2 * margin, size.h - 2 * margin};
         wavePosition = {position.x + margin, position.y + margin};
 
-        colors.samples.a = 200;
+        // colors.samples.a = 200;
     }
 
     virtual void triggerRenderer() override
