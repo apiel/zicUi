@@ -43,28 +43,14 @@ protected:
             draw.line({x, y1}, {x + 1, y2}, colors.samples);
         }
 
-        if (showAmp)
+        std::vector<Data> *envData = (std::vector<Data> *)plugin.data(2);
+        if (envData)
         {
-            std::vector<Data> *dataAmp = (std::vector<Data> *)plugin.data(2);
-            for (int i = 0; i < dataAmp->size() - 1; i++)
-            {
-                Data &data1 = dataAmp->at(i);
-                Data &data2 = dataAmp->at(i + 1);
-                draw.line({(int)(wavePosition.x + waveSize.w * data1.time),
-                           (int)(wavePosition.y + waveSize.h - waveSize.h * data1.modulation)},
-                          {(int)(wavePosition.x + waveSize.w * data2.time),
-                           (int)(wavePosition.y + waveSize.h - waveSize.h * data2.modulation)},
-                          colors.env);
-            }
-        }
 
-        if (showFreq)
-        {
-            std::vector<Data> *dataFreq = (std::vector<Data> *)plugin.data(3);
-            for (int i = 0; i < dataFreq->size() - 1; i++)
+            for (int i = 0; i < envData->size() - 1; i++)
             {
-                Data &data1 = dataFreq->at(i);
-                Data &data2 = dataFreq->at(i + 1);
+                Data &data1 = envData->at(i);
+                Data &data2 = envData->at(i + 1);
                 draw.line({(int)(wavePosition.x + waveSize.w * data1.time),
                            (int)(wavePosition.y + waveSize.h - waveSize.h * data1.modulation)},
                           {(int)(wavePosition.x + waveSize.w * data2.time),
@@ -105,20 +91,6 @@ public:
             needRendering = true;
         }
         Component::triggerRenderer();
-    }
-
-    void onGroupChanged(int8_t index)
-    {
-        // What if encoder need multiple groups?
-        // TODO make it configurable with a vector of groups
-        // OR
-        // maybe it would be easier to show the envelop from the last changed value
-        // this could be handled directly on the audio plugin side
-        // therefor this would allow to have as much envelop as we want
-        // and not have to deal with groups
-        showAmp = index == 1;
-        showFreq = index == 2;
-        needRendering = true;
     }
 };
 
