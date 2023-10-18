@@ -58,7 +58,7 @@ public:
 
         if (motion.in({position, size}))
         {
-            if (motion.isStarting())
+            if (motion.isStarting() && group != -1)
             {
                 setGroup(group);
             }

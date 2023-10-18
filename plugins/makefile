@@ -3,6 +3,7 @@
 all:
 	make clean_so OscController MidiEncoderController\
 		PadComponent EncoderComponent GranularComponent SequencerComponent ButtonComponent TriggerNoteComponent\
+		WaveComponent\
 		clean_o
 
 clean:
