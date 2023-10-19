@@ -47,9 +47,9 @@ public:
         viewSelector.setFloat(value);
         viewIndex = viewSelector.getAsInt();
 
-        viewSelector.setString(views[viewIndex]->name);
+        // printf("................... Set view to %f (val %f)=> %d > %s\n", viewSelector.get(), value, viewIndex, views[viewIndex]->name);
 
-        // printf("................... Set view to %f => %d > %s\n", viewSelector.get(), viewIndex, viewSelector.string());
+        viewSelector.setString(views[viewIndex]->name);
 
         return *this;
     }

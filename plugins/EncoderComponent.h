@@ -226,8 +226,8 @@ public:
         if (encoderActive && id == encoderId)
         {
             // what if / 0 ??
-            // value->set(value->get() + (direction / (float)(value->props().stepCount - 1)));
-            value->set(value->get() + (direction / (float)(value->props().stepCount)));
+            value->set(value->get() + (direction / (float)(value->props().stepCount - 1)));
+            // value->set(value->get() + (direction / (float)(value->props().stepCount)));
         }
     }
 
