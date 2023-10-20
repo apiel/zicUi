@@ -52,6 +52,11 @@ protected:
         SDL_DestroyTexture(texture);
     }
 
+    float min(float a, float b)
+    {
+        return a < b ? a : b;
+    }
+
 public:
     Draw(Styles styles)
         : DrawInterface(styles)
@@ -163,6 +168,24 @@ public:
         SDL_Rect rect = {dest.position.x, dest.position.y, dest.size.w, dest.size.h};
         SDL_RenderCopy(renderer, (SDL_Texture *)texture, NULL, &rect);
         SDL_RenderPresent(renderer);
+    }
+
+    Color darken(Color color, float amount)
+    {
+        return {
+            (uint8_t)(color.r * (1.0f - amount)),
+            (uint8_t)(color.g * (1.0f - amount)),
+            (uint8_t)(color.b * (1.0f - amount)),
+            color.a};
+    }
+
+    Color lighten(Color color, float amount)
+    {
+        return {
+            (uint8_t)min(color.r * (1.0f + amount), 255.0f),
+            (uint8_t)min(color.g * (1.0f + amount), 255.0f),
+            (uint8_t)min(color.b * (1.0f + amount), 255.0f),
+            color.a};
     }
 };
 

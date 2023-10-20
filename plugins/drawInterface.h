@@ -90,6 +90,11 @@ public:
     virtual void setMainRenderer() = 0;
     virtual void destroyTexture(void *texture) = 0;
     virtual void applyTexture(void *texture, Rect dest) = 0;
+
+    // virtual Color shade(Color color, float amount) = 0;
+    // virtual Color tint(Color color, float amount) = 0;
+    virtual Color darken(Color color, float amount) = 0;
+    virtual Color lighten(Color color, float amount) = 0;
 };
 
 #endif
