@@ -66,7 +66,7 @@ protected:
     {
         char info[256];
         snprintf(info, sizeof(info), "Start %d%% Size %d%% Spray %d%% Density %d",
-                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), (int)(lastDensity * density->props().stepCount + density->props().stepStart));
+                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), density->getAsInt()); // (int)(lastDensity * density->props().stepCount + density->props().stepStart
         draw.text({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.info, 12);
     }
 
