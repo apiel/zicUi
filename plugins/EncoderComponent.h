@@ -228,7 +228,7 @@ public:
 
         if (strcmp(key, "COLOR") == 0)
         {
-            colors = getColorsFromColor(draw.hex2rgb(value));
+            colors = getColorsFromColor(draw.getColor(value));
             return true;
         }
 

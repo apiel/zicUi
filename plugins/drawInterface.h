@@ -50,7 +50,9 @@ struct Styles
         Color textDark;
         Color overlay;
         Color on;
+        Color white;
         Color blue;
+        Color red;
     } colors;
 };
 
@@ -95,6 +97,7 @@ public:
     virtual Color darken(Color color, float amount) = 0;
     virtual Color lighten(Color color, float amount) = 0;
     virtual Color hex2rgb(char *hex) = 0;
+    virtual Color getColor(char *color) = 0;
 };
 
 #endif

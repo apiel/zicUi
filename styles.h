@@ -19,7 +19,9 @@ Styles styles = {
         .textDark = {0x7c, 0x98, 0xc4, 255},    // #7c98c4
         .overlay = {0xd1, 0xe3, 0xff, 0x1e},    // #d1e3ff1e
         .on = {0x00, 0xb3, 0x00, 255},          // #00b300
+        .white = {0xff, 0xff, 0xff, 255},       // #ffffff
         .blue = {0xad, 0xcd, 0xff, 255},        // #adcdff
+        .red = {0xff, 0x8d, 0x99, 255},         // #ff8d99
     },
 };
 

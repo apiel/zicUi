@@ -200,6 +200,27 @@ public:
             .a = 255,
         });
     }
+
+    Color getColor(char *color)
+    {
+        // if first char is # then call hex2rgb
+        if (color[0] == '#')
+        {
+            return hex2rgb(color);
+        }
+
+        if (strcmp(color, "blue") == 0)
+        {
+            return styles.colors.blue;
+        }
+
+        if (strcmp(color, "red") == 0)
+        {
+            return styles.colors.red;
+        }
+
+        return styles.colors.white;
+    }
 };
 
 #endif
