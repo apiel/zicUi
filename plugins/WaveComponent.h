@@ -69,7 +69,7 @@ protected:
 
     Colors getColorsFromColor(Color color)
     {
-        return Colors({draw.darken(color, 0.6),
+        return Colors({draw.darken(color, 0.8),
                        color,
                        draw.darken(color, 0.3)});
     }

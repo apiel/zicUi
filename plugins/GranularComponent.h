@@ -87,7 +87,7 @@ protected:
 
     Colors getColorsFromColor(Color color)
     {
-        return Colors({draw.darken(color, 0.6),
+        return Colors({draw.darken(color, 0.8),
                        draw.darken(color, 0.3),
                        draw.darken(color, 0.2),
                        styles.colors.overlay});

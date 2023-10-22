@@ -107,7 +107,7 @@ protected:
 
     Colors getColorsFromColor(Color color)
     {
-        return Colors({draw.darken(color, 0.6),
+        return Colors({draw.darken(color, 0.8),
                        draw.darken(color, 0.3),
                        color,
                        styles.colors.on,

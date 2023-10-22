@@ -40,7 +40,7 @@ protected:
 
     Colors getColorsFromColor(Color color)
     {
-        return Colors({draw.darken(color, 0.3), draw.darken(color, 0.2), color});
+        return Colors({draw.darken(color, 0.6), draw.darken(color, 0.3), color});
     }
 
     const int margin;

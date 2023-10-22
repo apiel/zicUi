@@ -72,12 +72,19 @@ protected:
         Color title;
     } colors;
 
+    Colors getColorsFromColor(Color color)
+    {
+        return Colors({draw.darken(color, 0.8),
+                       color,
+                       draw.darken(color, 0.2)});
+    }
+
     const int margin;
 
 public:
     PadComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground, styles.colors.text, styles.colors.textDark}),
+          colors(getColorsFromColor(styles.colors.blue)),
           margin(styles.margin)
     {
     }
@@ -91,28 +98,39 @@ public:
             setValueX(pluginName, keyValue);
             return true;
         }
-        else if (strcmp(key, "VALUE_Y") == 0)
+
+        if (strcmp(key, "VALUE_Y") == 0)
         {
             char *pluginName = strtok(value, " ");
             char *keyValue = strtok(NULL, " ");
             setValueY(pluginName, keyValue);
             return true;
         }
-        else if (strcmp(key, "HOLD_VALUE") == 0)
+
+        if (strcmp(key, "HOLD_VALUE") == 0)
         {
             holdValue = strcmp(value, "true") == 0;
             return true;
         }
-        else if (strcmp(key, "RELEASE_X") == 0)
+
+        if (strcmp(key, "RELEASE_X") == 0)
         {
             releaseX = atof(value);
             return true;
         }
-        else if (strcmp(key, "RELEASE_Y") == 0)
+
+        if (strcmp(key, "RELEASE_Y") == 0)
         {
             releaseY = atof(value);
             return true;
         }
+
+        if (strcmp(key, "COLOR") == 0)
+        {
+            colors = getColorsFromColor(draw.getColor(value));
+            return true;
+        }
+
         return false;
     }
 

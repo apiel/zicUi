@@ -43,11 +43,6 @@ struct Styles
     struct Colors
     {
         Color background;
-        Color foreground;
-        Color foreground2;
-        Color foreground3;
-        Color text;
-        Color textDark;
         Color overlay;
         Color on;
         Color white;
