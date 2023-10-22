@@ -170,7 +170,10 @@ public:
     // margin right 10
     EncoderComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground2, styles.colors.foreground3, styles.colors.textDark, styles.colors.text}),
+          colors({props.draw.darken(styles.colors.text, 0.6),
+                  props.draw.darken(styles.colors.text, 0.3),
+                  props.draw.darken(styles.colors.text, 0.2),
+                  styles.colors.text}),
           margin(styles.margin),
           area({position.x + 15, 0, position.y, size.w - (15 + 10), size.h})
     {
