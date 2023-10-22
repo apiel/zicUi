@@ -187,6 +187,19 @@ public:
             (uint8_t)min(color.b * (1.0f + amount), 255.0f),
             color.a};
     }
+
+    Color hex2rgb(char *hex)
+    {
+
+        hex++;
+        unsigned int color = strtol(hex, NULL, 16);
+        return Color({
+            .r = (uint8_t)((color & 0x00FF0000) >> 16),
+            .g = (uint8_t)((color & 0x0000FF00) >> 8),
+            .b = (uint8_t)((color & 0x000000FF)),
+            .a = 255,
+        });
+    }
 };
 
 #endif

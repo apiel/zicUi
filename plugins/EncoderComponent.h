@@ -163,6 +163,14 @@ protected:
         Color value;
     } colors;
 
+    Colors getColorsFromColor(Color color)
+    {
+        return Colors({draw.darken(color, 0.6),
+                       draw.darken(color, 0.3),
+                       draw.darken(color, 0.2),
+                       color});
+    }
+
     const int margin;
 
 public:
@@ -170,10 +178,7 @@ public:
     // margin right 10
     EncoderComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({props.draw.darken(styles.colors.text, 0.6),
-                  props.draw.darken(styles.colors.text, 0.3),
-                  props.draw.darken(styles.colors.text, 0.2),
-                  styles.colors.text}),
+          colors(getColorsFromColor(styles.colors.blue)),
           margin(styles.margin),
           area({position.x + 15, 0, position.y, size.w - (15 + 10), size.h})
     {
@@ -218,6 +223,12 @@ public:
         {
             strcpy(labelBuffer, value);
             label = labelBuffer;
+            return true;
+        }
+
+        if (strcmp(key, "COLOR") == 0)
+        {
+            colors = getColorsFromColor(draw.hex2rgb(value));
             return true;
         }
 
