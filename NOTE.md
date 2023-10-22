@@ -1,11 +1,5 @@
 # TODO
 
-- TODO base on one color deduct other nuance of color.
-
-- FIXME float value incrementation....
-
-- FIXME encoder string doesnt work properly, see view...
-
 - TODO button PRESSED_INT_VALUE
 
 - TODO slider
