@@ -38,12 +38,17 @@ protected:
         Color title;
     } colors;
 
+    Colors getColorsFromColor(Color color)
+    {
+        return Colors({draw.darken(color, 0.3), draw.darken(color, 0.2), color});
+    }
+
     const int margin;
 
 public:
     TriggerNoteComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground2, styles.colors.foreground3, styles.colors.text}),
+          colors(getColorsFromColor(styles.colors.blue)),
           margin(styles.margin),
           plugin(getPlugin("Kick23"))
         //   labelPosition({(int)(position.x + size.w * 0.5f), (int)(position.y + size.h * 0.5f - (fontSize * 0.5f))})
@@ -77,6 +82,12 @@ public:
         // }
 
         // TODO PRESSED_INT_VALUE 
+
+        if (strcmp(key, "COLOR") == 0)
+        {
+            colors = getColorsFromColor(draw.getColor(value));
+            return true;
+        }
 
         return false;
     }

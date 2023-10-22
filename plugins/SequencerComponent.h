@@ -161,6 +161,17 @@ public:
             selectedStep->set(index / (float)stepCount);
         }
     }
+
+    bool config(char *key, char *value)
+    {
+        if (strcmp(key, "COLOR") == 0)
+        {
+            colors = getColorsFromColor(draw.getColor(value));
+            return true;
+        }
+
+        return false;
+    }
 };
 
 #endif

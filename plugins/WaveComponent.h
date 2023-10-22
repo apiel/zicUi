@@ -67,6 +67,13 @@ protected:
         Color env;
     } colors;
 
+    Colors getColorsFromColor(Color color)
+    {
+        return Colors({draw.darken(color, 0.6),
+                       color,
+                       draw.darken(color, 0.3)});
+    }
+
     const int margin;
 
     int lastUpdateUi = -1;
@@ -74,7 +81,7 @@ protected:
 public:
     WaveComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground, styles.colors.text, styles.colors.foreground2}),
+          colors(getColorsFromColor(styles.colors.blue)),
           margin(styles.margin),
           plugin(getPlugin("Kick23"))
     {
@@ -91,6 +98,17 @@ public:
             needRendering = true;
         }
         Component::triggerRenderer();
+    }
+
+    bool config(char *key, char *value)
+    {
+        if (strcmp(key, "COLOR") == 0)
+        {
+            colors = getColorsFromColor(draw.getColor(value));
+            return true;
+        }
+
+        return false;
     }
 };
 
