@@ -85,12 +85,20 @@ protected:
         Color start;
     } colors;
 
+    Colors getColorsFromColor(Color color)
+    {
+        return Colors({draw.darken(color, 0.6),
+                       draw.darken(color, 0.3),
+                       draw.darken(color, 0.2),
+                       styles.colors.overlay});
+    }
+
     const int margin;
 
 public:
     GranularComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground, styles.colors.foreground2, styles.colors.textDark, styles.colors.overlay}),
+          colors(getColorsFromColor(styles.colors.blue)),
           margin(styles.margin),
           plugin(getPlugin("Granular"))
     {
@@ -182,6 +190,17 @@ public:
         {
             motion2 = NULL;
         }
+    }
+
+    bool config(char *key, char *value)
+    {
+        if (strcmp(key, "COLOR") == 0)
+        {
+            colors = getColorsFromColor(draw.getColor(value));
+            return true;
+        }
+
+        return false;
     }
 };
 

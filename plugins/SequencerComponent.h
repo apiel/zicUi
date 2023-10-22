@@ -105,6 +105,15 @@ protected:
         Color textInfo;
     } colors;
 
+    Colors getColorsFromColor(Color color)
+    {
+        return Colors({draw.darken(color, 0.6),
+                       draw.darken(color, 0.3),
+                       color,
+                       styles.colors.on,
+                       draw.darken(color, 0.3)});
+    }
+
     const int margin;
 
     uint8_t stepCount;
@@ -112,11 +121,7 @@ protected:
 public:
     SequencerComponent(ComponentInterface::Props &props)
         : Component(props),
-          colors({styles.colors.foreground,
-                  styles.colors.foreground2,
-                  styles.colors.text,
-                  styles.colors.on,
-                  styles.colors.foreground2}),
+          colors(getColorsFromColor(styles.colors.blue)),
           margin(styles.margin),
           plugin(getPlugin("Sequencer"))
     {
