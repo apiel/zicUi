@@ -4,8 +4,6 @@
 - TODO button shift val target
 - TODO button long press val target
 
-- TODO make style configurable??
-
 - TODO slider
 
 - TODO encoder responsive for small size
