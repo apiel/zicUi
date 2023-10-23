@@ -59,6 +59,26 @@ protected:
 
     Color *getStyleColor(char *color)
     {
+        if (strcmp(color, "background") == 0)
+        {
+            return &styles.colors.background;
+        }
+
+        if (strcmp(color, "overlay") == 0)
+        {
+            return &styles.colors.overlay;
+        }
+
+        if (strcmp(color, "on") == 0)
+        {
+            return &styles.colors.on;
+        }
+
+        if (strcmp(color, "white") == 0)
+        {
+            return &styles.colors.white;
+        }
+
         if (strcmp(color, "blue") == 0)
         {
             return &styles.colors.blue;
@@ -231,6 +251,19 @@ public:
         }
 
         return styles.colors.white;
+    }
+
+    void setColor(char *name, char *color)
+    {
+        Color *styleColor = getStyleColor(name);
+        if (styleColor != NULL)
+        {
+            Color newColor = hex2rgb(color);
+            //    *styleColor = newColor; // Dont do like this, to keep transparency
+            styleColor->r = newColor.r;
+            styleColor->g = newColor.g;
+            styleColor->b = newColor.b;
+        }
     }
 };
 

@@ -27,6 +27,12 @@ void assignKeyValue(char *key, char *value)
     {
         loadPluginController(value);
     }
+    else if (strcmp(key, "SET_COLOR") == 0)
+    {
+        char *name = strtok(value, " ");
+        char *color = strtok(NULL, " ");
+        ViewManager::get().draw.setColor(name, color);
+    }
     else if (lastPluginInstance && lastPluginInstance->config(key, value))
     {
         return;
