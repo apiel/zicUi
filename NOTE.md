@@ -1,13 +1,17 @@
 # TODO
 
-- TODO button PRESSED_INT_VALUE
-- TODO button shift val target
-- TODO button long press val target
+- TODO layout include file...?
 
-- TODO slider
+- TODO button PRESSED_INT_VALUE
+       button shift val target
+       button long press val target
+       button can change group
+       button can trigger NOTE or should finish note component
 
 - TODO encoder responsive for small size
 - TODO use function pointer on encoder initialisation to assign draw function base on type
+
+- TODO slider
 
 - TODO list of value, e.g.:
                 file1.wav
@@ -31,7 +35,3 @@ See also https://www.parallelrealities.co.uk/tutorials/ttf/ttf1.php
 `blitRotated` is actually using `SDL_RenderCopyEx` https://www.parallelrealities.co.uk/tutorials/bad/bad2.php
 
 - TODO should we show the grains???
-
-# PCB
-
-- https://www.kicad.org/

@@ -8,13 +8,19 @@ class ButtonComponent : public Component
 {
 protected:
     char *label = NULL;
-    ValueInterface *value = NULL;
-
     int fontSize = 12;
     Point labelPosition;
 
     bool isPressed = false;
-    float pressedValue = 0.0f;
+
+    struct OnEvent
+    {
+        ValueInterface *value = NULL;
+        float targetValue = 0.0f;
+    };
+
+    OnEvent onPress;
+    OnEvent onRelease;
 
     void render()
     {
@@ -26,13 +32,20 @@ protected:
         draw.textCentered(labelPosition, label, colors.title, fontSize);
     }
 
-    void set(const char *pluginName, const char *key)
+    void set(OnEvent &event, char *config)
     {
-        value = val(getPlugin(pluginName).getValue(key));
-        if (value != NULL && label == NULL)
+        char *pluginName = strtok(config, " ");
+        char *key = strtok(NULL, " ");
+        char *targetValue = strtok(NULL, " ");
+
+        event.value = val(getPlugin(pluginName).getValue(key));
+        if (event.value != NULL && label == NULL)
         {
-            label = (char *)value->label();
+            label = (char *)event.value->label();
         }
+
+        // should we check if val start with 0. or 1. for float else use int...?
+        event.targetValue = atof(targetValue);
     }
 
     struct Colors
@@ -60,12 +73,17 @@ public:
 
     bool config(char *key, char *value)
     {
-        if (strcmp(key, "VALUE") == 0)
+        if (strcmp(key, "ON_PRESS") == 0)
         {
             printf("value: %s\n", value);
-            char *pluginName = strtok(value, " ");
-            char *keyValue = strtok(NULL, " ");
-            set(pluginName, keyValue);
+            set(onPress, value);
+            return true;
+        }
+
+        if (strcmp(key, "ON_RELEASE") == 0)
+        {
+            printf("value: %s\n", value);
+            set(onRelease, value);
             return true;
         }
 
@@ -77,14 +95,6 @@ public:
             strcpy(label, value);
             return true;
         }
-
-        if (strcmp(key, "PRESSED_VALUE") == 0)
-        {
-            pressedValue = atof(value);
-            return true;
-        }
-
-        // TODO PRESSED_INT_VALUE
 
         if (strcmp(key, "COLOR") == 0)
         {
@@ -99,6 +109,10 @@ public:
     {
         isPressed = true;
         renderNext();
+        if (onPress.value)
+        {
+            onPress.value->set(onPress.targetValue);
+        }
     }
 
     void onMotionRelease(MotionInterface &motion)
@@ -107,7 +121,10 @@ public:
         {
             isPressed = false;
             renderNext();
-            value->set(pressedValue);
+            if (onRelease.value)
+            {
+                onRelease.value->set(onRelease.targetValue);
+            }
         }
     }
 };
