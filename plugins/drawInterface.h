@@ -91,7 +91,6 @@ public:
 
     virtual Color darken(Color color, float amount) = 0;
     virtual Color lighten(Color color, float amount) = 0;
-    virtual Color hex2rgb(char *hex) = 0;
     virtual Color getColor(char *color) = 0;
 };
 

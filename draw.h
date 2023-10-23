@@ -57,6 +57,34 @@ protected:
         return a < b ? a : b;
     }
 
+    Color *getStyleColor(char *color)
+    {
+        if (strcmp(color, "blue") == 0)
+        {
+            return &styles.colors.blue;
+        }
+
+        if (strcmp(color, "red") == 0)
+        {
+            return &styles.colors.red;
+        }
+
+        return NULL;
+    }
+
+    Color hex2rgb(char *hex)
+    {
+
+        hex++;
+        unsigned int color = strtol(hex, NULL, 16);
+        return Color({
+            .r = (uint8_t)((color & 0x00FF0000) >> 16),
+            .g = (uint8_t)((color & 0x0000FF00) >> 8),
+            .b = (uint8_t)((color & 0x000000FF)),
+            .a = 255,
+        });
+    }
+
 public:
     Draw(Styles styles)
         : DrawInterface(styles)
@@ -188,19 +216,6 @@ public:
             color.a};
     }
 
-    Color hex2rgb(char *hex)
-    {
-
-        hex++;
-        unsigned int color = strtol(hex, NULL, 16);
-        return Color({
-            .r = (uint8_t)((color & 0x00FF0000) >> 16),
-            .g = (uint8_t)((color & 0x0000FF00) >> 8),
-            .b = (uint8_t)((color & 0x000000FF)),
-            .a = 255,
-        });
-    }
-
     Color getColor(char *color)
     {
         // if first char is # then call hex2rgb
@@ -209,14 +224,10 @@ public:
             return hex2rgb(color);
         }
 
-        if (strcmp(color, "blue") == 0)
+        Color *styleColor = getStyleColor(color);
+        if (styleColor != NULL)
         {
-            return styles.colors.blue;
-        }
-
-        if (strcmp(color, "red") == 0)
-        {
-            return styles.colors.red;
+            return *styleColor;
         }
 
         return styles.colors.white;

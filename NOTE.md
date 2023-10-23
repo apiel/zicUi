@@ -1,6 +1,10 @@
 # TODO
 
 - TODO button PRESSED_INT_VALUE
+- TODO button shift val target
+- TODO button long press val target
+
+- TODO make style configurable??
 
 - TODO slider
 
@@ -29,8 +33,6 @@ See also https://www.parallelrealities.co.uk/tutorials/ttf/ttf1.php
 `blitRotated` is actually using `SDL_RenderCopyEx` https://www.parallelrealities.co.uk/tutorials/bad/bad2.php
 
 - TODO should we show the grains???
-
-- TODO make style configurable
 
 # PCB
 
