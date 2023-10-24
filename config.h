@@ -6,7 +6,7 @@
 #include "plugins.h"
 #include "helpers/getFullpath.h"
 
-#define CONFIG_FILE "./ui/main.ui"
+#define CONFIG_FILE "./ui/index.ui"
 
 bool loadConfig(const char *filename);
 

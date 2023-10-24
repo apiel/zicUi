@@ -4,7 +4,7 @@
 
 ## UI
 
-UI is fully customizable using the `./ui/main.ui` file.
+UI is fully customizable using the `./ui/index.ui` file.
 
 > To get styling for .ui extension in VScode, use `Ctrl` + `Shift` + `P` and type `Change Language Mode`. Then select `Configure File Association for '.ui'...` and select `Properties`.
 
