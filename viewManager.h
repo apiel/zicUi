@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <dlfcn.h>
+#include <mutex>
 
 #include "styles.h"
 #include "draw.h"
@@ -11,10 +12,11 @@
 #include "host.h"
 #include "UiPlugin.h"
 #include "helpers/getFullpath.h"
-
 class ViewManager
 {
 protected:
+    std::mutex m;
+
     UiPlugin &ui = UiPlugin::get();
     int8_t lastGroup = -100;
 
@@ -165,10 +167,12 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
+        m.lock();
         for (auto &component : ui.getView())
         {
             component->onEncoder(id, direction);
         }
+        m.unlock();
     }
 
     bool config(char *key, char *value, const char *filename)
