@@ -5,7 +5,7 @@
 #include "viewManager.h"
 #include "plugins.h"
 
-#define CONFIG_FILE "./config.ui.cfg"
+#define CONFIG_FILE "./config.ui"
 
 char *trimChar(char *str, char c = '\n')
 {
@@ -61,12 +61,12 @@ void parseConfigLine(char *line)
     assignKeyValue(key, trimChar(value));
 }
 
-bool loadConfig()
+bool loadConfig(const char * filename = CONFIG_FILE)
 {
-    FILE *file = fopen(CONFIG_FILE, "r");
+    FILE *file = fopen(filename, "r");
     if (file == NULL)
     {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load config file: %s\n", CONFIG_FILE);
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load config file: %s\n", filename);
         return false;
     }
 

@@ -3,7 +3,6 @@
 - TODO layout include file...?
 
 - TODO button PRESSED_INT_VALUE
-       button can change group
        button can trigger NOTE or should finish note component
 
 - TODO documentation!!
@@ -35,3 +34,5 @@ See also https://www.parallelrealities.co.uk/tutorials/ttf/ttf1.php
 `blitRotated` is actually using `SDL_RenderCopyEx` https://www.parallelrealities.co.uk/tutorials/bad/bad2.php
 
 - TODO should we show the grains???
+
+- NOTE should we use https://github.com/nlohmann/json for UI ?
