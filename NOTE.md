@@ -10,6 +10,8 @@
 
 - TODO documentation!!
 
+- TODO oscEncoder use time to make bigger step...
+
 - TODO encoder responsive for small size
 - TODO use function pointer on encoder initialisation to assign draw function base on type
 

@@ -35,7 +35,7 @@ protected:
 
     void textToRenderer(Point position, SDL_Surface *surface, int maxWidth)
     {
-
+printf("textToRenderer(%d, %d, %d)\n", position.x, position.y, surface->w);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
         if (texture == NULL)
         {
@@ -147,6 +147,7 @@ public:
 
     int text(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
+printf("text(%d, %d, %d) %s\n", position.x, position.y, size, text);
         options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         textToRenderer(position, surface, options.maxWidth);
