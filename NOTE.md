@@ -1,7 +1,12 @@
 # TODO
 
+- TODO hidden view that can host shared component or second state view
+      - shared component could be imported using INCLUDE file to have a kind of layout file, meaning that each view could reuse a preset of component. To do we would need a place to define first this shared component. If this layout is reused in all the views, we need a hidden view to host the shared component.
+      - A view can have multiple state (think about a shift mode view). While scrolling in `VIEW UI` state, to change from one view to the other, we dont want to scroll through those shifted views... Therefor, we need some hidden views, that's are not scrollable?
+
 - TODO button PRESSED_INT_VALUE
        button can trigger NOTE or should finish note component
+       button can easily set view base on name
 
 - TODO documentation!!
 
