@@ -49,7 +49,7 @@ protected:
         SDL_Rect rect2 = {position.x, position.y, w, surface->h};
         SDL_RenderCopy(renderer, texture, &rect1, &rect2);
         if (texture != NULL) {
-            SDL_DestroyTexture(texture);
+            // SDL_DestroyTexture(texture);
         }
     }
 
