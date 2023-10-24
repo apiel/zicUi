@@ -114,6 +114,7 @@ public:
 
     bool render(bool forceReRender = false)
     {
+        m.lock();
         if (!ui.getViewCount())
         {
             return false;
@@ -131,6 +132,8 @@ public:
                                  { ViewManager::get().render(); },
                                  NULL);
 
+        m.unlock();
+
         renderComponents();
 
         return true;
@@ -138,6 +141,7 @@ public:
 
     void renderComponents()
     {
+        m.lock();
         if (group != lastGroup)
         {
             changeGroup();
@@ -147,6 +151,7 @@ public:
             component->triggerRenderer();
         }
         draw.triggerRender();
+        m.unlock();
     }
 
     void onMotion(MotionInterface &motion)
