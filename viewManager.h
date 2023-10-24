@@ -10,6 +10,7 @@
 #include "plugins/componentInterface.h"
 #include "host.h"
 #include "UiPlugin.h"
+#include "helpers/getFullpath.h"
 
 class ViewManager
 {
@@ -31,13 +32,13 @@ protected:
     };
     std::vector<Plugin> plugins;
 
-    void loadPlugin(char *value)
+    void loadPlugin(char *value, const char *filename)
     {
         Plugin plugin;
         strcpy(plugin.name, strtok(value, " "));
         char *path = strtok(NULL, " ");
 
-        void *handle = dlopen(path, RTLD_LAZY);
+        void *handle = dlopen(getFullpath(path, filename), RTLD_LAZY);
 
         if (!handle)
         {
@@ -170,11 +171,11 @@ public:
         }
     }
 
-    bool config(char *key, char *value)
+    bool config(char *key, char *value, const char *filename)
     {
         if (strcmp(key, "PLUGIN_COMPONENT") == 0)
         {
-            loadPlugin(value);
+            loadPlugin(value, filename);
             return true;
         }
         if (strcmp(key, "COMPONENT") == 0)

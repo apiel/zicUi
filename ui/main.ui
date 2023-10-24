@@ -1,10 +1,10 @@
-PLUGIN_COMPONENT=Encoder ./plugins/build/libzic_EncoderComponent.so
-PLUGIN_COMPONENT=Pad ./plugins/build/libzic_PadComponent.so
-PLUGIN_COMPONENT=Granular ./plugins/build/libzic_GranularComponent.so
-PLUGIN_COMPONENT=Wave ./plugins/build/libzic_WaveComponent.so
-PLUGIN_COMPONENT=Sequencer ./plugins/build/libzic_SequencerComponent.so
-PLUGIN_COMPONENT=Button ./plugins/build/libzic_ButtonComponent.so
-PLUGIN_COMPONENT=TriggerNote ./plugins/build/libzic_TriggerNoteComponent.so
+PLUGIN_COMPONENT=Encoder ../plugins/build/libzic_EncoderComponent.so
+PLUGIN_COMPONENT=Pad ../plugins/build/libzic_PadComponent.so
+PLUGIN_COMPONENT=Granular ../plugins/build/libzic_GranularComponent.so
+PLUGIN_COMPONENT=Wave ../plugins/build/libzic_WaveComponent.so
+PLUGIN_COMPONENT=Sequencer ../plugins/build/libzic_SequencerComponent.so
+PLUGIN_COMPONENT=Button ../plugins/build/libzic_ButtonComponent.so
+PLUGIN_COMPONENT=TriggerNote ../plugins/build/libzic_TriggerNoteComponent.so
 
 PLUGIN_CONTROLLER=../plugins/build/libzic_OscController.so
 

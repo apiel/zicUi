@@ -46,7 +46,7 @@ void assignKeyValue(char *key, char *value, const char *filename)
     }
     else
     {
-        ViewManager::get().config(key, value);
+        ViewManager::get().config(key, value, filename);
     }
 }
 
