@@ -12,7 +12,7 @@ all:
 	make libs build run
 
 build:
-	g++ -fms-extensions -o zicUi zicUi.cpp -ldl $(SDL2) $(SDL2_ttf) $(RPI)
+	g++ -g -fms-extensions -o zicUi zicUi.cpp -ldl $(SDL2) $(SDL2_ttf) $(RPI)
 
 run:
 	./zicUi

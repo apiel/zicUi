@@ -16,8 +16,8 @@ clean_o:
 	rm -f *.o
 
 compile:
-	g++ -c -o $(LIBNAME).o plugin.cpp -fPIC -DPLUGIN_NAME=$(LIBNAME) -DPLUGIN_INCLUDE=\"$(LIBNAME).h\" $(EXTRA)
-	g++ -shared -o build/libzic_$(LIBNAME).so $(LIBNAME).o $(EXTRA)
+	g++ -g -c -o $(LIBNAME).o plugin.cpp -fPIC -DPLUGIN_NAME=$(LIBNAME) -DPLUGIN_INCLUDE=\"$(LIBNAME).h\" $(EXTRA)
+	g++ -g -shared -o build/libzic_$(LIBNAME).so $(LIBNAME).o $(EXTRA)
 
 OscController:
 	make compile LIBNAME=OscController EXTRA="$(shell pkg-config --cflags --libs liblo)"
