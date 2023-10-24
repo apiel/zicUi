@@ -35,7 +35,6 @@ protected:
 
     void textToRenderer(Point position, SDL_Surface *surface, int maxWidth)
     {
-printf("textToRenderer(%d, %d, %d)\n", position.x, position.y, surface->w);
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
         if (texture == NULL)
         {
@@ -49,7 +48,9 @@ printf("textToRenderer(%d, %d, %d)\n", position.x, position.y, surface->w);
         SDL_Rect rect1 = {0, 0, w, surface->h};
         SDL_Rect rect2 = {position.x, position.y, w, surface->h};
         SDL_RenderCopy(renderer, texture, &rect1, &rect2);
-        SDL_DestroyTexture(texture);
+        if (texture != NULL) {
+            SDL_DestroyTexture(texture);
+        }
     }
 
     float min(float a, float b)
@@ -135,7 +136,6 @@ public:
 
     int textCentered(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
-printf("text centered(%d, %d, %d) %s\n", position.x, position.y, size, text);
         options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - (surface->w * 0.5);
@@ -148,7 +148,6 @@ printf("text centered(%d, %d, %d) %s\n", position.x, position.y, size, text);
 
     int text(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
-printf("text(%d, %d, %d) %s\n", position.x, position.y, size, text);
         options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         textToRenderer(position, surface, options.maxWidth);
@@ -160,7 +159,6 @@ printf("text(%d, %d, %d) %s\n", position.x, position.y, size, text);
 
     int textRight(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
-printf("text right(%d, %d, %d) %s\n", position.x, position.y, size, text);
         options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - surface->w;
