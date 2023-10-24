@@ -8,7 +8,7 @@
 
 #define CONFIG_FILE "./ui/main.ui"
 
-bool loadConfig(const char * filename);
+bool loadConfig(const char *filename);
 
 char *trimChar(char *str, char c = '\n')
 {
@@ -24,19 +24,15 @@ char *trimChar(char *str, char c = '\n')
     return str;
 }
 
-void assignKeyValue(char *key, char *value, const char * filename)
+void assignKeyValue(char *key, char *value, const char *filename)
 {
     if (strcmp(key, "INCLUDE") == 0)
     {
-        char *fullpath = getFullpath(value, filename);
-        loadConfig(fullpath);
-        delete[] fullpath;
+        loadConfig(getFullpath(value, filename));
     }
     else if (strcmp(key, "PLUGIN_CONTROLLER") == 0)
     {
-        char *fullpath = getFullpath(value, filename);
-        loadPluginController(fullpath);
-        delete[] fullpath;
+        loadPluginController(getFullpath(value, filename));
     }
     else if (strcmp(key, "SET_COLOR") == 0)
     {
@@ -54,7 +50,7 @@ void assignKeyValue(char *key, char *value, const char * filename)
     }
 }
 
-void parseConfigLine(char *line, const char * filename)
+void parseConfigLine(char *line, const char *filename)
 {
     // ignore comments and empty lines
     if (line[0] == '#' || line[0] == '\n')
@@ -72,7 +68,7 @@ void parseConfigLine(char *line, const char * filename)
     assignKeyValue(key, trimChar(value), filename);
 }
 
-bool loadConfig(const char * filename = CONFIG_FILE)
+bool loadConfig(const char *filename = CONFIG_FILE)
 {
     FILE *file = fopen(filename, "r");
     if (file == NULL)

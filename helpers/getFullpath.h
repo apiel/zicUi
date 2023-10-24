@@ -3,27 +3,26 @@
 
 #include <string.h>
 
+char fullpathBuffer[512];
+
 char *getFullpath(char *path, const char *parentFilename)
 {
     if (path[0] == '/')
     {
-        char *fullpath = new char[strlen(path) + 1];
-        strcpy(fullpath, path);
-        return fullpath;
+        return path;
     }
 
-    char *fullpath = new char[strlen(parentFilename) + strlen(path) + 1];
-    strcpy(fullpath, parentFilename);
-    char *lastSlash = strrchr(fullpath, '/');
+    strcpy(fullpathBuffer, parentFilename);
+    char *lastSlash = strrchr(fullpathBuffer, '/');
     if (lastSlash)
     {
         *lastSlash = '\0';
     } else {
-        *fullpath = '\0';
+        fullpathBuffer[0] = '\0';
     }
-    strcat(fullpath, "/");
-    strcat(fullpath, path);
-    return fullpath;
+    strcat(fullpathBuffer, "/");
+    strcat(fullpathBuffer, path);
+    return fullpathBuffer;
 }
 
 #endif
