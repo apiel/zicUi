@@ -172,12 +172,10 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
-        m.lock();
         for (auto &component : ui.getView())
         {
             component->onEncoder(id, direction);
         }
-        m.unlock();
     }
 
     bool config(char *key, char *value, const char *filename)
