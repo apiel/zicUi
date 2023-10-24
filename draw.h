@@ -135,6 +135,7 @@ public:
 
     int textCentered(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
+printf("text centered(%d, %d, %d) %s\n", position.x, position.y, size, text);
         options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - (surface->w * 0.5);
@@ -159,6 +160,7 @@ printf("text(%d, %d, %d) %s\n", position.x, position.y, size, text);
 
     int textRight(Point position, const char *text, Color color, uint32_t size, DrawTextOptions options = {})
     {
+printf("text right(%d, %d, %d) %s\n", position.x, position.y, size, text);
         options = getDefaultTextOptions(options);
         SDL_Surface *surface = getTextSurface(text, color, size, options.fontPath);
         int x = position.x - surface->w;
