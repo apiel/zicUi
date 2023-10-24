@@ -3,10 +3,10 @@
 - TODO layout include file...?
 
 - TODO button PRESSED_INT_VALUE
-       button shift val target
-       button long press val target
        button can change group
        button can trigger NOTE or should finish note component
+
+- TODO documentation!!
 
 - TODO encoder responsive for small size
 - TODO use function pointer on encoder initialisation to assign draw function base on type
