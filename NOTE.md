@@ -1,7 +1,5 @@
 # TODO
 
-- TODO layout include file...?
-
 - TODO button PRESSED_INT_VALUE
        button can trigger NOTE or should finish note component
 

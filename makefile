@@ -5,7 +5,7 @@ ifneq ($(shell uname -m),x86_64)
 RPI := -DIS_RPI=1
 endif
 
-ui:
+main:
 	make build run
 
 all:
