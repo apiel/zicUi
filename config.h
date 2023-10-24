@@ -4,6 +4,7 @@
 #include "fs.h"
 #include "viewManager.h"
 #include "plugins.h"
+#include "helpers/getFullpath.h"
 
 #define CONFIG_FILE "./ui/main.ui"
 
@@ -27,23 +28,15 @@ void assignKeyValue(char *key, char *value, const char * filename)
 {
     if (strcmp(key, "INCLUDE") == 0)
     {
-        char *fullpath = new char[strlen(filename) + strlen(value) + 1];
-        strcpy(fullpath, filename);
-        char *lastSlash = strrchr(fullpath, '/');
-        if (lastSlash)
-        {
-            *lastSlash = '\0';
-        } else {
-            *fullpath = '\0';
-        }
-        strcat(fullpath, "/");
-        strcat(fullpath, value);
+        char *fullpath = getFullpath(value, filename);
         loadConfig(fullpath);
         delete[] fullpath;
     }
     else if (strcmp(key, "PLUGIN_CONTROLLER") == 0)
     {
-        loadPluginController(value);
+        char *fullpath = getFullpath(value, filename);
+        loadPluginController(fullpath);
+        delete[] fullpath;
     }
     else if (strcmp(key, "SET_COLOR") == 0)
     {
