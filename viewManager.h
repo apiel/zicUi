@@ -16,6 +16,7 @@ class ViewManager
 {
 protected:
     std::mutex m;
+    std::mutex m2;
 
     UiPlugin &ui = UiPlugin::get();
     int8_t lastGroup = -100;
@@ -172,10 +173,12 @@ public:
 
     void onEncoder(int id, int8_t direction)
     {
+        m2.lock();
         for (auto &component : ui.getView())
         {
             component->onEncoder(id, direction);
         }
+        m2.unlock();
     }
 
     bool config(char *key, char *value, const char *filename)
