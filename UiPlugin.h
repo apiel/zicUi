@@ -13,6 +13,13 @@
 class UiPlugin : public Mapping<UiPlugin>
 {
 protected:
+    struct SharedComponent
+    {
+        char *name;
+        ComponentInterface *component;
+    };
+    std::vector<SharedComponent> sharedComponents;
+
     struct View
     {
         char *name;
@@ -82,8 +89,30 @@ public:
             return true;
         }
 
+        if (strcmp(key, "USE_SHARED_COMPONENT") == 0)
+        {
+            for (auto &shared : sharedComponents)
+            {
+                printf("- %s == %s ?\n", shared.name, value);
+                if (strcmp(shared.name, value) == 0)
+                {
+                    views.back()->view.push_back(shared.component);
+                    return true;
+                }
+            }
+        }
+
         if (views.size() > 0 && views.back()->view.size() > 0)
         {
+            if (strcmp(key, "SHARED_COMPONENT") == 0)
+            {
+                SharedComponent shared;
+                shared.name = new char[strlen(value) + 1];
+                strcpy(shared.name, value);
+                shared.component = views.back()->view.back();
+                sharedComponents.push_back(shared);
+            }
+
             return views.back()->view.back()->baseConfig(key, value);
         }
 
