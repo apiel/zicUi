@@ -18,7 +18,7 @@ protected:
     {
         int x = position.x;
         x = draw.text({x, position.y}, c, colors.title, 12);
-        int val = value->get() * value->props().stepCount;
+        int val = value->get();
         if (value->props().type == VALUE_CENTERED)
         {
             x = draw.text({x + 3, position.y}, std::to_string(100 - val).c_str(), colors.value, 12, {styles.font.bold});
@@ -49,8 +49,8 @@ protected:
             // and both side from the center being positive value to 1.0 ?
 
             draw.filledRect(
-                {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->get()),
-                 position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * (1.0 - valueY->get()))},
+                {position.x + (margin * 2) + (int)((size.w - (pointerSize * 2)) * valueX->pct()),
+                 position.y + (margin * 2) + (int)((size.h - (pointerSize * 2)) * (1.0 - valueY->pct()))},
                 {pointerSize, pointerSize},
                 colors.value);
         }
@@ -142,14 +142,14 @@ public:
         }
 
         float x = (motion.position.x - position.x - margin) / (float)(size.w - 2 * margin);
-        if (x - valueX->get() > 0.01 || valueX->get() - x > 0.01)
+        if (x - valueX->pct() > 0.01 || valueX->pct() - x > 0.01)
         {
-            valueX->set(x);
+            valueX->set(x * 100.0f);
         }
         float y = 1.0 - (motion.position.y - position.y - margin) / (float)(size.h - 2 * margin);
-        if (y - valueY->get() > 0.01 || valueY->get() - y > 0.01)
+        if (y - valueY->pct() > 0.01 || valueY->pct() - y > 0.01)
         {
-            valueY->set(y);
+            valueY->set(y * 100.0f);
         }
     }
 

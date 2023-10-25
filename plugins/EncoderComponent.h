@@ -43,14 +43,15 @@ protected:
 
         int x = area.x;
         int y = area.y + size.h - 10;
-        int x2 = x + ((size.w - 20) * value->get());
+        int x2 = x + ((size.w - 20) * value->pct());
         draw.line({x, y}, {x2, y}, colors.value);
         draw.line({x, y - 1}, {x2, y - 1}, colors.value);
     }
 
     void drawValue()
     {
-        int x = draw.textCentered({area.xCenter, area.y + valueMarginTop}, std::to_string(value->getAsInt()).c_str(),
+        // fixme use floating point...
+        int x = draw.textCentered({area.xCenter, area.y + valueMarginTop}, std::to_string((int)value->get()).c_str(),
                                   colors.value, 20, {styles.font.bold});
 
         if (value->props().unit != NULL)
@@ -70,7 +71,7 @@ protected:
     {
         int x = area.x + (area.w * 0.5);
         int y = area.y + area.h - 10;
-        int x2 = area.x + (area.w * value->get());
+        int x2 = area.x + (area.w * value->pct());
         draw.line({x, y}, {x2, y}, colors.value);
         draw.line({x, y - 1}, {x2, y - 1}, colors.value);
     }
@@ -81,10 +82,11 @@ protected:
         {
             draw.textCentered({area.xCenter, area.y}, label, colors.title, 12);
 
-            int val = value->getAsInt();
+            int val = value->get();
+            // fixme use floating point...
             draw.textRight({area.x + area.w, area.y + valueMarginTop}, std::to_string(val).c_str(),
                            colors.value, 20, {styles.font.bold});
-            draw.text({area.x, area.y + valueMarginTop}, std::to_string(value->props().stepCount - val - 1).c_str(),
+            draw.text({area.x, area.y + valueMarginTop}, std::to_string((int)value->props().max - val).c_str(),
                       colors.value, 20, {styles.font.bold});
         }
         else
@@ -102,7 +104,7 @@ protected:
         {
             draw.text({area.x, area.y + 5}, value->string(), colors.value, 12, {.maxWidth = area.w});
             char valueStr[20];
-            sprintf(valueStr, "%d / %d", (int)((value->get() * value->props().stepCount) + 1), value->props().stepCount + 1);
+            sprintf(valueStr, "%d / %d", (int)(value->get()), (int)value->props().max);
             draw.textRight({area.x + area.w, area.y + 25}, valueStr, colors.title, 10);
         }
         else

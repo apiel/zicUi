@@ -53,8 +53,8 @@ protected:
 
     void renderStartRange()
     {
-        int x = position.x + margin + (start->get() * (textureSize.w));
-        int w = (grainSize->get() * (textureSize.w));
+        int x = position.x + margin + (start->pct() * (textureSize.w));
+        int w = (grainSize->pct() * (textureSize.w));
         if (x + w > position.x + textureSize.w)
         {
             w -= (x + w) - (position.x + textureSize.w);
@@ -66,7 +66,7 @@ protected:
     {
         char info[256];
         snprintf(info, sizeof(info), "Start %d%% Size %d%% Spray %d%% Density %d",
-                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), density->getAsInt()); // (int)(lastDensity * density->props().stepCount + density->props().stepStart
+                 (int)(lastStart * 100), (int)(lastGrainSize * 100), (int)(lastSpray * 100), (int)density->get()); // (int)(lastDensity * density->props().stepCount + density->props().stepStart
         draw.text({position.x + margin + 10, position.y + size.h - 20 - margin}, info, colors.info, 12);
     }
 
@@ -136,44 +136,44 @@ public:
         {
             plugin.noteOn(48, 127);
             motion1 = &motion;
-            startOrigin = start->get();
+            startOrigin = start->pct();
         }
 
         if (motion1 == &motion)
         {
             float x = startOrigin + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
-            if (x - start->get() > 0.01 || start->get() - x > 0.01)
+            if (x - start->pct() > 0.01 || start->pct() - x > 0.01)
             {
-                start->set(x);
+                start->set(x * 100.0f);
             }
 
             float rangeMargin = 40;
             float y = 1.0 - (motion.position.y - position.y - margin - rangeMargin) / (float)(textureSize.h - (rangeMargin * 2));
-            if (y - spray->get() > 0.01 || spray->get() - y > 0.01)
+            if (y - spray->pct() > 0.01 || spray->pct() - y > 0.01)
             {
-                spray->set(y);
+                spray->set(y * 100.0f);
             }
         }
         else if (motion2 == NULL)
         {
             motion2 = &motion;
-            sizeOrigin = grainSize->get();
+            sizeOrigin = grainSize->pct();
         }
 
         if (motion2 == &motion)
         {
             // float x = startOrigin + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
             float x = sizeOrigin + (motion.position.x - motion.origin.x) / (float)(textureSize.w);
-            if (x - grainSize->get() > 0.01 || grainSize->get() - x > 0.01)
+            if (x - grainSize->pct() > 0.01 || grainSize->pct() - x > 0.01)
             {
-                grainSize->set(x);
+                grainSize->set(x * 100.0f);
             }
 
             float rangeMargin = 40;
             float y = 1.0 - (motion.position.y - position.y - margin - rangeMargin) / (float)(textureSize.h - (rangeMargin * 2));
-            if (y - density->get() > 0.01 || density->get() - y > 0.01)
+            if (y - density->pct() > 0.01 || density->pct() - y > 0.01)
             {
-                density->set(y);
+                density->set(y * 100.0f);
             }
         }
     }

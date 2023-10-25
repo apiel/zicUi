@@ -36,7 +36,7 @@ protected:
     }
 
 public:
-    Val<UiPlugin> &viewSelector = val(this, 1.0f, "VIEW", &UiPlugin::setView, {"View", 1, VALUE_STRING});
+    Val<UiPlugin> &viewSelector = val(this, 1.0f, "VIEW", &UiPlugin::setView, {"View", VALUE_STRING, .min = 1.0 });
 
     static UiPlugin &get()
     {
@@ -52,9 +52,9 @@ public:
     UiPlugin &setView(float value)
     {
         viewSelector.setFloat(value);
-        viewIndex = viewSelector.getAsInt();
+        viewIndex = viewSelector.get() - 1;
 
-        printf("................... Set view to %f (val %f)=> %d > %s\n", viewSelector.get(), value, viewIndex, views[viewIndex]->name);
+        // printf("................... Set view to %f (val %f)=> %d > %s\n", viewSelector.get(), value, viewIndex, views[viewIndex]->name);
 
         viewSelector.setString(views[viewIndex]->name);
 
@@ -81,10 +81,8 @@ public:
 
             views.push_back(v);
 
-            viewSelector.props().stepCount = views.size();
-
-            // setView(1.0f); // To set to last
-            setView(0.0f);
+            viewSelector.props().max = views.size();
+            setView(1.0f);
 
             return true;
         }
@@ -93,7 +91,6 @@ public:
         {
             for (auto &shared : sharedComponents)
             {
-                printf("- %s == %s ?\n", shared.name, value);
                 if (strcmp(shared.name, value) == 0)
                 {
                     views.back()->view.push_back(shared.component);

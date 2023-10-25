@@ -7,15 +7,19 @@
 - TODO button PRESSED_INT_VALUE
        button can trigger NOTE or should finish note component
        button can easily set view base on name
+       can button show a state
+       can button show a value
 
 - TODO documentation!!
 
+- TODO Significantly improve sequencer UI
+
 - TODO oscEncoder use time to make bigger step...
+
+- TODO slider, e.g. for mixer
 
 - TODO encoder responsive for small size
 - TODO use function pointer on encoder initialisation to assign draw function base on type
-
-- TODO slider
 
 - TODO list of value, e.g.:
                 file1.wav

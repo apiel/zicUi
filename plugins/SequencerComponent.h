@@ -44,7 +44,7 @@ protected:
         int x = stepPosition.x + (index * (stepSize.w + margin));
         draw.filledRect({x, stepPosition.y}, stepSize, color);
 
-        int sel = selectedStep->get() * stepCount;
+        int sel = selectedStep->get();
         if (index == sel)
         {
             draw.filledRect({x, stepPosition.y - 3}, {stepSize.w, 2}, colors.stepBackground);
@@ -75,7 +75,7 @@ protected:
         }
 
         char info[24];
-        int stepIndex = selectedStep->getAsInt();
+        int stepIndex = selectedStep->get();
         if (stepIndex > stepCount)
         {
             stepIndex = stepCount;
@@ -86,10 +86,10 @@ protected:
         draw.text({stepPosition.x + 50, position.y}, stepEnabled->string(), colors.textInfo, 9);
         draw.text({stepPosition.x + 70, position.y}, stepNote->string(), colors.textInfo, 9);
 
-        snprintf(info, 24, "len: %2d", stepLength->getAsInt());
+        snprintf(info, 24, "len: %2d", (int)stepLength->get());
         draw.text({stepPosition.x + 90, position.y}, info, colors.textInfo, 9);
 
-        snprintf(info, 24, "velocity: %3d%%", (int)(stepVelocity->get() * 100));
+        snprintf(info, 24, "velocity: %3d%%", (int)(stepVelocity->get()));
         draw.text({stepPosition.x + 120, position.y}, info, colors.textInfo, 9);
 
         snprintf(info, 24, "condition: %s", stepCondition->string());
@@ -125,7 +125,7 @@ public:
           margin(styles.margin),
           plugin(getPlugin("Sequencer"))
     {
-        stepCount = selectedStep->props().stepCount + 1;
+        stepCount = selectedStep->props().max;
 
         stepSize = {
             (int)(((props.size.w) / (float)stepCount) - margin),
