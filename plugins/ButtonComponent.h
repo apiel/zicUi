@@ -111,6 +111,7 @@ public:
         renderNext();
         if (onPress.value)
         {
+            printf("onPress: %f\n", onPress.targetValue);
             onPress.value->set(onPress.targetValue);
         }
     }
@@ -123,6 +124,7 @@ public:
             renderNext();
             if (onRelease.value)
             {
+                printf("onRelease: %f\n", onRelease.targetValue);
                 onRelease.value->set(onRelease.targetValue);
             }
         }
